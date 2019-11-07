@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+
+ <element name="excercises">
+  <table sqln="excerc">
+   <extrafeatures/>
+   <tabletitle>Tasks</tabletitle>
+   <key sqln="id">
+     <ex>Id</ex>
+     <ti>Id</ti>
+   </key>
+   <largetext sqln="excer">
+     <color r="200" g="100" b="100" />
+     <ex>Task</ex>
+     <ti>Task</ti>
+   </largetext>
+   <check sqln="end">
+     <ex>Finished</ex>
+     <ti>Finished</ti>
+     <true>Yes, It is done!</true>
+     <false>No, it is unfinished.</false>
+   </check>
+	<number sqln="price">
+     <ex>Cost</ex>
+     <ti>Cost</ti>
+	  <ta>usd</ta>
+	</number>
+	<sqlchoose sqln="typ">
+    <ex>Type</ex>
+    <ti>Type</ti>
+    <de>NULL</de>
+	  <connected_table>types</connected_table>
+	  <keyfield>id</keyfield>
+	  <showfield>typetext</showfield>
+	  <showfieldhead>Type</showfieldhead>
+	  <filter_part></filter_part>
+    <hashfunc>charcodehash</hashfunc>
+	  <extended/>
+	  <progress/>
+	</sqlchoose>
+	<date sqln="deadline">
+     <ex>Deadline</ex>
+     <ti>Deadline</ti>
+	 <de>NOW</de>
+	</date>
+  </table>
+ </element>
+
+ <element name="typetable">
+  <table sqln="types">
+   <tabletitle>Tipusok</tabletitle>
+   <key sqln="id">
+     <ex>Id</ex>
+     <ti>Id</ti>
+   </key>
+   <smalltext sqln="typetext">
+     <ex>Type describe</ex>
+     <ti>Type</ti>
+   </smalltext>
+  </table>
+ </element>
+ 
+</templates>

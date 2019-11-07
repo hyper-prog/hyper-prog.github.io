@@ -1,0 +1,361 @@
+<?xml version="1.0" ?>
+<!-- pRepo (Peter's repository) metadata definition
+	XML Scmehe: http://hyperprog.com/gsafe/doc/gsafemetadata.xsd -->
+
+<templates>
+  <element name="settings">
+    <table sqln="settings">
+      <key sqln="key">
+        <hide/>
+      </key>
+      <check sqln="first">
+        <hide/>
+      </check>
+      <smalltext sqln="prefix">
+        <explain>Permanent prefix of repository item numbers</explain>
+        <default>MY-REP-</default>
+      </smalltext>
+      <number sqln="start">
+        <explain>Numbers start from here</explain>
+        <default>1000</default>
+      </number>
+      <number sqln="next">
+        <hide/>
+      </number>
+      <check sqln="allowemptyacc">
+        <explain>Allows object without accountable</explain>
+      </check>
+    </table>  
+  </element>
+  
+  <element name="Type">
+    <table sqln="type">
+
+      <key sqln="tkey">
+        <explain>Type Code</explain>
+        <title>Key</title>
+      </key>
+      
+      <smalltext sqln="typename">
+        <color r="254" g="128" b="1"/>
+        <explain>TypeName</explain>
+        <title>Name</title>
+        <notvalid></notvalid>
+      </smalltext>
+
+      <largetext sqln="dscr">
+        <explain>Description</explain>
+        <title>Dscr.</title>
+        <role name="list" mod="hide;"/>
+      </largetext>
+
+      <timestamp sqln="created">
+        <explain>Created</explain>
+        <title>Created</title>
+        <hide/>
+      </timestamp>
+
+    </table>
+  </element>
+  <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+  <element name="Place">
+    <table sqln="place">
+
+      <key sqln="pkey">
+        <explain>Place Code</explain>
+        <title>Key</title>
+      </key>
+
+      <smalltext sqln="placename">
+        <color r="254" g="128" b="1"/>
+        <explain>PlaceName</explain>
+        <title>Name</title>
+        <notvalid></notvalid>
+      </smalltext>
+
+      <largetext sqln="dscr">
+        <explain>Description</explain>
+        <title>Dscr.</title>
+        <role name="list" mod="hide;"/>
+      </largetext>
+
+      <timestamp sqln="created">
+        <explain>Created</explain>
+        <title>Created</title>
+        <hide/>
+      </timestamp>
+
+    </table>
+  </element>
+  <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+  <element name="Accountable">
+    <table sqln="accountable">
+
+      <key sqln="akey">
+        <explain>Accountable Code</explain>
+        <title>Key</title>
+      </key>
+
+      <smalltext sqln="name">
+        <color r="254" g="128" b="1"/>
+        <explain>Name</explain>
+        <title>Name</title>
+        <notvalid></notvalid>
+      </smalltext>
+
+      <smalltext sqln="phone">
+        <explain>Phone</explain>
+        <title>phone</title>
+      </smalltext>
+
+      <smalltext sqln="email">
+        <explain>E-Mail</explain>
+        <title>E-Mail</title>
+      </smalltext>
+
+      <largetext sqln="dscr">
+        <explain>Description</explain>
+        <title>Dscr.</title>
+        <role name="list" mod="hide;"/>
+      </largetext>
+
+      <timestamp sqln="created">
+        <explain>Created</explain>
+        <title>Created</title>
+        <hide/>
+      </timestamp>
+
+    </table>
+  </element>
+  <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+  <element name="Object">
+    <table sqln="object">
+
+      <key sqln="okey">
+        <explain>Object Code</explain>
+        <title>Key</title>
+        <hide/>
+      </key>
+
+      <smalltext sqln="repnumber">
+        <color r="254" g="128" b="128"/>
+        <explain>Repository number</explain>
+        <title>RepNum</title>
+        <readonly/>
+        <default>GENERATED</default>
+      </smalltext>
+
+      <smalltext sqln="name">
+        <color r="254" g="128" b="1"/>
+        <explain>Object name</explain>
+        <title>Name</title>
+        <readonly/>
+        <role name="record" mod="editable;"/>
+        <notvalid></notvalid>
+      </smalltext>
+
+      <charhash sqln="status">
+        <explain>Status of the object</explain>
+        <title>Status</title>
+        <hash key="a" value="Active"/>
+        <hash key="o" value="Sold/Refuse"/>
+        <role name="record" mod="readonly;setval;" val="a"/>
+        <role name="modify" mod="readonly;"/>
+        <role name="setcval" mod="readonly;"/>
+        <role name="out" mod="guidisabled;setval;" val="o"/>
+        <logging/>
+      </charhash>
+      
+      <largetext sqln="dscr">
+        <explain>Object description</explain>
+        <role name="modify" mod="readonly;"/>
+        <role name="setcval" mod="readonly;"/>
+        <role name="out" mod="readonly;"/>
+        <role name="list" mod="hide;"/>
+        <color r="212" g="208" b="200"/>
+      </largetext>
+
+      <smalltext sqln="serial">
+        <explain>Serial Number</explain>
+        <title>Serial</title>
+        <default></default>
+        <readonly/>
+        <role name="record" mod="editable;"/>
+      </smalltext>
+
+      <sqlchoose sqln="type">
+        <explain>Type</explain>
+        <title>Type</title>
+        <connected_table>type</connected_table>
+        <keyfield>tkey</keyfield>
+        <showfieldeasy>typename|tkey</showfieldeasy>
+        <showfieldhead>Typename|key</showfieldhead>
+        <sortc>0</sortc>
+        <default>NULL</default>
+        <extended/>
+        <role name="out" mod="readonly;"/>
+        <role name="list" mod="hide;"/>
+        <role name="setcval" mod="readonly;"/>
+        <logging/>
+        <color r="100" g="250" b="110"/>
+      </sqlchoose>
+
+      <sqlchoose sqln="place">
+        <explain>Current Place</explain>
+        <title>Place</title>
+        <connected_table>place</connected_table>
+        <keyfield>pkey</keyfield>
+        <showfieldeasy>placename|pkey</showfieldeasy>
+        <showfieldhead>Placename|key</showfieldhead>
+        <sortc>0</sortc>
+        <default>NULL</default>
+        <extended/>
+        <role name="out" mod="readonly;"/>
+        <role name="setcval" mod="readonly;"/>
+        <logging/>
+        <notvalid>NULL</notvalid>
+        <color r="100" g="250" b="110"/>
+      </sqlchoose>
+
+      <sqlchoose sqln="acc">
+        <explain>Accountable</explain>
+        <title>Accountable</title>
+        <connected_table>accountable</connected_table>
+        <keyfield>akey</keyfield>
+        <showfieldeasy>name|akey</showfieldeasy>
+        <showfieldhead>Name|key</showfieldhead>
+        <sortc>0</sortc>
+        <default>NULL</default>
+        <extended/>
+        <role name="out" mod="readonly;"/>
+        <role name="setcval" mod="readonly;"/>
+        <logging/>
+        <color r="100" g="250" b="110"/>
+      </sqlchoose>
+
+      <floating sqln="invalue">
+        <explain>Incoming value</explain>
+        <title>InVal</title>
+        <tail>$</tail>
+        <displayformat minfrag="2" maxfrag="2" group="1"/>
+        <readonly/>
+        <role name="record" mod="editable;"/>
+        <role name="list" mod="hide;"/>
+      </floating>
+      <date sqln="indate">
+        <explain>Date of incoming</explain>
+        <title>Incoming</title>
+        <default>NOW</default>
+        <readonly/>
+        <role name="record" mod="editable;"/>
+      </date>
+
+      <floating sqln="currvalue">
+        <explain>Current value</explain>
+        <title>CVal</title>
+        <tail>$</tail>
+        <displayformat minfrag="2" maxfrag="2" group="1"/>
+        <role name="record" mod="hide;"/>
+        <role name="out" mod="readonly;"/>
+        <role name="modify" mod="readonly;"/>
+        <role name="list" mod="hide;"/>
+        <logging/>
+      </floating>
+      <dateu sqln="lcdate">
+        <explain>Date of last value change</explain>
+        <title>LastVC</title>
+        <default>UNKNOWN_AND_NOW</default>
+        <role name="modify" mod="readonly;"/>
+        <role name="record" mod="hide;setval;" val="unknown"/>
+        <role name="out" mod="readonly;"/>
+        <role name="list" mod="hide;"/>
+        <role name="setcval" mod="hide;"/>
+      </dateu>
+
+      <floating sqln="finalvalue">
+        <explain>Final value</explain>
+        <title>FVal</title>
+        <tail>$</tail>
+        <displayformat minfrag="2" maxfrag="2" group="1"/>
+        <role name="modify" mod="hide;"/>
+        <role name="record" mod="hide;"/>
+        <role name="list" mod="hide;"/>
+        <role name="setcval" mod="hide;"/>
+      </floating>
+      <dateu sqln="findate">
+        <explain>Outgoing date</explain>
+        <title>Outdate</title>
+        <default>UNKNOWN_AND_NOW</default>
+        <role name="modify" mod="hide;"/>
+        <role name="record" mod="hide;setval;" val="unknown"/>
+        <role name="list" mod="hide;"/>
+        <role name="setcval" mod="hide;"/>
+      </dateu>
+
+      <largetext sqln="comment">
+        <explain>Comment</explain>
+        <title>comment</title>
+        <role name="list" mod="hide;"/>
+        <color r="212" g="208" b="200"/>
+      </largetext>
+
+      <timestamp sqln="created">
+        <explain>Created</explain>
+        <title>Created</title>
+        <hide/>
+      </timestamp>
+      <timestamp sqln="modd">
+        <explain>Last mod date</explain>
+        <title>Lastmod</title>
+        <controll/>
+        <hide/>
+      </timestamp>
+
+    </table>
+  </element>
+  <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| -->
+  <element name="Moving">
+    <table sqln="object_moving">
+      <key sqln="dclkey">
+        <explain>Key</explain>
+        <title>Key</title>
+        <default>Generated</default>
+        <hide/>
+      </key>
+      <smalltext sqln="pos">
+        <explain>Position of changing</explain>
+        <title>Pos</title>
+      </smalltext>
+      <smalltext sqln="cuser">
+        <explain>Username</explain>
+        <title>Username</title>
+      </smalltext>
+      <smalltext sqln="sqltablename">
+        <explain>Sql table name which changed</explain>
+        <title>Tablename</title>
+      </smalltext>
+      <smalltext sqln="changedkey">
+        <explain>The changed records key</explain>
+        <title>Changedkey</title>
+      </smalltext>
+      <smalltext sqln="sqlfieldname">
+        <explain>Sql field name which changed</explain>
+        <title>Fieldname</title>
+      </smalltext>
+      <smalltext sqln="oldvalue">
+        <explain>The old value</explain>
+        <title>OldValue</title>
+      </smalltext>
+      <smalltext sqln="newvalue">
+        <explain>The new value</explain>
+        <title>NewValue</title>
+      </smalltext>
+      <timestamp sqln="changetime">
+        <explain>The changing time</explain>
+        <title>Changetime</title>
+        <default>NOW</default>
+      </timestamp>
+    </table>
+  </element>
+
+</templates>

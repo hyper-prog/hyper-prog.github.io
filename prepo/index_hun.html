@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>HyperProg pRepo</title>
+	<meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+	<meta name="keywords" content="gsafe pRepo hyper sql qt frontend database gui development library xml metatable generated" />
+	<meta name="description" content="pRepo egy egyszerü SQL alapu raktárkészlet kezelő program, gSAFE alapokon" />
+
+
+<link rel="stylesheet" href="../hyperprog.css" type="text/css" />
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script>
+		!window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
+	</script>
+	<script type="text/javascript" src="../fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+	<script type="text/javascript" src="../fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="../fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("a.dogsleaf").fancybox({
+				'overlayShow'	: false,
+				'transitionIn'	: 'elastic',
+				'transitionOut'	: 'elastic',
+				'hideOnOverlayClick' : 'true',
+                                'hideOnContentClick' : 'true',
+
+			});
+		});
+	</script>
+
+
+</head>
+<body>
+	<div class="main">
+	
+	<a href="../index.html">Hyper programjai</a>
+	
+	<div class="program">
+		<img alt="gSAFEr" class="logo" src="../prepo.png" />
+		
+		<table><tr><td>
+			<h2>pRepo</h2>
+		</td><td>
+			<a href="index.html"><img alt="eng" class="flag" src="../eng.png" /></a> 
+		</td><td>
+			<img alt="hun" class="flag" src="../hun.png" />
+		</td></tr></table>
+		
+                <h3>Péter raktárprogramja (C++, Demó és bemutató a gSAFE-hez)</h3>
+		
+                A pRepo egy egyszerü raktárkészlet kezelő program, mely demózási szándékkal íródott a <a href="../gsafe/index.html">gSAFE</a> libhez.
+                Ez egy komplex példaprogram, mely kevesebb mint 1000 C++ sorban íródott. A gSAFE számos funkciója kihasználásra került benne
+                (XML metaadat leírás, Dinamikus felületépítés, Szerep-kezelés, Naplózó rendszer, stb.)
+                <br/><br/>
+                <i>A "pRepo"-ról</i>: Ez egy raktárkészlet kezelő program. Felvehetsz különféle eszközöket a rendszerbe, melyeknek a pRepo egyedi leltári számokat oszt. Az eszközökhöz
+                megadható részletes leírás, leltár szám, típus, felvétel dátuma, értéke stb. A programon belül különböző helyeket definiálhatunk, ahol a leltári tárgyaink aktuálisan megtalálhatóak,
+                illetve felelősöket is rögzíthetünk akihez a tárgyaink "tartoznak".
+                Bármilyen mozgás a rendszerben naplózódik, tehát nem számít, hogy egy tárgyat hányszor mozgattunk egyik helyről a másikra, vagy egyik felelőstől a másikra, az eszközök története bármikor nyomon követhető, lekérdezhető.
+                Az adatokat egy sqlite adatbázisban tárolja, tehát a programot bárhol használhatod, nem szükséges szerver elérés vagy internet kapcsolat.
+                Ez a program Win32 vagy Linux környezet alatt futtatható.
+	</div>	
+	
+	<div class="docs">
+                <h3>Képernyőképek</h3>
+		<a class="dogsleaf" rel="same" href="screenshot1.png"><img alt="scr1" src="screenshot1small.png" style="border:0px; margin:2px;"/></a>
+		<a class="dogsleaf" rel="same" href="screenshot2.png"><img alt="scr2" src="screenshot2small.png" style="border:0px; margin:2px;"/></a>
+	</div>
+
+	<div class="docs">
+		<h3>Gyors betekintés a kódba</h3>
+		<a href="metadata.xml">Metaadat leíró fájl</a> (A HFactory osztály számára)<br/>
+		<a href="prepo_h.html">A C++ header fájl</a><br/>
+		<a href="prepo_cpp.html">A C++ forrásfájl</a><br/>
+	</div>
+	
+	<div class="downloads">
+		<h3>Download</h3>
+                <a href="prepo-source-0.32.zip">pRepo Forráskód</a> v0.32 (2014.05.28) Win/Linux/Mac<br/>
+                <small>A fordításhoz szükséged lesz a <a href="../gsafe/index.html">gSAFE</a> forráskódjára is.</small>
+                <br/><br/>
+                <a href="prepo-eng-win32bin.zip">Win32 bináris angol </a> Futtatható kód zippelt állományban v0.32 (2014.05.28)
+                <br/>
+                <a href="prepo-hun-win32bin.zip">Win32 bináris magyar</a> Futtatható kód zippelt állományban v0.32 (2014.05.28)
+	</div>
+	
+	
+
+<table>
+<tr><td>Szerző:</td> <td><strong>De&aacute;k P&eacute;ter</strong></td></tr>
+<tr><td>Licensz:</td> <td>GPL v2</td></tr>
+<tr><td>Kapcsolat Email:</td> <td align="center"><img src="../ma.png" alt="emailaddr"/>at <strong>gmail.com</strong></td></tr>
+</table>
+<br/>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick"/>
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+"/>
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!"/>
+<img alt="" style="border:0;" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+</form>
+<br/>
+<br/>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18052406-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</div>
+	
+</body>
+</html>

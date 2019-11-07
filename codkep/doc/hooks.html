@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Hooks</title>
+  <meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css"/>
+  <link rel="stylesheet" type="text/css" href="default.css"/>
+  <link rel="stylesheet" type="text/css" href="ckcomm.css"/>
+  <link rel="stylesheet" type="text/css" href="flex.css"/>
+  <script type="text/javascript" src="highlight.pack.js"></script>
+</head>
+<body>
+ <div class="content"><div class="ccdoccontent"><a name="pos_1"><h1>Hooks</h1></a>
+<p>Hooks are how modules can interact with the core and other modules.
+</p>
+<p>Codkep module system is also based on the concept of "hooks" like Drupal CMS.
+The custom modules can implement hooks of invoked by core, but modules can define hooks of their own too.
+</p><a name="pos_2"><h2>Implement hooks</h2></a>
+<p>A hook is a PHP function within a module that is named <code>hook_abc_xyz()</code>, where "abc" is the name of the module
+and "xyz" is the name of the hook. Each hook has a defined set of parameters and a specified result type.
+</p>
+<p><em>Note: Unlike drupal, CodKep hooks are always starts with "hook_" prefix.</em>
+</p>
+<p>To extend CodKep, a module need simply implement a hook(s). When CodKep wishes to allow intervention from modules,
+it determines which modules implement a hook and calls that hook in all enabled modules that implement it.
+</p>
+<p>You can see the list of <a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">Available hooks</a> on "hooks" internal url.
+In this table the <code>HOOK_</code> is a placeholder for the <code>hook_modulename</code> in the hook definitions.
+</p>
+<p>Let's see an example which shows using of a hook named <code>HOOK_defineroute</code>.
+This hook is define a internal path in CodKep and associate the path with a page callback named <code>ownpage</code>.
+</p><pre><code class="php">&lt;?php
+//mymodule.php file
+
+function hook_mymodule_defineroute()
+{
+    $r = [];
+    $r[] = [
+             'path' =&gt; 'own',
+             'callback' =&gt; 'ownpage',
+           ];
+    return $r;
+}
+
+function ownpage()
+{
+    return 'This is my first page!';
+}
+</code></pre><p>When <code>mymodule.php</code> is enabled in <code>_modules.php</code> the page is should alive on url:
+</p>
+<ul><li><code>http://example.com/index.php?q=own</code></li><li><code>http://example.com/own</code> (If clean urls are enabled)</li></ul><a name="pos_3"><h3>Interaction of hooks</h3></a>
+<p>In case you implement a hook there is two main method the hook can interact with the other codes.
+</p>
+<ul><li>Return some data, which is used by other code parts.</li><li>Modify data, which is received in parameters.</li><li>Modify or set global variables or change global properties.</li></ul><p><em>Hint: Some cases the hook receives parameters which does not documented in details.</em>
+<em>Use <a href="debug.html#dumpdata">CodKep debugging functions</a> to determine the parameter details.</em>
+<a name="codkepsequence"></a>
+</p><a name="pos_4"><h3>Hook sequence of a page load</h3></a>
+<p>Most hooks is associated to a special event which occurs unpredictable.
+In the other way there is some hooks which are occur in every page load and follow well defined sequence.
+This hooks can used to achieve special operations.
+<br/>
+In order to list them let's see the operation sequence of the CodKep:
+</p>
+<p><strong>The CodKep starts serve a page</strong>
+</p>
+<ol><li>Modules are loaded according to <code>../site/_modules.php</code></li><li>Hook table is built
+<ul><li><code>HOOK_boot</code>
+<ul><li>Can used to define global settings defaults which are modifiable by <code>_settings.php</code>.</li></ul></li></ul></li><li>Site settings are read from <code>../site/_settings.php</code></li><li>Database connection is done (if exists)
+<ul><li><code>HOOK_preinit</code></li><li><code>HOOK_init</code>
+<ul><li>Can change early things which are depended from the settings.</li><li>The site settings are loaded here. The themes and routes are not loaded!</li><li>Most modules do their initialisations here. For example the node types are collected here, the form definition repositories and field repositories are also collected here, and so on...</li><li>Because many module use this hook with undefined order, there are a "preinit" and a "postinit" hooks which runs immediately before and after the "init" hook.</li></ul></li><li><code>HOOK_postinit</code></li></ul></li><li>Initialize the output buffer.
+<ul><li>Operations which modifies the outputs are ineffective before this point. (For example: <code>add_style()</code>, <code>add_css_file()</code>, <code>add_js_file()</code>)</li></ul></li><li>Themes loaded
+<ul><li><code>HOOK_theme</code>
+<ul><li>Define the themes</li></ul></li></ul></li><li>Routes loaded
+<ul><li><code>HOOK_defineroute</code>
+<ul><li>Define the locations/routes</li></ul></li></ul></li><li>Pre procession of routing
+<ul><li><code>HOOK_autorun</code>
+<ul><li>Can be used to do some things, before the main routing. (Everything is loaded)</li></ul></li></ul></li><li>Routing
+<ul><li><code>HOOK_before_start</code>
+<ul><li>Everything is loaded the current route is selected and the current theme are also loaded.</li><li>This hook is run immediately before the route's callback</li></ul></li></ul></li><li>Execute the appropriate callback with the appropriate theme callbacks</li><li>Generating the output
+<ul><li><code>HOOK_before_deliver</code>
+<ul><li>This hook runs before the generated data is send to the browser. It can modify the data before deliver.</li></ul></li></ul></li><li>Sent data to the browser
+<ul><li><code>HOOK_after_deliver</code>
+<ul><li>Runs after the data was sent to the browser. It can do some post processing.</li></ul></li></ul></li></ol><a name="pos_5"><h2>Create hooks</h2></a>
+<p>You have the possibility to create your own hook,
+to request intervention from all enabled modules which implement your hook.
+</p>
+<p>Use the <code>run_hook</code> function to invoke a hook in all enabled modules that implement it.
+</p>
+<p><span class="definition">run_hook($hookname, ...optional parameters... )</span>
+</p>
+<p></p>
+<ul><li>The first parameter is the name of the hooks to run. It is a simple string, it does not contains the "hook_" prefix and module names.</li><li>Other parameters are passed to the hook implementations of modules.</li><li>The returned values of the hooks are merged into an array.</li></ul><p>If a module invoke the hook "<code>HOOK_customaction</code>" :
+</p><pre><code class="php">$var = "local variable data";
+
+$result = run_hook("customaction",$var);
+</code></pre><p>The "<code>mymodule</code>" module can implement this hook:
+</p><pre><code class="php">//mymodule.php
+
+function hook_mymodule_customaction($v)
+{
+  $r = [];
+  //do something
+  return $r;
+}
+</code></pre><p>The return values of invoked hooks are merged to an array and returned by <code>run_hook</code> function.
+</p>
+<p><em>After booting the framework collects the possible hooks in an associated array, so that a run_hook</em>
+<em>does not need to scan the modules for hooks, the execution is fast and does not have extra overhead.</em>
+</p>
+<p><em>The hook calling order is depends on the listing order of modules in <code>sys/modules.php</code> and <code>site/_modules.php</code>.</em>
+<a name="hookcache"></a>
+</p><a name="pos_6"><h3>Caching hooks</h3></a>
+<p>The CodKep caches the hook calls if <a href="http://php.net/manual/en/book.apc.php">APC</a> is available and enable in the
+webserver. It means that after you create a new hook you have to clear the caches to make it work.
+You can drop the current caches by hit the following CodKep <a href="routes.html">internal url</a>:
+</p>
+<ul><li><a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">emptycache</a></li></ul><p><em>Note: The APC is an optional requirement of CodKep. If it is not available the system work properly but a bit slower.</em>
+<a name="changehookorder"></a>
+</p><a name="pos_7"><h3>Change hook order</h3></a>
+<p>By default the hooks defined by the modules are executed undefined order.
+(It usually means module definition order but this is not guaranteed)
+You can change the order by implement
+<code>HOOK_hooktable_generated()</code> where you can modify the<br/>
+<code>global $sys_data;</code><br/>
+<code>$sys_data->available_hooks</code><br/>
+associative array which holds the available/defined hook calls to a hook name. (hook table)<br/>
+This hook is called immediately after the hook table is generated, but
+the result is not stored to cache yet. (It means that the modified version of the table will be store to the cache)
+</p>
+<p>The following example reverse the hook execution order of <code>HOOK_pageview_after</code>:
+</p><pre><code class="php">// In mymodule.php
+function hook_mymodule_hooktable_generated()
+{
+    global $sys_data;
+    $sys_data-&gt;available_hooks['pageview_after'] =
+            array_reverse($sys_data-&gt;available_hooks['pageview_after']);
+}
+</code></pre><a name="pos_8"><h2>Debugging hooks</h2></a>
+<p>If you enable these settings below  in your <a href="modules.html#site_settings">site settings</a> you can use same hook
+debugging page.
+</p><pre><code class="code">global $site_config;
+$site_config-&gt;enable_hook_table_info = true;
+</code></pre><p>The hook information/debugging pages
+</p>
+<table><thead>
+<tr><th>Function</th><th>Internal url</th></tr></thead>
+<tbody>
+<tr><td><a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">System hook call table</a></td><td>hookcalls</td></tr>
+<tr><td><a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">Available hooks</a></td><td>hooks</td></tr></tbody></table><a name="pos_9"><h2>Hooks</h2></a>
+<p>The following hooks can be implement related to hook table or other hooks.
+</p>
+<table><thead>
+<tr><th>Hook</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>HOOK_hooktable_generated()</td><td>This hook is run after the hook call table is generated but the data is not stored to the cache yet.</td></tr></tbody></table></div><script>hljs.initHighlightingOnLoad();</script><div class="ccdocpanel"><ul class="docsidemenu no-print"><li><a href="start.html">CodKep introduction</a><ul class=" closed"><li><a href="start.html#pos_2">What is CodKep</a></li><li><a href="start.html#pos_3">The main chapters of this document</a></li><li><a href="start.html#pos_4">Author, License</a></li></ul></li><li><a href="modules.html">Installing, Modules</a><ul class=" closed"><li><a href="modules.html#pos_2">Installing codkep</a></li><li><a href="modules.html#pos_3">Directories</a></li><li><a href="modules.html#pos_4">Site settings, configuration</a></li><li><a href="modules.html#pos_5">Modules</a></li></ul></li><li><a href="routes.html">Routes</a><ul class=" closed"><li><a href="routes.html#pos_2">Add custom locations</a></li><li><a href="routes.html#pos_3">The route definition array</a></li><li><a href="routes.html#pos_4">Parameters in URL</a></li><li><a href="routes.html#pos_5">Caching routes</a></li><li><a href="routes.html#pos_6">Generating URLs</a></li><li><a href="routes.html#pos_7">Generating Links</a></li><li><a href="routes.html#pos_8">Redirections</a></li><li><a href="routes.html#pos_9">Tags</a></li><li><a href="routes.html#pos_10">Clean URLs</a></li><li><a href="routes.html#pos_11">Hooks related to routes</a></li></ul></li><li><a href="hooks.html">Hooks</a><ul class=""><li><a href="hooks.html#pos_2">Implement hooks</a></li><li><a href="hooks.html#pos_3">Interaction of hooks</a></li><li><a href="hooks.html#pos_4">Hook sequence of a page load</a></li><li><a href="hooks.html#pos_5">Create hooks</a></li><li><a href="hooks.html#pos_6">Caching hooks</a></li><li><a href="hooks.html#pos_7">Change hook order</a></li><li><a href="hooks.html#pos_8">Debugging hooks</a></li><li><a href="hooks.html#pos_9">Hooks</a></li></ul></li><li><a href="parameters.html">Parameters</a><ul class=" closed"><li><a href="parameters.html#pos_2">Defining parameters</a></li><li><a href="parameters.html#pos_3">Defining in route definition array</a></li><li><a href="parameters.html#pos_4">Using parameters</a></li><li><a href="parameters.html#pos_5">Other parameter related functions</a></li><li><a href="parameters.html#pos_6">Security classes</a></li><li><a href="parameters.html#pos_7">Parameter handling relates settings</a></li><li><a href="parameters.html#pos_8">Hooks</a></li></ul></li><li><a href="structure.html">Themes</a><ul class=" closed"><li><a href="structure.html#pos_2">Functions unrelated to themes</a></li><li><a href="structure.html#pos_3">Using of themes</a></li><li><a href="structure.html#pos_4">Place your own content to a site area</a></li><li><a href="structure.html#pos_5">Settings of flex theme</a></li><li><a href="structure.html#pos_6">Create own themes</a></li><li><a href="structure.html#pos_7">Menu system</a></li><li><a href="structure.html#pos_8">Custom themes and menu generation</a></li><li><a href="structure.html#pos_9">Hooks</a></li></ul></li><li><a href="ajax.html">Ajax framework</a><ul class=" closed"><li><a href="ajax.html#pos_2">Start ajax requests</a></li><li><a href="ajax.html#pos_3">1. Place an user (click) triggered ajax link in html code</a></li><li><a href="ajax.html#pos_4">2. Set HTML form action to ajax</a></li><li><a href="ajax.html#pos_5">3. Place a delayed ajax call to the page</a></li><li><a href="ajax.html#pos_6">4. Fill page parts/block by simply call fill_through_ajax() function</a></li><li><a href="ajax.html#pos_7">The ajax handler</a></li><li><a href="ajax.html#pos_8">Ajax commands</a></li><li><a href="ajax.html#pos_9">A complex ajax example (Version 1 - standard)</a></li><li><a href="ajax.html#pos_10">A complex ajax example (Version 2 - autorouted)</a></li></ul></li><li><a href="sql.html">Sql</a><ul class=" closed"><li><a href="sql.html#pos_2">Sql database settings</a></li><li><a href="sql.html#pos_3">Connect and disconnect</a></li><li><a href="sql.html#pos_4">Execute SQL commands</a></li><li><a href="sql.html#pos_5">General database CRUD interface</a></li><li><a href="sql.html#pos_6">Methods of DatabaseQuery</a></li><li><a href="sql.html#pos_7">Methods of DatabaseCond</a></li><li><a href="sql.html#pos_8">Simple and easy database operations</a></li><li><a href="sql.html#pos_9">Sql transactions</a></li><li><a href="sql.html#pos_10">Error handling</a></li><li><a href="sql.html#pos_11">Schema editor</a></li><li><a href="sql.html#pos_12">Define sql schema requirements</a></li><li><a href="sql.html#pos_13">Hooks</a></li></ul></li><li><a href="files.html">Files</a><ul class=" closed"><li><a href="files.html#pos_2">Storing type</a></li><li><a href="files.html#pos_3">File class</a></li><li><a href="files.html#pos_4">Fixed properties of the File object</a></li><li><a href="files.html#pos_5">Methods of File object</a></li><li><a href="files.html#pos_6">Helper functions of File class</a></li><li><a href="files.html#pos_7">File access control</a></li><li><a href="files.html#pos_8">Tricks with file hooks</a></li><li><a href="files.html#pos_9">Image size classes</a></li><li><a href="files.html#pos_10">Settings of the file module</a></li><li><a href="files.html#pos_11">Hooks</a></li></ul></li><li><a href="forms.html">Forms</a><ul class=" closed"><li><a href="forms.html#pos_2">Simple HTML form generation</a></li><li><a href="forms.html#pos_3">Form checker method</a></li><li><a href="forms.html#pos_4">The SpeedForm </a></li><li><a href="forms.html#pos_5">Methods of SpeedForm</a></li><li><a href="forms.html#pos_6">Data definition structure</a></li><li><a href="forms.html#pos_7">The structure : Top level attributes</a></li><li><a href="forms.html#pos_8">Field types</a></li><li><a href="forms.html#pos_9">Common field attributes</a></li><li><a href="forms.html#pos_10">Output format of SpeedForm</a></li><li><a href="forms.html#pos_11">Query and Add field types</a></li><li><a href="forms.html#pos_12">Data definition structure repository</a></li><li><a href="forms.html#pos_13">Helper functions</a></li><li><a href="forms.html#pos_14">Settings of the forms module</a></li><li><a href="forms.html#pos_15">Hooks</a></li></ul></li><li><a href="tablegen.html">Table generator</a><ul class=" closed"><li><a href="tablegen.html#pos_2">Html table generation</a></li><li><a href="tablegen.html#pos_3">Excel output generator</a></li><li><a href="tablegen.html#pos_4">Convert Excel XML tables to HTML tables</a></li></ul></li><li><a href="totable.html">Query formatter</a><ul class=" closed"><li><a href="totable.html#pos_2">Automatic output generator for sql queries</a></li><li><a href="totable.html#pos_3">Input of to_table()</a></li><li><a href="totable.html#pos_4">Outout of to_table()</a></li><li><a href="totable.html#pos_5">Options affects the whole table</a></li><li><a href="totable.html#pos_6">Change the number or/and the order of the fields</a></li><li><a href="totable.html#pos_7">Customize of fields</a></li><li><a href="totable.html#pos_8">Modify the value of the fields</a></li><li><a href="totable.html#pos_9">Using virtual fields</a></li><li><a href="totable.html#pos_10">Using field repository</a></li><li><a href="totable.html#pos_11">Using field repository directly from SQL</a></li><li><a href="totable.html#pos_12">Backend of to_table()</a></li><li><a href="totable.html#pos_13">Generate HTML and Excel tables with same way</a></li></ul></li><li><a href="dyntable.html">DynTable</a><ul class=" closed"><li><a href="dyntable.html#pos_2">Methods of DynTable class</a></li><li><a href="dyntable.html#pos_3">Data definition structure</a></li><li><a href="dyntable.html#pos_4">Data definition structure repository</a></li><li><a href="dyntable.html#pos_5">A complex example</a></li></ul></li><li><a href="user.html">User module</a><ul class=" closed"><li><a href="user.html#pos_2">The global $user object</a></li><li><a href="user.html#pos_3">Login and logout</a></li><li><a href="user.html#pos_4">Managing users</a></li><li><a href="user.html#pos_5">Helper functions</a></li><li><a href="user.html#pos_6">CodKep session data</a></li><li><a href="user.html#pos_7">Settings of user module</a></li><li><a href="user.html#pos_8">Hooks</a></li></ul></li><li><a href="node.html">Node</a><ul class=" closed"><li><a href="node.html#pos_2">Fixed properties(fields) of the Node</a></li><li><a href="node.html#pos_3">Methods of Node class</a></li><li><a href="node.html#pos_4">Helper functions of node class</a></li><li><a href="node.html#pos_5">Defining a node</a></li><li><a href="node.html#pos_6">Dynamic node definition</a></li><li><a href="node.html#pos_7">Modify existing node types</a></li><li><a href="node.html#pos_8">Database appearance of nodes</a></li><li><a href="node.html#pos_9">Querying node lists from database</a></li><li><a href="node.html#pos_10">Node access control</a></li><li><a href="node.html#pos_11">REST api for nodes</a></li><li><a href="node.html#pos_12">Node related REST commands</a></li><li><a href="node.html#pos_13">A complete example</a></li><li><a href="node.html#pos_14">Custom Node objects</a></li><li><a href="node.html#pos_15">Settings of the nodes</a></li><li><a href="node.html#pos_16">Hooks</a></li></ul></li><li><a href="page.html">Page</a><ul class=" closed"><li><a href="page.html#pos_2">Fields of the page</a></li><li><a href="page.html#pos_3">Permissions of pages</a></li><li><a href="page.html#pos_4">Extending page type</a></li><li><a href="page.html#pos_5">Hooks</a></li></ul></li><li><a href="doc.html">Documenting</a><ul class=" closed"><li><a href="doc.html#pos_2">My mark language</a></li><li><a href="doc.html#pos_3">Highlights</a></li><li><a href="doc.html#pos_4">Headings</a></li><li><a href="doc.html#pos_5">Other elements</a></li><li><a href="doc.html#pos_6">Tables</a></li><li><a href="doc.html#pos_7">Lists</a></li><li><a href="doc.html#pos_8">Codes</a></li><li><a href="doc.html#pos_9">Links</a></li><li><a href="doc.html#pos_10">Images</a></li></ul></li><li><a href="debug.html">Debugging</a><ul class=" closed"><li><a href="debug.html#pos_2">Dumping arbitrary data objects</a></li><li><a href="debug.html#pos_3">Special pages</a></li><li><a href="debug.html#pos_4">Debug sql calls</a></li><li><a href="debug.html#pos_5">Dump the parameters of the page</a></li></ul></li></ul></div></div>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Table generator</title>
+  <meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css"/>
+  <link rel="stylesheet" type="text/css" href="default.css"/>
+  <link rel="stylesheet" type="text/css" href="ckcomm.css"/>
+  <link rel="stylesheet" type="text/css" href="flex.css"/>
+  <script type="text/javascript" src="highlight.pack.js"></script>
+</head>
+<body>
+ <div class="content"><div class="ccdoccontent"><a name="pos_1"><h2>Table generator</h2></a>
+<p><a name="html_table_generator"></a>
+</p><a name="pos_2"><h2>Html table generation</h2></a>
+<p>The <code>HtmlTable</code> is a helper class to create pure html tables easy way.
+Let's see pure example where a 3x2 sized table will be generated with header texts.
+</p>
+<p><em>Let's see the generation of this table:</em>
+<table class="mytable" border="1"><thead><tr><th>count</th><th>type</th><th>color</th></tr></thead>
+ <tbody><tr><td>one</td><td>apple</td><td>red</td></tr><tr><td>two</td><td>peach</td><td>yellow</td></tr></tbody>
+</table>
+</p>
+<p><em>You can generate this table with the following codes:</em>
+</p><pre><code class="code"> //One using mode
+ $t1 = new HtmlTable();
+ $t1-&gt;name('customname');
+ $t1-&gt;heads(['count','type','color']);
+ $t1-&gt;cellss([['one','apple','red'   ],
+             ['two','peach','yellow' ]]);
+ $t1-&gt;opts(['border'=&gt;1,'class'=&gt;'mytable']);
+ print $t1-&gt;get();
+
+ //An another using mode
+ print h("table") //helper function, which equivalent to new HtmlTable()
+        -&gt;name('customname')
+        -&gt;opts(['border'=&gt;1,'class'=&gt;'mytable'])
+        -&gt;heads(['count','type','color'])
+        -&gt;cells(['one','apple','red'   ])
+        -&gt;nrow()
+        -&gt;cells(['two','peach','yellow'])
+        -&gt;get();
+</code></pre><p>The HtmlTable class stores every settings and cell in it's internal sate.
+As seen above the html generation is done by <code>get()</code> method.
+The following functions can be used to define the table:
+</p>
+<p><a name="html_table_methods"></a>
+<strong>Methods of HtmlTable class:</strong>
+</p>
+<ul><li><span class="definition">name($name)</span>
+<ul><li>Set the name of the table object. This name is usually useless but can be used in <code>table_get</code> <a href="hooks.html">hook</a> where the hook receives this name to distinguish tables.</li></ul></li><li><span class="definition">opts(array $o)</span>
+<ul><li>Sets some options of the generated table like border and css class. The function should receive an associative array where the values can be:
+<ul><li><code>"border"=integer</code> the border attribute of the table</li><li><code>"class"=string</code> the css class of the table</li><li><code>"style"=string</code> the style attribute of the table (Custom css code of the table)</li><li><code>"formatter"=true</code> enable some additional functionality of cell's string formatting.</li><li>Every <a href="#exmlstyleopts"><em>cell modifier option</em></a> can be used here jointly with the <code>"type" => "uni"</code> option. <br/>(Most option set there is automatically coverted to <code>"style"</code> and merged with the original <code>"style"</code> value.)</li></ul></li></ul></li><li><span class="definition">nrow(array $opts = [])</span>
+<ul><li>Start a new row in table. Every time when this function called a new row will generated in table. If this function called two times an empty row is generated. The function can receive an associative array where the values can be:
+<ul><li><code>"class"=string</code> the css class of the tr tag</li><li><code>"style"=string</code> the style attribute of the tr tag</li><li>Every <a href="#exmlstyleopts"><em>cell modifier option</em></a> can be used here jointly with the <code>"type" => "uni"</code> option. <br/>(Most option set there is automatically coverted to <code>"style"</code> and merged with the original <code>"style"</code> value.)</li></ul></li></ul></li><li><span class="definition">head($h,array $opts)</span>
+<ul><li>Sets the next header cell name. The <code>$opts</code> parameter is same that the <code>opts()</code> function can receive.</li></ul></li><li><span class="definition">heads($hs,array $opts)</span>
+<ul><li>Sets all header name with one array.</li></ul></li><li><span class="definition">cell($c,array $opts)</span>
+<ul><li>Sets the next cell of the table.</li></ul></li><li><span class="definition">cells($cs,array $opts)</span>
+<ul><li>Sets one row of the table with array (of cells).</li></ul></li><li><span class="definition">cellss($cs,array $opts)</span>
+<ul><li>Sets more row of the table with a two dimensional array.</li></ul></li><li><span class="definition">get()</span>
+<ul><li>Generates the html code of the table.</li></ul></li><li><span class="definition">setCallback($name, callable $callback)</span>
+<ul><li>You can add a named callback to the object and run it later with the given name. This callbacks can used as macros. This callback mechanism works same in HtmlTable,HtmlForm and ExcelXmlDocument. It possible to set different callbacks with same names to achieve different mechanism on same event.</li><li>The callbacks receives two parameters:
+<ul><li>The object reference where the callback is set (HtmlTable,HtmlForm and ExcelXmlDocument)</li><li>The optional parameter passed to <code>run()</code></li></ul></li><li>Example: <code>$t->setCallback("sep",function($x,$p) { $x->nrows(2); return ''; });</code></li></ul></li><li><span class="definition">run($name, $parameter = null)</span>
+<ul><li>Calls the callback by name which set through <code>setCallback()</code></li><li>The <code>$parameter</code> is an optional parameter passed directly to the callback</li><li>Example: <code>$t->run("sep");</code></li></ul></li></ul><p><a name="excelxml"></a>
+</p><a name="pos_3"><h2>Excel output generator</h2></a>
+<p>The <code>ExcelXmlDocument</code> class works similar way than <code>HtmlTable</code> but <code>ExcelXmlDocument</code> generates
+<a href="https://en.wikipedia.org/wiki/Microsoft_Office_XML_formats">Microsoft Office XML formats</a>.
+You can generate arbitrary formatted tables (even with formulas) and save to XML files
+which can directly opened in spreadsheets.
+</p>
+<p>Let's see a complete example where the CodKep generates the following small formatted table:
+</p>
+<p><img src="images/exceltable1.png"  style=" border: 0; " alt="exceltable1.png"/>
+</p>
+<p><em>You can generate this table with the following codes:</em>
+</p><pre><code class="php">function hook_mymodule_defineroute()
+{
+  $r = [];
+  $r[] = [
+    'path'=&gt; 'sampleexcelxmlfile',
+    'callback' =&gt; 'rc_sampleexcel_x',
+    'type' =&gt; 'raw', //This path will generate Microsoft Office XML, not HTML
+  ];
+  return $r;
+}
+
+function rc_sampleexcel_x()
+{
+    $x = new ExcelXmlDocument();
+    $x-&gt;setHtmlHeaders('sample.xml');
+
+    $x-&gt;name('customname');
+    //Header cells, bold fonts and underlined with background color
+    $x-&gt;cells(['Number','Item','Color'],
+              ['strong' =&gt; 'yes',
+               'border' =&gt; 'bottom',
+               'background-color' =&gt; '#aaaaaa']);
+    //Value cells
+    $x-&gt;cellss([['one','apple','red'   ],
+                ['two','peach','yellow' ]]);
+    return $x-&gt;get();
+}
+</code></pre><p>The ExcelXmlDocument class stores every settings and cell in it's internal sate.
+As seen above the xml output generation is done by <code>get()</code> method.
+The following functions can be used to build the spreadsheet:
+</p>
+<p><strong>Methods of ExcelXmlDocument class:</strong>
+</p>
+<ul><li><span class="definition">name($name)</span>
+<ul><li>Give the name of the spreadsheet. This name will be the name of the spreadsheet visible in the bottom tabs of excel.</li></ul></li><li><span class="definition">setTitle($title)</span>
+<ul><li>Same as <code>name($name)</code></li></ul></li><li><span class="definition">nrow(array $opts = [])</span>
+<ul><li>Start a new row in table. Every time when this function called will generate a new row in table. The <code>$opts</code> array passed here will be the default options of cells located in the following row.</li></ul></li><li><span class="definition">nrows($count = 1,array $opts = [])</span>
+<ul><li>Start <code>$count</code> new row in table. Every time when this function called will generate <code>$count</code> new row in table.</li></ul></li><li><span class="definition">cell($c = '', array $opts = [])</span>
+<ul><li>Sets the next cell of the table. The <code>$opts</code> detailed later.</li></ul></li><li><span class="definition">cells(array $cs, array $opts = [])</span>
+<ul><li>Sets one row of the table with array (of cells).</li></ul></li><li><span class="definition">cellss(array $cs, array $opts = [])</span>
+<ul><li>Sets more row of the table with a two dimensional array.</li></ul></li><li><span class="definition">head($hs, array $opts = [])</span>
+<ul><li>Sets the next cell name. The <code>$opts</code> detailed later.</li></ul></li><li><span class="definition">heads(array $hs, array $opts = [])</span>
+<ul><li>Sets all header cell with one array.</li></ul></li><li><span class="definition">setOrientationPortrait()</span>
+<ul><li>Set the default printable format of the spreadsheet to portrait.</li></ul></li><li><span class="definition">setOrientationLandscape()</span>
+<ul><li>Set the default printable format of the spreadsheet to landscape.</li></ul></li><li><span class="definition">get()</span>
+<ul><li>Generates the xml code of the spreadsheet.</li></ul></li><li><span class="definition">opts(array $opts)</span>
+<ul><li>This function sets a default options of the table cells. The options set in <code>nrow()</code> function will overwrite these, while the options passed in <code>cell()</code> and <code>head()</code> will overwrite both.</li></ul></li><li><span class="definition">setCallback($name, callable $callback)</span>
+<ul><li>You can add a named callback to the object and run it later with the given name. This callbacks can used as macros. This callback mechanism works same in HtmlTable,HtmlForm and ExcelXmlDocument. It possible to set different callbacks with same names to achieve different mechanism on same event.</li><li>The callbacks receives two parameters:
+<ul><li>The object reference where the callback is set (HtmlTable,HtmlForm and ExcelXmlDocument)</li><li>The optional parameter passed to <code>run()</code></li></ul></li><li>Example: <code>$t->setCallback("sep",function($x,$p) { $x->nrows(2); return ''; });</code></li></ul></li><li><span class="definition">run($name, $parameter = null)</span>
+<ul><li>Calls the callback by name which set through <code>setCallback()</code></li><li>The <code>$parameter</code> is an optional parameter passed directly to the callback</li><li>Example: <code>$t->run("sep");</code></li></ul></li></ul><p><a name="exmlstyleopts"></a>
+The <code>$opts</code> parameter of the <code>opts()</code>,<code>cell()</code>,<code>cells()</code>,<code>cellss()</code> and <code>head()</code>,<code>heads()</code> and
+<code>nrow()</code> function is an associative array with the following possible options:
+</p>
+<p><a name="cellmods"></a>
+<strong>Cell modifier options</strong>
+</p>
+<ul><li><code>"height" => height_number</code> - The height of the cell's row.</li><li><code>"xheight" => height_number</code> - The height of the cell's row. This option affects ExcelXml document only.</li><li><code>"theight" => height_number</code> - The height of the cell's row. This option affects HtmlTable only.</li><li><code>"width" => width_number</code> - The width of the cell's row.</li><li><code>"xwidth" => width_number</code> - The width of the cell's row. This option affects ExcelXml document only.</li><li><code>"twidth" => width_number</code> - The width of the cell's row. This option affects HtmlTable only.</li><li><code>"formula" => formulastring</code> - Specify a formula of the cell
+<ul><li>Examples:
+<ul><li><code>"=RC[-1]*2"</code> - The cell same row and one column less multiplied with 2</li><li><code>"=R[-1]C*2"</code> - The cell in same column and one row less multiplied with 2</li><li><code>"=R3C3*2"</code>  - The cell with absolute row 3 and column 3 multiplied with 2</li></ul></li></ul></li><li><code>"t" => typestring</code> - The type of the cell
+<ul><li>Possible values of <code>typestring</code>
+<ul><li><code>"str"</code> - String</li><li><code>"num"</code> - Number</li><li><code>"dat"</code> - Date, You also have to specify the <code>"numberformat" => "Short Date"</code> and give the data in ISO date <code>yyyy-MM-dd</code>!</li></ul></li></ul></li><li><code>"colspan" => spannumber</code> -  Merge more horizontal cells to one.</li><li><code>"xcolspan" => spannumber</code> -  Merge more horizontal cells to one. This option affects ExcelXml document only.</li><li><code>"tcolspan" => spannumber</code> -  Merge more horizontal cells to one. This option affects HtmlTable only.</li><li><code>"wrap" => wrapstr</code> - Sets the wrapping of the cells.
+<ul><li>Possible values of <code>wrapstr</code>
+<ul><li><code>"on"</code> - Sets cell wrapping on.</li><li><code>"off"</code> - Sets cell wrapping off.</li></ul></li></ul></li><li><code>"vertical" => verticalalignstr</code> - Sets the vertical align of the specified cells.
+<ul><li>Possible values of <code>verticalalignstr</code>
+<ul><li><code>"top"</code> - Sets the vertical align to top.</li><li><code>"center"</code>- Sets the vertical align to center.</li><li><code>"bottom"</code> - Sets the vertical align to bottom.</li></ul></li></ul></li><li><code>"horizontal" => horizontalalignstr</code> - Sets the horizontal align of the specified cells.
+<ul><li>Possible values of <code>horizontalalignstr</code>
+<ul><li><code>"left"</code> - Sets the horizontal align to left.</li><li><code>"center"</code> - Sets the horizontal align to center.</li><li><code>"right"</code> - Sets the horizontal to right.</li></ul></li></ul></li><li><code>"border" => borderstr_or_array</code> - Sets the borders of the cells.
+<ul><li>The <code>borderstr_or_array</code> can be a simple string or an array with the combination of the following values:
+<ul><li><code>"none"</code> - Sets no border.</li><li><code>"all"</code> - Sets all borders top, right, bottom, left.</li><li><code>"top"</code> - Sets the top border.</li><li><code>"bottom"</code>  - Sets the bottom border.</li><li><code>"left"</code> - Sets the left border.</li><li><code>"right"</code> - Sets the right border.</li></ul></li><li>Example 1: <code>"border" => "all"</code></li><li>Example 2: <code>"border" => ["top","left"]</code></li></ul></li><li><code>"borderweight" => 0</code> or <code>1</code> or <code>2</code> or <code>3</code> - Sets the border width from 0 to 3.</li><li><code>"background-color" => colorstring</code> - SetsThe background color of the cell
+<ul><li>The <code>colorstring</code> have to contains html color specification (In #RRGGBB format).</li><li>Example: <code>"background-color" => "#RRGGBB"</code></li></ul></li><li><code>"strong" => "yes"</code> - Sets bold font</li><li><code>"italic" => "yes"</code> - Sets italic font</li><li><code>"underline" => "yes"</code> - Sets the font to underlined.</li><li><code>"size" => size</code> - Sets the point size of the font to <code>size</code>.</li><li><code>"xsize" => size</code> - Sets the point size of the font to <code>size</code>. This option affects ExcelXml document only.</li><li><code>"tsize" => size</code> - Sets the point size of the font to <code>size</code>. This option affects HtmlTable only.</li><li><code>"color" => colorstring</code> - Sets the color of the font
+<ul><li>The <code>colorstring</code> have to contains html color specification (In #RRGGBB format).</li><li>Example: <code>"color" => "#RRGGBB"</code></li></ul></li><li><code>"numberformat" => numfmtstr</code> - Sets the format of the numbers
+<ul><li>An example of this:
+<ul><li>"#,##0.00\ [$EUR];[Red]\-#,##0.00\ [$EUR]']" - Will set "34,00 EUR"</li></ul></li></ul></li></ul><p>These options above can be translated to options works with <code>HtmlTable</code> class with <code>table_options_translator()</code>
+</p>
+<p><strong>Complex table generation example</strong>
+</p>
+<p>This example shows how to generate a complex table with colors, borders special number formats, and how to use formulas.
+</p>
+<p><img src="images/exceltable2.png"  style=" border: 0; " alt="exceltable2.png"/>
+</p>
+<p>The generation of the excel table above done with this code:
+</p><pre><code class="php"> x = new ExcelXmlDocument();
+ $x-&gt;setHtmlHeaders('sample2.xml');
+
+ $x-&gt;name('Groceries');
+ //Title
+ $x-&gt;cell('Shopping at the grocery',
+          ['size' =&gt; 20,'strong' =&gt; 'yes','wrap' =&gt; 'off']);
+ $x-&gt;nrow();
+ //Header
+ $x-&gt;cells(['Item','Color','Weight','Unit price','Sum'],
+           ['strong' =&gt; 'yes',
+            'border' =&gt; 'all',
+            'background-color' =&gt; '#aaaaaa']);
+ $x-&gt;nrow();
+
+ //Value cells
+ $col_1_opts = ['width' =&gt; 100,
+                'strong' =&gt; 'yes',
+                'border' =&gt; ['left','bottom']];
+ $col_2_opts = ['border' =&gt; 'bottom',
+                 'italic' =&gt; 'yes'];
+ $col_3_opts = ['t' =&gt; 'num',
+                 'border' =&gt; 'bottom'];
+ $col_4_opts = ['t' =&gt; 'num',
+                 'width' =&gt; 80,
+                 'border' =&gt;'bottom',
+                 'background-color' =&gt; '#ffff00',
+                 'numberformat' =&gt; '#,##0.00\ [$EUR];[Red]\-#,##0.00\ [$EUR]'];
+ $col_5_opts = ['t' =&gt; 'num',
+                 'width' =&gt; 80,
+                 'formula' =&gt; '=RC[-1]*RC[-2]',
+                 'border' =&gt; ['left','bottom'],
+                 'background-color' =&gt; '#ff2222',
+                 'numberformat' =&gt; '#,##0.00\ [$EUR];[Red]\-#,##0.00\ [$EUR]'];
+ $x-&gt;cell('apple' ,$col_1_opts);
+ $x-&gt;cell('red'   ,$col_2_opts);
+ $x-&gt;cell('2.2'   ,$col_3_opts);
+ $x-&gt;cell('2.55'  ,$col_4_opts);
+ $x-&gt;cell(''      ,$col_5_opts);
+ $x-&gt;nrow();
+
+ $x-&gt;cell('peach' ,$col_1_opts);
+ $x-&gt;cell('yellow',$col_2_opts);
+ $x-&gt;cell('4.9'   ,$col_3_opts);
+ $x-&gt;cell('3.11'  ,$col_4_opts);
+ $x-&gt;cell(''      ,$col_5_opts);
+ $x-&gt;nrow();
+
+ $x-&gt;cell('nut'   ,$col_1_opts);
+ $x-&gt;cell('brown' ,$col_2_opts);
+ $x-&gt;cell('0.45'  ,$col_3_opts);
+ $x-&gt;cell('5.02'  ,$col_4_opts);
+ $x-&gt;cell(''      ,$col_5_opts);
+ $x-&gt;nrow();
+
+ print $x-&gt;get();
+</code></pre><p><a name="optionsconverter"></a>
+</p><a name="pos_4"><h3>Convert Excel XML tables to HTML tables</h3></a>
+<p>You can use the <code>table_options_translator()</code> function to translate the cell options of <code>ExcelXmlDocument</code>
+to options works with cells of <code>HtmlTable</code>.
+Most option are translated to CSS style to the html table looks similar as spreadsheet.
+</p>
+<p><span class="definition">table_options_translator(array $opts,array $additional = [],$sac_omode = false)</span>
+<br/>
+The parameters of the function:
+</p>
+<ul><li>The <code>$opts</code> array will be translated into <code>HtmlTable</code> options.</li><li>The <code>$additional</code> parameter can hold other options which will be added to the result array.</li><li>If the <code>$sac_omode</code> parameter is true, the function only translate options which generate "style" and "class" typed options.</li></ul><p><br>
+The return array of this function is directly usable as cell option in HtmlTable's methods.
+</p>
+<p>Let's see an example where the previous examples table's code are minimally rewritten to show similar table in html
+</p>
+<p><img src="images/exceltableashtml.png"  style=" border: 0; " alt="exceltableashtml.png"/>
+</p>
+<p>The code shows this table above (All options passed to cells are same as above):
+</p><pre><code class="php">  $x = new HtmlTable();
+  $x-&gt;name('Groceryes');
+  //Title
+  $x-&gt;cell('Shopping at the grocery',
+           table_options_translator(
+            ['size' =&gt; 20,'strong' =&gt; 'yes','wrap' =&gt; 'off']));
+  $x-&gt;nrow();
+  //Header
+  $x-&gt;cells(['Item','Color','Weight','Unit price','Sum'],
+            table_options_translator(
+             ['strong' =&gt; 'yes',
+              'border' =&gt; 'all',
+              'background-color' =&gt; '#aaaaaa']));
+  $x-&gt;nrow();
+  //Value cells
+  $col_1_opts = table_options_translator(
+                ['width' =&gt; 100,
+                 'strong' =&gt; 'yes',
+                 'border' =&gt; ['left','bottom']]);
+  $col_2_opts = table_options_translator(
+                 ['border' =&gt; 'bottom',
+                  'italic' =&gt; 'yes']);
+  $col_3_opts = table_options_translator(
+                 ['t' =&gt; 'num',
+                  'border' =&gt; 'bottom']);
+  $col_4_opts = table_options_translator(
+                 ['t' =&gt; 'num',
+                  'width' =&gt; 80,
+                  'border' =&gt;'bottom',
+                  'background-color' =&gt; '#ffff00',
+                  'numberformat' =&gt; '#,##0.00\ [$EUR];[Red]\-#,##0.00\ [$EUR]']);
+  $col_5_opts = table_options_translator(
+                 ['t' =&gt; 'num',
+                  'width' =&gt; 80,
+                  'formula' =&gt; '=RC[-1]*RC[-2]',
+                  'border' =&gt; ['left','bottom'],
+                  'background-color' =&gt; '#ff2222',
+                  'numberformat' =&gt; '#,##0.00\ [$EUR];[Red]\-#,##0.00\ [$EUR]']);
+  $x-&gt;cell('apple' ,$col_1_opts);
+  $x-&gt;cell('red'   ,$col_2_opts);
+  $x-&gt;cell(2.2     ,$col_3_opts);
+  $x-&gt;cell(2.55    ,$col_4_opts);
+  $x-&gt;cell(2.2*2.55  ,$col_5_opts);
+  $x-&gt;nrow();
+
+  $x-&gt;cell('peach' ,$col_1_opts);
+  $x-&gt;cell('yellow',$col_2_opts);
+  $x-&gt;cell(4.9     ,$col_3_opts);
+  $x-&gt;cell(3.11    ,$col_4_opts);
+  $x-&gt;cell(4.9*3.11  ,$col_5_opts);
+  $x-&gt;nrow();
+
+  $x-&gt;cell('nut'   ,$col_1_opts);
+  $x-&gt;cell('brown' ,$col_2_opts);
+  $x-&gt;cell(0.45    ,$col_3_opts);
+  $x-&gt;cell(5.02    ,$col_4_opts);
+  $x-&gt;cell(0.45*5.02   ,$col_5_opts);
+  $x-&gt;nrow();
+  print $x-&gt;get();
+</code></pre><p><a name="autoconv"></a>
+<strong>Automatic conversion of options</strong>
+</p>
+<p>The <code>HtmlTable</code> can do this option translation automatically.
+If the options array contains the <code>"type" => "uni"</code> element the <code>HtmlTable</code> automatically call
+the <code>table_options_translator()</code> on whole option array.
+</p>
+<p><em>Note: Most options are converted to css style.</em>
+</p>
+<p>The result of this that we can generate Excel XML and HTML tables with same codes with minimal difference.
+Look the next example which generate exactly same tables than previous, but uses same codes to generate both output:
+</p><pre><code class="php"> //If this variable is
+ // TRUE  - This code generates an Excel XML table
+ // FALSE - This code generates a HTML table
+ $excel_or_html = true;
+
+ $x = $excel_or_html ? (new ExcelXmlDocument()):(new HtmlTable());
+ if($excel_or_html)
+     $x-&gt;setHtmlHeaders("sameashtml.xml");
+ $x-&gt;name('Groceries');
+ //Title
+ $x-&gt;cell('Shopping at the grocery',
+          ['type'=&gt;'uni','size' =&gt; 20,'strong' =&gt; 'yes','wrap' =&gt; 'off']);
+ $x-&gt;nrow();
+ //Header
+ $x-&gt;cells(['Item','Color','Weight','Unit price','Sum'],
+            ['type'=&gt;'uni',
+             'strong' =&gt; 'yes',
+             'border' =&gt; 'all',
+             'background-color' =&gt; '#aaaaaa']);
+ $x-&gt;nrow();
+ //Value cells
+ $col_1_opts = ['type' =&gt; 'uni',
+                'width' =&gt; 100,
+                'strong' =&gt; 'yes',
+                'border' =&gt; ['left','bottom']];
+ $col_2_opts = ['type' =&gt; 'uni',
+                'border' =&gt; 'bottom',
+                'italic' =&gt; 'yes'];
+ $col_3_opts = ['type' =&gt; 'uni',
+                't' =&gt; 'num',
+                'border' =&gt; 'bottom'];
+ $col_4_opts = ['type' =&gt; 'uni',
+                't' =&gt; 'num',
+                'width' =&gt; 80,
+                'border' =&gt;'bottom',
+                'background-color' =&gt; '#ffff00',
+                'numberformat' =&gt; '#,##0.00\ [$EUR];[Red]\-#,##0.00\ [$EUR]'];
+ $col_5_opts = ['type' =&gt; 'uni',
+                't' =&gt; 'num',
+                'width' =&gt; 80,
+                'formula' =&gt; '=RC[-1]*RC[-2]',
+                'border' =&gt; ['left','bottom'],
+                'background-color' =&gt; '#ff2222',
+                'numberformat' =&gt; '#,##0.00\ [$EUR];[Red]\-#,##0.00\ [$EUR]'];
+ $x-&gt;cell('apple' ,$col_1_opts);
+ $x-&gt;cell('red'   ,$col_2_opts);
+ $x-&gt;cell(2.2     ,$col_3_opts);
+ $x-&gt;cell(2.55    ,$col_4_opts);
+ $x-&gt;cell(2.2*2.55  ,$col_5_opts);
+ $x-&gt;nrow();
+
+ $x-&gt;cell('peach' ,$col_1_opts);
+ $x-&gt;cell('yellow',$col_2_opts);
+ $x-&gt;cell(4.9     ,$col_3_opts);
+ $x-&gt;cell(3.11    ,$col_4_opts);
+ $x-&gt;cell(4.9*3.11  ,$col_5_opts);
+ $x-&gt;nrow();
+
+ $x-&gt;cell('nut'   ,$col_1_opts);
+ $x-&gt;cell('brown' ,$col_2_opts);
+ $x-&gt;cell(0.45    ,$col_3_opts);
+ $x-&gt;cell(5.02    ,$col_4_opts);
+ $x-&gt;cell(0.45*5.02   ,$col_5_opts);
+ $x-&gt;nrow();
+ print $x-&gt;get();
+</code></pre><p>The result of the code above with <code>$excel_or_html = true</code> :
+</p>
+<p><img src="images/exceltable2.png"  style=" border: 0; " alt="exceltable2.png"/>
+</p>
+<p>The result of the code above with <code>$excel_or_html = false</code> :
+</p>
+<p><img src="images/exceltableashtml.png"  style=" border: 0; " alt="exceltableashtml.png"/>
+</p>
+<p>You can use this functionality for SQL queries with <code>to_table()</code> function.
+The <code>to_table()</code> uses the <code>ExcelXmlDocument</code> and <code>HtmlTable</code> classes to format query results.
+Read <a href="totable.html">Query formatter documentation</a> to learn it.
+</p>
+<p></p></div><script>hljs.initHighlightingOnLoad();</script><div class="ccdocpanel"><ul class="docsidemenu no-print"><li><a href="start.html">CodKep introduction</a><ul class=" closed"><li><a href="start.html#pos_2">What is CodKep</a></li><li><a href="start.html#pos_3">The main chapters of this document</a></li><li><a href="start.html#pos_4">Author, License</a></li></ul></li><li><a href="modules.html">Installing, Modules</a><ul class=" closed"><li><a href="modules.html#pos_2">Installing codkep</a></li><li><a href="modules.html#pos_3">Directories</a></li><li><a href="modules.html#pos_4">Site settings, configuration</a></li><li><a href="modules.html#pos_5">Modules</a></li></ul></li><li><a href="routes.html">Routes</a><ul class=" closed"><li><a href="routes.html#pos_2">Add custom locations</a></li><li><a href="routes.html#pos_3">The route definition array</a></li><li><a href="routes.html#pos_4">Parameters in URL</a></li><li><a href="routes.html#pos_5">Caching routes</a></li><li><a href="routes.html#pos_6">Generating URLs</a></li><li><a href="routes.html#pos_7">Generating Links</a></li><li><a href="routes.html#pos_8">Redirections</a></li><li><a href="routes.html#pos_9">Tags</a></li><li><a href="routes.html#pos_10">Clean URLs</a></li><li><a href="routes.html#pos_11">Hooks related to routes</a></li></ul></li><li><a href="hooks.html">Hooks</a><ul class=" closed"><li><a href="hooks.html#pos_2">Implement hooks</a></li><li><a href="hooks.html#pos_3">Interaction of hooks</a></li><li><a href="hooks.html#pos_4">Hook sequence of a page load</a></li><li><a href="hooks.html#pos_5">Create hooks</a></li><li><a href="hooks.html#pos_6">Caching hooks</a></li><li><a href="hooks.html#pos_7">Change hook order</a></li><li><a href="hooks.html#pos_8">Debugging hooks</a></li><li><a href="hooks.html#pos_9">Hooks</a></li></ul></li><li><a href="parameters.html">Parameters</a><ul class=" closed"><li><a href="parameters.html#pos_2">Defining parameters</a></li><li><a href="parameters.html#pos_3">Defining in route definition array</a></li><li><a href="parameters.html#pos_4">Using parameters</a></li><li><a href="parameters.html#pos_5">Other parameter related functions</a></li><li><a href="parameters.html#pos_6">Security classes</a></li><li><a href="parameters.html#pos_7">Parameter handling relates settings</a></li><li><a href="parameters.html#pos_8">Hooks</a></li></ul></li><li><a href="structure.html">Themes</a><ul class=" closed"><li><a href="structure.html#pos_2">Functions unrelated to themes</a></li><li><a href="structure.html#pos_3">Using of themes</a></li><li><a href="structure.html#pos_4">Place your own content to a site area</a></li><li><a href="structure.html#pos_5">Settings of flex theme</a></li><li><a href="structure.html#pos_6">Create own themes</a></li><li><a href="structure.html#pos_7">Menu system</a></li><li><a href="structure.html#pos_8">Custom themes and menu generation</a></li><li><a href="structure.html#pos_9">Hooks</a></li></ul></li><li><a href="ajax.html">Ajax framework</a><ul class=" closed"><li><a href="ajax.html#pos_2">Start ajax requests</a></li><li><a href="ajax.html#pos_3">1. Place an user (click) triggered ajax link in html code</a></li><li><a href="ajax.html#pos_4">2. Set HTML form action to ajax</a></li><li><a href="ajax.html#pos_5">3. Place a delayed ajax call to the page</a></li><li><a href="ajax.html#pos_6">4. Fill page parts/block by simply call fill_through_ajax() function</a></li><li><a href="ajax.html#pos_7">The ajax handler</a></li><li><a href="ajax.html#pos_8">Ajax commands</a></li><li><a href="ajax.html#pos_9">A complex ajax example (Version 1 - standard)</a></li><li><a href="ajax.html#pos_10">A complex ajax example (Version 2 - autorouted)</a></li></ul></li><li><a href="sql.html">Sql</a><ul class=" closed"><li><a href="sql.html#pos_2">Sql database settings</a></li><li><a href="sql.html#pos_3">Connect and disconnect</a></li><li><a href="sql.html#pos_4">Execute SQL commands</a></li><li><a href="sql.html#pos_5">General database CRUD interface</a></li><li><a href="sql.html#pos_6">Methods of DatabaseQuery</a></li><li><a href="sql.html#pos_7">Methods of DatabaseCond</a></li><li><a href="sql.html#pos_8">Simple and easy database operations</a></li><li><a href="sql.html#pos_9">Sql transactions</a></li><li><a href="sql.html#pos_10">Error handling</a></li><li><a href="sql.html#pos_11">Schema editor</a></li><li><a href="sql.html#pos_12">Define sql schema requirements</a></li><li><a href="sql.html#pos_13">Hooks</a></li></ul></li><li><a href="files.html">Files</a><ul class=" closed"><li><a href="files.html#pos_2">Storing type</a></li><li><a href="files.html#pos_3">File class</a></li><li><a href="files.html#pos_4">Fixed properties of the File object</a></li><li><a href="files.html#pos_5">Methods of File object</a></li><li><a href="files.html#pos_6">Helper functions of File class</a></li><li><a href="files.html#pos_7">File access control</a></li><li><a href="files.html#pos_8">Tricks with file hooks</a></li><li><a href="files.html#pos_9">Image size classes</a></li><li><a href="files.html#pos_10">Settings of the file module</a></li><li><a href="files.html#pos_11">Hooks</a></li></ul></li><li><a href="forms.html">Forms</a><ul class=" closed"><li><a href="forms.html#pos_2">Simple HTML form generation</a></li><li><a href="forms.html#pos_3">Form checker method</a></li><li><a href="forms.html#pos_4">The SpeedForm </a></li><li><a href="forms.html#pos_5">Methods of SpeedForm</a></li><li><a href="forms.html#pos_6">Data definition structure</a></li><li><a href="forms.html#pos_7">The structure : Top level attributes</a></li><li><a href="forms.html#pos_8">Field types</a></li><li><a href="forms.html#pos_9">Common field attributes</a></li><li><a href="forms.html#pos_10">Output format of SpeedForm</a></li><li><a href="forms.html#pos_11">Query and Add field types</a></li><li><a href="forms.html#pos_12">Data definition structure repository</a></li><li><a href="forms.html#pos_13">Helper functions</a></li><li><a href="forms.html#pos_14">Settings of the forms module</a></li><li><a href="forms.html#pos_15">Hooks</a></li></ul></li><li><a href="tablegen.html">Table generator</a><ul class=""><li><a href="tablegen.html#pos_2">Html table generation</a></li><li><a href="tablegen.html#pos_3">Excel output generator</a></li><li><a href="tablegen.html#pos_4">Convert Excel XML tables to HTML tables</a></li></ul></li><li><a href="totable.html">Query formatter</a><ul class=" closed"><li><a href="totable.html#pos_2">Automatic output generator for sql queries</a></li><li><a href="totable.html#pos_3">Input of to_table()</a></li><li><a href="totable.html#pos_4">Outout of to_table()</a></li><li><a href="totable.html#pos_5">Options affects the whole table</a></li><li><a href="totable.html#pos_6">Change the number or/and the order of the fields</a></li><li><a href="totable.html#pos_7">Customize of fields</a></li><li><a href="totable.html#pos_8">Modify the value of the fields</a></li><li><a href="totable.html#pos_9">Using virtual fields</a></li><li><a href="totable.html#pos_10">Using field repository</a></li><li><a href="totable.html#pos_11">Using field repository directly from SQL</a></li><li><a href="totable.html#pos_12">Backend of to_table()</a></li><li><a href="totable.html#pos_13">Generate HTML and Excel tables with same way</a></li></ul></li><li><a href="dyntable.html">DynTable</a><ul class=" closed"><li><a href="dyntable.html#pos_2">Methods of DynTable class</a></li><li><a href="dyntable.html#pos_3">Data definition structure</a></li><li><a href="dyntable.html#pos_4">Data definition structure repository</a></li><li><a href="dyntable.html#pos_5">A complex example</a></li></ul></li><li><a href="user.html">User module</a><ul class=" closed"><li><a href="user.html#pos_2">The global $user object</a></li><li><a href="user.html#pos_3">Login and logout</a></li><li><a href="user.html#pos_4">Managing users</a></li><li><a href="user.html#pos_5">Helper functions</a></li><li><a href="user.html#pos_6">CodKep session data</a></li><li><a href="user.html#pos_7">Settings of user module</a></li><li><a href="user.html#pos_8">Hooks</a></li></ul></li><li><a href="node.html">Node</a><ul class=" closed"><li><a href="node.html#pos_2">Fixed properties(fields) of the Node</a></li><li><a href="node.html#pos_3">Methods of Node class</a></li><li><a href="node.html#pos_4">Helper functions of node class</a></li><li><a href="node.html#pos_5">Defining a node</a></li><li><a href="node.html#pos_6">Dynamic node definition</a></li><li><a href="node.html#pos_7">Modify existing node types</a></li><li><a href="node.html#pos_8">Database appearance of nodes</a></li><li><a href="node.html#pos_9">Querying node lists from database</a></li><li><a href="node.html#pos_10">Node access control</a></li><li><a href="node.html#pos_11">REST api for nodes</a></li><li><a href="node.html#pos_12">Node related REST commands</a></li><li><a href="node.html#pos_13">A complete example</a></li><li><a href="node.html#pos_14">Custom Node objects</a></li><li><a href="node.html#pos_15">Settings of the nodes</a></li><li><a href="node.html#pos_16">Hooks</a></li></ul></li><li><a href="page.html">Page</a><ul class=" closed"><li><a href="page.html#pos_2">Fields of the page</a></li><li><a href="page.html#pos_3">Permissions of pages</a></li><li><a href="page.html#pos_4">Extending page type</a></li><li><a href="page.html#pos_5">Hooks</a></li></ul></li><li><a href="doc.html">Documenting</a><ul class=" closed"><li><a href="doc.html#pos_2">My mark language</a></li><li><a href="doc.html#pos_3">Highlights</a></li><li><a href="doc.html#pos_4">Headings</a></li><li><a href="doc.html#pos_5">Other elements</a></li><li><a href="doc.html#pos_6">Tables</a></li><li><a href="doc.html#pos_7">Lists</a></li><li><a href="doc.html#pos_8">Codes</a></li><li><a href="doc.html#pos_9">Links</a></li><li><a href="doc.html#pos_10">Images</a></li></ul></li><li><a href="debug.html">Debugging</a><ul class=" closed"><li><a href="debug.html#pos_2">Dumping arbitrary data objects</a></li><li><a href="debug.html#pos_3">Special pages</a></li><li><a href="debug.html#pos_4">Debug sql calls</a></li><li><a href="debug.html#pos_5">Dump the parameters of the page</a></li></ul></li></ul></div></div>
+</body>
+</html>

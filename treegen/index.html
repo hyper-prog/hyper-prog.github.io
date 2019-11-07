@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>HyperProg TreeGen</title>
+	<meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+	<meta name="keywords" content="treegen opengl glsl shader gpu generation environment tree palm leaves graphics scenario" />
+	<meta name="description" content="OpenGL based multi platform tree generator, environment generation program, with using OpenGL shaders. Written in C++ / Qt" />
+
+	<link rel="stylesheet" href="../hyperprog.css" type="text/css" />
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script>
+		!window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
+	</script>
+	<script type="text/javascript" src="../fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+	<script type="text/javascript" src="../fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="../fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("a.dogsleaf").fancybox({
+				'overlayShow'	: false,
+				'transitionIn'	: 'elastic',
+				'transitionOut'	: 'elastic',
+				'hideOnOverlayClick' : 'true',
+                                'hideOnContentClick' : 'true',
+
+			});
+		});
+	</script>
+
+
+</head>
+<body>
+	<div class="main">
+	
+	<a href="../index.html">Programs of Hyper</a>
+	
+	<div class="program">
+		<a id="dogsleaf" href="screenshot1.jpg"><img alt="treegen" class="logo" src="../treegen.png" /></a>
+		<h2>TreeGen</h2>
+		
+		<h3>OpenGL based environment generation (C++, uses the gSAFE)</h3>
+		
+		TreeGen is an environment generator. Generate normal trees palm trees undergrows (Fern) grass. You can adjust the parameters of the generation, so
+		you can generate different kind of trees or other objects. The program uses OpenGL and GLSL (OpenGL Shader Language).
+		The generated objects stores the parameters which are editable later, can be saved or loaded from file. The stored files are sqlite databases.
+		The program could generate scenes with more million triangles so it can be use to measure the performance of the video card.
+		I wrote it to have a fun, and practise the OpenGL and shaders. 
+		It uses/contains the gSAFE library (mentioned above) to edit/store/load the parameters of the generated objects. So this program is an example of using the gSAFE too.
+		
+	</div>	
+	
+	<div class="docs">
+		<h3>Screenshots</h3>
+		<a class="dogsleaf" rel="same" href="screenshot1.jpg"><img alt="scr1" src="screenshot1small.jpg" style="border:0px; margin:2px;"/></a>
+		<a class="dogsleaf" rel="same" href="screenshot2.jpg"><img alt="scr2" src="screenshot2small.jpg" style="border:0px; margin:2px;"/></a>
+		<a class="dogsleaf" rel="same" href="screenshot3.jpg"><img alt="scr3" src="screenshot3small.jpg" style="border:0px; margin:2px;"/></a>
+	</div>
+
+	<div class="downloads">
+		<h3>Download</h3>
+		<a href="treegen-source-1.0.2.zip">TreeGen Source code included gSAFE</a> v1.0.2 (2011.05.20)
+		<br/>
+		<a href="treegen-win32bin.zip">TreeGen Windows binary</a> (2011.05.20)
+	</div>
+	
+<table>
+<tr><td>Author:</td> <td><strong>P&eacute;ter De&aacute;k</strong></td></tr>
+<tr><td>License:</td> <td>GPL v2</td></tr>
+<tr><td>Contact Email:</td> <td align="center"><img alt="mailaddress" src="../ma.png"/>at <strong>gmail.com</strong></td></tr>
+</table>
+<br/>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick"/>
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHLwYJKoZIhvcNAQcEoIIHIDCCBxwCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYBzpvoCdxaXveatUB0PuPKXBREW+7eSJdd5t12EOHq1jdHi3vHDHM3q/bZHtARa44rGJlLfPI8rRA6Srm1e0YOOsiI8+eUf6rSJizOxVR+L8XrwDXvNCfvJsUfCTtdFN0xX+5XihdRAciZO7RK49XKmok2nmsrCa2a9h/N+mOvVYzELMAkGBSsOAwIaBQAwgawGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIllVbIBf1v3mAgYjWv47gMeoZSX2wAErMF1hWcSll4w6uopiQ2PnNiUDaTZUeWp1WcNm9jijTRVoch6JAFoKdsvPPMTxNMNzYtQzR46cTSrhwEYgons3BsJj8VVcP2HehhgPPI5jCdDGF/d+sLFlqDYRAUk9yxlsbdvMfqf1B4Ucgd+VpMb14tFrMISGWYNu0M8kvoIIDhzCCA4MwggLsoAMCAQICAQAwDQYJKoZIhvcNAQEFBQAwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMB4XDTA0MDIxMzEwMTMxNVoXDTM1MDIxMzEwMTMxNVowgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBR07d/ETMS1ycjtkpkvjXZe9k+6CieLuLsPumsJ7QC1odNz3sJiCbs2wC0nLE0uLGaEtXynIgRqIddYCHx88pb5HTXv4SZeuv0Rqq4+axW9PLAAATU8w04qqjaSXgbGLP3NmohqM6bV9kZZwZLR/klDaQGo1u9uDb9lr4Yn+rBQIDAQABo4HuMIHrMB0GA1UdDgQWBBSWn3y7xm8XvVk/UtcKG+wQ1mSUazCBuwYDVR0jBIGzMIGwgBSWn3y7xm8XvVk/UtcKG+wQ1mSUa6GBlKSBkTCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb22CAQAwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQUFAAOBgQCBXzpWmoBa5e9fo6ujionW1hUhPkOBakTr3YCDjbYfvJEiv/2P+IobhOGJr85+XHhN0v4gUkEDI8r2/rNk1m0GA8HKddvTjyGw/XqXa+LSTlDYkqI8OwR8GEYj4efEtcRpRYBxV8KxAW93YDWzFGvruKnnLbDAF6VR5w/cCMn5hzGCAZowggGWAgEBMIGUMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbQIBADAJBgUrDgMCGgUAoF0wGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkqhkiG9w0BCQUxDxcNMTAwODE4MTIzNjQ5WjAjBgkqhkiG9w0BCQQxFgQUGEZbCSbmvDs4IX7eD0LxHNzAeXgwDQYJKoZIhvcNAQEBBQAEgYCoh6+2xZ1KMj3Nf+B21imNqeYhMMZNc8Bg0Ahujv8IcA/XvSh/ghkaDzknsDukGeT4v7KseECYO7vUF3WM7v2V/AEKOJuLtEIFg+Ps5OUYkrVUhKIXk19kNC4usgsqdey95Nr3kmRrWs0zzyUILrrkOqslH/huIa46shYkMKBAcg==-----END PKCS7-----
+"/>
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!"/>
+<img alt="" style="border:0;" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+</form>
+<br/>
+<br/>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18052406-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</div>	
+</body>
+</html>

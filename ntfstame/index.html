@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+        <title>NtfsTame</title>
+	<meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+        <meta name="keywords" content="NtfsTame NTFS Encoding character unicode locale corrector" />
+        <meta name="description" content="NtfsTame is NTFS file/directory name encoding corrector" />
+
+<link rel="stylesheet" href="../hyperprog.css" type="text/css" />
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script>
+		!window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
+	</script>
+	<script type="text/javascript" src="../fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+	<script type="text/javascript" src="../fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="../fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("a#dogsleaf").fancybox({
+				'overlayShow'	: false,
+				'transitionIn'	: 'elastic',
+				'transitionOut'	: 'elastic',
+				'hideOnOverlayClick' : 'true',
+                                'hideOnContentClick' : 'true',
+			});
+		});
+	</script>
+
+
+</head>
+<body>
+	<div class="main">
+	
+	<a href="../index.html">Programs of Hyper</a>
+	
+	<div class="program">
+
+                <h2>NtfsTame</h2>
+		
+                <h3>NtfsTame is NTFS file/directory name encoding corrector (C)</h3>
+                NtfsTame is a command line program to correct the bad coded unicode characters of ntfs
+                filesystem. You can specify a map file to tell the code replacements needed to do on the file
+                and directory names.<br/><br/>
+                <strong>Background:</strong>The ntfs filesystem store the file and directory names in UTF-16
+                encoding. This way the filesystem can perfectly handle every special national characters without
+                any hassle. Those applications which can't handle UTF-16 have the own encodings and the system converts
+                the ntfs entry names to the appropriate encoding and vice versa.<br>
+                Sometimes in the real word some
+                applications give wrong local settings or badly encoded file names and the ntfs filesystem does not do any
+                inspection of this encoded names. This way the wrong encoded names will appears in your filesystem.
+                Because the base encoding is hardwired UTF-16 this bad encoded names will conserved in the filesystem,
+                and only a rename can correct it. It is very time-consuming task to search and rename every bad coded
+                characted in a big directory structure.<br>
+                The NtfsTame helps you to search and eliminate this bad encoded
+                names. You can show this bad encoded entry names in byte to byte with the NtfsTame tool and
+                define the necessary mappings into a simple text file. After that the NtfsTame could show the mapped names.
+                In case the generated entry names are suitable for you it can be applied in a whole directory structure
+                recursively.
+	</div>
+
+        <div class="docs">
+                <h3>Program usage:</h3>
+<pre>
+NtfsTame - NTFS file/directory name encoding corrector utility
+
+  Usage: ntfstame &lt;command&gt; [switches] &lt;directory&gt;...
+
+Commands:
+  show - List the emtries in the directory
+    ntfstame show [switches] &lt;DIRECTORY_TO_SHOW&gt;
+    ntfstame show D:\myprog
+    ntfstame show -vv -i -width=90 "C:\My data\store"
+  fix - Fix the entries in the directory according to the map file
+    ntfstame fix [switches] -map=&lt;MAPFILE&gt; &lt;DIRECTORY_TO_FIX_CONTENT&gt;
+    ntfstame fix -r -d -map=map.txt "C:\My data\store"
+    ntfstame fix -r -map="D:\map.txt" -ccp=852 D:\myprog
+Switches:
+ -v         - Be verbose
+ -vv        - Be more verbose
+ -i         - Show indexes in show mode.
+ -d         - Dry run, doesn't change anything on filesystem, just print the actions.
+ -r         - Recousive work, processing subdirectories too.
+ -ccp=CODE  - Use this CODE code page in the terminal.
+ -map=MAPF  - Set character mapping file MAPF
+ -width=COL - Set console character width in "show" mode
+ -h         - Print help
+ -version   - Version and author informations
+
+</pre>
+        </div>
+	
+
+        <div class="docs">
+                <h3>Map file example:</h3>
+<pre>
+ 0,224=>0,225;
+ 0,232=>0,233; this is a comment here...
+ 0,160=>0,225;
+ 0,181=>0,193;
+ 1,2,2,199=>0,225; badly converted utf8 char
+ 1,2,0,95=>0,233;
+</pre>
+        </div>
+
+	<div class="downloads">
+		<h3>Download</h3>
+                <a href="ntfstame-source-0.90.zip">NtfsTame Source code</a> v0.90 (2018.01.10)
+                <br/>
+                <a href="ntfstame-winbin.zip">Win32 binary</a> Windows binary v0.90 (2018.01.10)
+		<br/>
+	</div>
+	
+	
+
+<table>
+<tr><td>Author:</td> <td><strong>P&eacute;ter De&aacute;k</strong></td></tr>
+<tr><td>License:</td> <td>GPL v2</td></tr>
+<tr><td>Contact Email:</td> <td align="center"><img src="../ma.png" alt="emailaddr"/>at <strong>gmail.com</strong></td></tr>
+</table>
+<br/>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick"/>
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+"/>
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!"/>
+<img alt="" style="border:0;" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+</form>
+<br/>
+<br/>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18052406-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</div>
+	
+</body>
+</html>

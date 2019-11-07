@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Documenting</title>
+  <meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css"/>
+  <link rel="stylesheet" type="text/css" href="default.css"/>
+  <link rel="stylesheet" type="text/css" href="ckcomm.css"/>
+  <link rel="stylesheet" type="text/css" href="flex.css"/>
+  <script type="text/javascript" src="highlight.pack.js"></script>
+</head>
+<body>
+ <div class="content"><div class="ccdoccontent"><a name="pos_1"><h1>Documenting</h1></a>
+<p>You can add your own documentation file (contains CodKep's special markup language) under the <code>doc/SECTION</code>
+<a href="routes.html">location</a> with the <code>HOOK_documentation</code> <a href="hooks.html">hook</a>:
+</p><pre><code class="php">// Makes mymodule.mdoc available under "doc/mysection"
+//  with image path '/site/mymoduledoc/images'
+function hook_mymodule_documentation($section)
+{
+    $docs = [];
+    if($section == "mysection")
+    {
+        $docs[] = [
+                'doc' =&gt; ['path' =&gt; 'site/mymodule.mdoc',
+                          'index' =&gt; false,
+                          'imagepath' =&gt; '/site/mymoduledoc/images'
+                         ]
+                  ];
+    }
+    return $docs;
+}
+</code></pre><a name="pos_2"><h2>My mark language</h2></a>
+<a name="pos_3"><h3>Highlights</h3></a>
+<p><table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th></tr>
+<tr>
+<td>
+</p><pre><code class="code">the *sample* text
+</code></pre><p></td>
+<td>
+the <em>sample</em> text
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">the _sample_ text
+</code></pre><p></td>
+<td>
+the <em>sample</em> text
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">the **sample** text
+</code></pre><p></td>
+<td>
+the <strong>sample</strong> text
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">the __sample__ text
+</code></pre><p></td>
+<td>
+the <strong>sample</strong> text
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">the ***sample*** text
+</code></pre><p></td>
+<td>
+the <code>sample</code> text
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">the ___sample___ text
+</code></pre><p></td>
+<td>
+the <code>sample</code> text
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">the @@@sample@@@ text
+</code></pre><p></td>
+<td>
+the <span class="definition">sample</span> text
+</td>
+</tr>
+</table>
+<table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th></tr>
+<td>
+</p><pre><code class="code">This is a _sample_ text __with__
+some ___special___ marks.
+
+This is an *another* way of **highlight** the ***special*** words.
+
+You can also @@@use this@@@ or *****even this***** combined ****version****
+</code></pre><p></td>
+<td>
+This is a <em>sample</em> text <strong>with</strong> some <code>special</code> marks.
+</p>
+<p>This is an <em>another</em> way of <strong>highlight</strong> the <code>special</code> words.
+</p>
+<p>You can also <span class="definition">use this</span> or <strong><code>even this</code></strong> combined <em><code>version</code></em>
+</td>
+</tr></table>
+</p><a name="pos_4"><h3>Headings</h3></a>
+<p><table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th><th>Table of contents</th></tr>
+<td>
+</p><pre><code class="code">= One heading =
+</code></pre><p></td>
+<td>
+<h1>One heading</h1>
+</td>
+<td>Added</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">== Two heading ==
+</code></pre><p></td>
+<td>
+<h2>Two heading</h2>
+</td>
+<td>Added</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">=== Three heading ===
+</code></pre><p></td>
+<td>
+<h3>Three heading</h3>
+</td>
+<td>Added</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">==== Four heading ====
+</code></pre><p></td>
+<td>
+<h3>Four heading</h3>
+</td>
+<td>No</td>
+</tr></table>
+</p>
+<p></p><a name="pos_5"><h3>Other elements</h3></a>
+<p>Horizontal line:
+<table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th></tr>
+<td>
+</p><pre><code class="code">---
+</code></pre><p></td>
+<td>
+<hr/>
+</td>
+</tr></table>
+Line feed:
+<table><tr>
+<tr><th>In raw text</th><th>Html code</th></tr>
+<td>
+</p><pre><code class="code">&nbsp.
+</code></pre><p></td>
+<td>
+&lt;br/&gt;
+</td>
+</tr></table>
+</p><a name="pos_6"><h3>Tables</h3></a>
+<p><table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th></tr>
+<td>
+</p><pre><code class="code">| One   | Two   | Three |
+| ---   | ---   | ---   |
+| Red   | Green | Blue  |
+| Apple | Pear  | Plum  |
+</code></pre><p></td>
+<td>
+</p>
+<table><thead>
+<tr><th>One</th><th>Two</th><th>Three</th></tr></thead>
+<tbody>
+<tr><td>Red</td><td>Green</td><td>Blue</td></tr>
+<tr><td>Apple</td><td>Pear</td><td>Plum</td></tr></tbody></table><p></td>
+</tr></table>
+</p><a name="pos_7"><h3>Lists</h3></a>
+<p><table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th></tr>
+<td>
+</p><pre><code class="code"> - One
+ - Two
+  - Two-Sub 1
+  - Two-Sub 2
+ - Three
+</code></pre><p></td>
+<td>
+</p>
+<ul><li>One</li><li>Two
+<ul><li>Two-Sub 1</li><li>Two-Sub 2</li></ul></li><li>Three</li></ul><p></td>
+</tr></table>
+<table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th></tr>
+<td>
+</p><pre><code class="code"># One
+# Two
+ # Two Sub 1
+ # Two Sub 2
+  - Low 1
+  - Low 2
+# Three
+</code></pre><p></td>
+<td>
+</p>
+<ol><li>One</li><li>Two
+<ol><li>Two Sub 1</li><li>Two Sub 2
+<ul><li>Low 1</li><li>Low 2</li></ul></li></ol></li><li>Three</li></ol><p></td>
+</tr></table>
+<table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th></tr>
+<td>
+</p><pre><code class="code">- One
+- Two
+ - Two Sub 1
+ - Two Sub 2 which
+ \ is longer and
+ \ wrapped to more line
+ - Two Sub 3
+- Three
+</code></pre><p></td>
+<td>
+</p>
+<ul><li>One</li><li>Two
+<ul><li>Two Sub 1</li><li>Two Sub 2 which is longer and wrapped to more line</li><li>Two Sub 3</li></ul></li><li>Three</li></ul><p></td>
+</tr></table>
+</p><a name="pos_8"><h3>Codes</h3></a>
+<p><table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th></tr>
+<td>
+</p><pre><code class="code"> ~~~code
+  This is a source code
+ ~~~
+</code></pre><p></td>
+<td>
+</p><pre><code class="code">This is a source code
+</code></pre><p></td>
+</tr></table>
+<table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th></tr>
+<td>
+</p><pre><code class="code"> ~~~php
+  function this_is_a_php_code($var)
+  {
+    //do something
+  }
+ ~~~
+</code></pre><p></td>
+<td>
+</p><pre><code class="php">function this_is_a_php_code($var)
+{
+  //do something
+}
+</code></pre><p></td>
+</tr></table>
+</p><a name="pos_9"><h3>Links</h3></a>
+<p><table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th></tr>
+<td>
+</p><pre><code class="code">The [sample|url:#somwhere] link
+</code></pre><p></td>
+<td>
+The <a href="#somwhere">sample</a> link
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">Another [site|url:http://www.kernel.org] link
+</code></pre><p></td>
+<td>
+Another <a href="http://www.kernel.org">site</a> link
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">Another [site|url:start|css:background-color:#ff4444;] link
+</code></pre><p></td>
+<td>
+Another style="background-color:#ff4444; ">site</a> link
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">Another [site|url:start|title:Title text] link
+</code></pre><p></td>
+<td>
+Another <a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');" title="Title text" >site</a> link
+</td>
+</tr></table>
+</p><a name="pos_10"><h3>Images</h3></a>
+<p><table><tr>
+<tr><th>In raw text</th><th>Looks like in the document </th></tr>
+<td>
+</p><pre><code class="code">An image {file:cklogo_big.png} here
+</code></pre><p></td>
+<td>
+An image <img src="images/cklogo_big.png"  style="" alt="cklogo_big.png"/> here
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">{file:cklogo_big.png|width:50|title:Smaller codkep logo}
+</code></pre><p></td>
+<td>
+<img src="images/cklogo_big.png" title="Smaller codkep logo"  style="width:50px; " alt="cklogo_big.png"/>
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">{file:cklogo_big.png|height:80|alt:Some text}
+</code></pre><p></td>
+<td>
+<img src="images/cklogo_big.png"  style="height:80px; " alt="Some text"/>
+</td>
+</tr>
+<tr>
+<td>
+</p><pre><code class="code">{file:cklogo_big.png|height:80|css:opacity: 0.5;}
+</code></pre><p></td>
+<td>
+<img src="images/cklogo_big.png"  style="height:80px; opacity: 0.5; " alt="cklogo_big.png"/>
+</td>
+</tr></table>
+</p>
+<p></p></div><script>hljs.initHighlightingOnLoad();</script><div class="ccdocpanel"><ul class="docsidemenu no-print"><li><a href="start.html">CodKep introduction</a><ul class=" closed"><li><a href="start.html#pos_2">What is CodKep</a></li><li><a href="start.html#pos_3">The main chapters of this document</a></li><li><a href="start.html#pos_4">Author, License</a></li></ul></li><li><a href="modules.html">Installing, Modules</a><ul class=" closed"><li><a href="modules.html#pos_2">Installing codkep</a></li><li><a href="modules.html#pos_3">Directories</a></li><li><a href="modules.html#pos_4">Site settings, configuration</a></li><li><a href="modules.html#pos_5">Modules</a></li></ul></li><li><a href="routes.html">Routes</a><ul class=" closed"><li><a href="routes.html#pos_2">Add custom locations</a></li><li><a href="routes.html#pos_3">The route definition array</a></li><li><a href="routes.html#pos_4">Parameters in URL</a></li><li><a href="routes.html#pos_5">Caching routes</a></li><li><a href="routes.html#pos_6">Generating URLs</a></li><li><a href="routes.html#pos_7">Generating Links</a></li><li><a href="routes.html#pos_8">Redirections</a></li><li><a href="routes.html#pos_9">Tags</a></li><li><a href="routes.html#pos_10">Clean URLs</a></li><li><a href="routes.html#pos_11">Hooks related to routes</a></li></ul></li><li><a href="hooks.html">Hooks</a><ul class=" closed"><li><a href="hooks.html#pos_2">Implement hooks</a></li><li><a href="hooks.html#pos_3">Interaction of hooks</a></li><li><a href="hooks.html#pos_4">Hook sequence of a page load</a></li><li><a href="hooks.html#pos_5">Create hooks</a></li><li><a href="hooks.html#pos_6">Caching hooks</a></li><li><a href="hooks.html#pos_7">Change hook order</a></li><li><a href="hooks.html#pos_8">Debugging hooks</a></li><li><a href="hooks.html#pos_9">Hooks</a></li></ul></li><li><a href="parameters.html">Parameters</a><ul class=" closed"><li><a href="parameters.html#pos_2">Defining parameters</a></li><li><a href="parameters.html#pos_3">Defining in route definition array</a></li><li><a href="parameters.html#pos_4">Using parameters</a></li><li><a href="parameters.html#pos_5">Other parameter related functions</a></li><li><a href="parameters.html#pos_6">Security classes</a></li><li><a href="parameters.html#pos_7">Parameter handling relates settings</a></li><li><a href="parameters.html#pos_8">Hooks</a></li></ul></li><li><a href="structure.html">Themes</a><ul class=" closed"><li><a href="structure.html#pos_2">Functions unrelated to themes</a></li><li><a href="structure.html#pos_3">Using of themes</a></li><li><a href="structure.html#pos_4">Place your own content to a site area</a></li><li><a href="structure.html#pos_5">Settings of flex theme</a></li><li><a href="structure.html#pos_6">Create own themes</a></li><li><a href="structure.html#pos_7">Menu system</a></li><li><a href="structure.html#pos_8">Custom themes and menu generation</a></li><li><a href="structure.html#pos_9">Hooks</a></li></ul></li><li><a href="ajax.html">Ajax framework</a><ul class=" closed"><li><a href="ajax.html#pos_2">Start ajax requests</a></li><li><a href="ajax.html#pos_3">1. Place an user (click) triggered ajax link in html code</a></li><li><a href="ajax.html#pos_4">2. Set HTML form action to ajax</a></li><li><a href="ajax.html#pos_5">3. Place a delayed ajax call to the page</a></li><li><a href="ajax.html#pos_6">4. Fill page parts/block by simply call fill_through_ajax() function</a></li><li><a href="ajax.html#pos_7">The ajax handler</a></li><li><a href="ajax.html#pos_8">Ajax commands</a></li><li><a href="ajax.html#pos_9">A complex ajax example (Version 1 - standard)</a></li><li><a href="ajax.html#pos_10">A complex ajax example (Version 2 - autorouted)</a></li></ul></li><li><a href="sql.html">Sql</a><ul class=" closed"><li><a href="sql.html#pos_2">Sql database settings</a></li><li><a href="sql.html#pos_3">Connect and disconnect</a></li><li><a href="sql.html#pos_4">Execute SQL commands</a></li><li><a href="sql.html#pos_5">General database CRUD interface</a></li><li><a href="sql.html#pos_6">Methods of DatabaseQuery</a></li><li><a href="sql.html#pos_7">Methods of DatabaseCond</a></li><li><a href="sql.html#pos_8">Simple and easy database operations</a></li><li><a href="sql.html#pos_9">Sql transactions</a></li><li><a href="sql.html#pos_10">Error handling</a></li><li><a href="sql.html#pos_11">Schema editor</a></li><li><a href="sql.html#pos_12">Define sql schema requirements</a></li><li><a href="sql.html#pos_13">Hooks</a></li></ul></li><li><a href="files.html">Files</a><ul class=" closed"><li><a href="files.html#pos_2">Storing type</a></li><li><a href="files.html#pos_3">File class</a></li><li><a href="files.html#pos_4">Fixed properties of the File object</a></li><li><a href="files.html#pos_5">Methods of File object</a></li><li><a href="files.html#pos_6">Helper functions of File class</a></li><li><a href="files.html#pos_7">File access control</a></li><li><a href="files.html#pos_8">Tricks with file hooks</a></li><li><a href="files.html#pos_9">Image size classes</a></li><li><a href="files.html#pos_10">Settings of the file module</a></li><li><a href="files.html#pos_11">Hooks</a></li></ul></li><li><a href="forms.html">Forms</a><ul class=" closed"><li><a href="forms.html#pos_2">Simple HTML form generation</a></li><li><a href="forms.html#pos_3">Form checker method</a></li><li><a href="forms.html#pos_4">The SpeedForm </a></li><li><a href="forms.html#pos_5">Methods of SpeedForm</a></li><li><a href="forms.html#pos_6">Data definition structure</a></li><li><a href="forms.html#pos_7">The structure : Top level attributes</a></li><li><a href="forms.html#pos_8">Field types</a></li><li><a href="forms.html#pos_9">Common field attributes</a></li><li><a href="forms.html#pos_10">Output format of SpeedForm</a></li><li><a href="forms.html#pos_11">Query and Add field types</a></li><li><a href="forms.html#pos_12">Data definition structure repository</a></li><li><a href="forms.html#pos_13">Helper functions</a></li><li><a href="forms.html#pos_14">Settings of the forms module</a></li><li><a href="forms.html#pos_15">Hooks</a></li></ul></li><li><a href="tablegen.html">Table generator</a><ul class=" closed"><li><a href="tablegen.html#pos_2">Html table generation</a></li><li><a href="tablegen.html#pos_3">Excel output generator</a></li><li><a href="tablegen.html#pos_4">Convert Excel XML tables to HTML tables</a></li></ul></li><li><a href="totable.html">Query formatter</a><ul class=" closed"><li><a href="totable.html#pos_2">Automatic output generator for sql queries</a></li><li><a href="totable.html#pos_3">Input of to_table()</a></li><li><a href="totable.html#pos_4">Outout of to_table()</a></li><li><a href="totable.html#pos_5">Options affects the whole table</a></li><li><a href="totable.html#pos_6">Change the number or/and the order of the fields</a></li><li><a href="totable.html#pos_7">Customize of fields</a></li><li><a href="totable.html#pos_8">Modify the value of the fields</a></li><li><a href="totable.html#pos_9">Using virtual fields</a></li><li><a href="totable.html#pos_10">Using field repository</a></li><li><a href="totable.html#pos_11">Using field repository directly from SQL</a></li><li><a href="totable.html#pos_12">Backend of to_table()</a></li><li><a href="totable.html#pos_13">Generate HTML and Excel tables with same way</a></li></ul></li><li><a href="dyntable.html">DynTable</a><ul class=" closed"><li><a href="dyntable.html#pos_2">Methods of DynTable class</a></li><li><a href="dyntable.html#pos_3">Data definition structure</a></li><li><a href="dyntable.html#pos_4">Data definition structure repository</a></li><li><a href="dyntable.html#pos_5">A complex example</a></li></ul></li><li><a href="user.html">User module</a><ul class=" closed"><li><a href="user.html#pos_2">The global $user object</a></li><li><a href="user.html#pos_3">Login and logout</a></li><li><a href="user.html#pos_4">Managing users</a></li><li><a href="user.html#pos_5">Helper functions</a></li><li><a href="user.html#pos_6">CodKep session data</a></li><li><a href="user.html#pos_7">Settings of user module</a></li><li><a href="user.html#pos_8">Hooks</a></li></ul></li><li><a href="node.html">Node</a><ul class=" closed"><li><a href="node.html#pos_2">Fixed properties(fields) of the Node</a></li><li><a href="node.html#pos_3">Methods of Node class</a></li><li><a href="node.html#pos_4">Helper functions of node class</a></li><li><a href="node.html#pos_5">Defining a node</a></li><li><a href="node.html#pos_6">Dynamic node definition</a></li><li><a href="node.html#pos_7">Modify existing node types</a></li><li><a href="node.html#pos_8">Database appearance of nodes</a></li><li><a href="node.html#pos_9">Querying node lists from database</a></li><li><a href="node.html#pos_10">Node access control</a></li><li><a href="node.html#pos_11">REST api for nodes</a></li><li><a href="node.html#pos_12">Node related REST commands</a></li><li><a href="node.html#pos_13">A complete example</a></li><li><a href="node.html#pos_14">Custom Node objects</a></li><li><a href="node.html#pos_15">Settings of the nodes</a></li><li><a href="node.html#pos_16">Hooks</a></li></ul></li><li><a href="page.html">Page</a><ul class=" closed"><li><a href="page.html#pos_2">Fields of the page</a></li><li><a href="page.html#pos_3">Permissions of pages</a></li><li><a href="page.html#pos_4">Extending page type</a></li><li><a href="page.html#pos_5">Hooks</a></li></ul></li><li><a href="doc.html">Documenting</a><ul class=""><li><a href="doc.html#pos_2">My mark language</a></li><li><a href="doc.html#pos_3">Highlights</a></li><li><a href="doc.html#pos_4">Headings</a></li><li><a href="doc.html#pos_5">Other elements</a></li><li><a href="doc.html#pos_6">Tables</a></li><li><a href="doc.html#pos_7">Lists</a></li><li><a href="doc.html#pos_8">Codes</a></li><li><a href="doc.html#pos_9">Links</a></li><li><a href="doc.html#pos_10">Images</a></li></ul></li><li><a href="debug.html">Debugging</a><ul class=" closed"><li><a href="debug.html#pos_2">Dumping arbitrary data objects</a></li><li><a href="debug.html#pos_3">Special pages</a></li><li><a href="debug.html#pos_4">Debug sql calls</a></li><li><a href="debug.html#pos_5">Dump the parameters of the page</a></li></ul></li></ul></div></div>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Store /etc in a git repository</title>
+<meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+<meta name="keywords" content="etc git repository versioning howto settings system" />
+<meta name="description" content="How to store the /etc in a git repository" />
+<style>
+body { background-color: #fff0bb; }
+pre
+{
+ display: block;
+ width: 800px;
+ padding: 5px;
+ margin: 5px;
+ margin-bottom: 15px;
+ border-radius: 8px;
+}
+
+pre.console
+{
+ color: #80ff80;
+ background-color: #555555;
+}
+
+pre.file
+{
+ color: white;
+ background-color: #aaaa66;
+ padding: 0px;
+}
+
+pre.file p.filename
+{
+ color: white;
+ background-color: #333333;
+ margin: 0px;
+ padding: 3px;
+ border-top-left-radius: 8px;
+ border-top-right-radius: 8px;
+}
+pre.file p.content
+{
+ margin: 0px;
+ padding: 5px;
+}
+
+</style>
+</head>
+<body>
+<a href="../index.html">Programs of Hyper</a>
+<h1>How-To store /etc in a git repository on debian linux</h1>
+
+What this howto do?
+<ul>
+<li>Set up a git repository to holding the content of /etc</li>
+<li>Create some scripts to hold/restore the permissions of the files&directories in /etc (Git doesn't store it)</li>
+<li>Create and set up apt hooks to do autocommits after package install&upgrade</li>
+<li>Create and set up apt hooks to prevent install&upgrade on a not commited /etc</li>
+<li>Create and set up git hook to prevent commit without permission save of /etc</li>
+<li>Set up remote repository to git</li>
+</ul>
+
+<h2>Create and set up the repository</h2>
+<p>
+First of all install the necessary packages. Git for versionig, and metastore for save-restore permissions of files and folders.
+<pre class="console">aptitude install git metastore</pre>
+
+Create a directory in etc to store scripts used by apt hooks
+<pre class="console">mkdir /etc/etc-git</pre>
+<pre class="file"><p class="filename">/etc/etc-git/aptpreinstall.bash</p><p class="content">#!/bin/bash
+
+GITSTATUSOUT=`(cd /etc;git status|grep 'nothing to commit (working directory clean)')`
+GITDIFFOUT=`(cd /etc;git diff)`
+
+if test "$GITSTATUSOUT" != "nothing to commit (working directory clean)" ||
+   test "$GITDIFFOUT" != ""
+   then
+	echo -e "\n\n !!!WARNING!!! Uncomitted changes in /etc !!!WARNING!!!"
+	echo -e "                     ( Run: eg-commit )\n"
+	exit 1
+fi
+exit 0
+</p></pre>
+<pre class="file"><p class="filename">/etc/etc-git/aptpostinstall.bash</p><p class="content">#!/bin/bash
+
+GITSTATUSOUT=`(cd /etc;git status|grep 'nothing to commit (working directory clean)')`
+GITDIFFOUT=`(cd /etc;git diff)`
+DATE=`date`
+
+if test "$GITSTATUSOUT" != "nothing to commit (working directory clean)" ||
+   test "$GITDIFFOUT" != ""
+   then
+	echo -e "\n===== /etc changed need git commit ====="
+	(
+		cd /etc/
+		/usr/local/bin/eg-save
+		git add --all
+		git commit . -m "Automatic commit after apt-get ($DATE)"
+	)
+	echo -e "\n===== Comitted ====="
+	exit 0
+fi
+exit 0
+</p></pre>
+
+Setting up apt hooks to use the scripts created above.
+<pre class="console">chmod +x /etc/etc-git/*.bash
+echo "DPkg::Pre-Invoke { '/etc/etc-git/aptpreinstall.bash' };" >> /etc/apt/apt.conf.d/90etc-git
+echo "DPkg::Post-Invoke { '/etc/etc-git/aptpostinstall.bash' };" >> /etc/apt/apt.conf.d/90etc-git</pre>
+This hooks made:
+<ul>
+<li>Prevent install/upgrade packages until you have uncommitted changes in /etc</li>
+<li>Do commit after install/upgrade if the /etc changed</li>
+</ul>
+<br/>
+
+Now let's create an empty repository and set up some metadata.
+<pre class="console">cd /etc
+git init
+echo "System ETC stored in GIT" > /etc/.git/description
+git config --global user.name "Your Name"
+git config --global user.email you@example.com</pre>
+
+Create some script file in /usr/local/bin
+<br/>
+
+<pre class="file"><p class="filename">/usr/local/bin/eg-save<p class="content">#!/bin/sh
+cd /etc
+metastore -s</pre>
+
+
+<pre class="file"><p class="filename">/usr/local/bin/eg-restore</p><p class="content">#!/bin/sh
+cd /etc
+metastore -aeq</pre>
+
+
+<pre class="file"><p class="filename">/usr/local/bin/eg-check</p><p class="content">#!/bin/bash
+CHKRES=`cd /etc;metastore -c`
+if test "$CHKRES" != ""
+then
+	echo -e "The permission structure of the /etc is changed\n"
+	echo -e "Run: eg-save"
+	exit 1
+fi
+exit 0</pre>
+
+
+<pre class="file"><p class="filename">/usr/local/bin/eg-commit</p><p class="content">#!/bin/bash
+if test "$1" == ""
+then
+	echo "Missing parameter!"
+        echo " use: eg-commit \"Commit text\""
+	exit 1
+fi
+
+cd /etc
+echo "Save permissions (eg-save)..."
+eg-save
+echo "Add all non versioned items to git (git add --all)..."
+git add --all
+echo "Do commit (git commit .)..."
+git commit . -m "$1"
+</p>
+</pre>
+
+Now we need to create a git "pre-commit" hook to check wheter the permissions are saved before commit.<br/>
+This hook warn you if the permissions of /etc changed and tell you to run eg-save before commit.<br/>
+(You think it would be nice to put "eg-save" into this "pre-commit" hook, but unfortunately the git doesn't allow to change the versioned files in this hook)<br/>
+To create the hook create this file
+<pre class="file"><p class="filename">/etc/.git/hooks/pre-commit</p><p class="content">#!/bin/sh
+/usr/local/bin/eg-check</pre>
+
+Don't forget to make this scripts executable
+<pre class="console">chmod +x /usr/local/bin/eg-*
+chmod +x /etc/.git/hooks/pre-commit</pre>
+
+And finally put the current etc into the git repository and do the initial commit!
+<pre class="console">eg-save
+git add --all
+eg-commit "Initial state"
+</pre>
+
+<h2>That's it! The versioning is working now</h2>
+
+If you change something in /etc you can easely commit your changes by command
+<pre class="console">eg-commit "Message to commit"</pre>
+
+Of course, you can use all git command to tracking the changes of your /etc<br/>
+
+<h2>Setting up remote repository (optional)</h2>
+
+On (remote)server side we need to create the remote repository
+<pre class="console">mkdir /GITREPO/debianmachine
+cd /GITREPO/debianmachine
+git --bare init
+</pre>
+
+Now we can set up git to use remote repository on our debian machine, and do the first push to server
+<pre class="console">cd /etc
+git remote add -t master origin ssh://servername.domain.com/GITREPO/debianmachine
+git push origin master
+</pre>
+
+After this set up you can simply do "git push" and "git pull" later.
+</p>
+<p>
+<table>
+<tr><td>Author:</td> <td><strong>P&eacute;ter De&aacute;k</strong></td></tr>
+<tr><td>Contact Email:</td> <td align="center"><img src="../ma.png" alt="mailaddress"/>at <strong>gmail.com</strong></td></tr>
+</table>
+</p>
+<!-- Google tracking code -->
+<script type="text/javascript">
+ var _gaq = _gaq || [];
+ _gaq.push(['_setAccount', 'UA-18052406-1']);
+ _gaq.push(['_trackPageview']);
+(function() {
+ var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>DynTable</title>
+  <meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css"/>
+  <link rel="stylesheet" type="text/css" href="default.css"/>
+  <link rel="stylesheet" type="text/css" href="ckcomm.css"/>
+  <link rel="stylesheet" type="text/css" href="flex.css"/>
+  <script type="text/javascript" src="highlight.pack.js"></script>
+</head>
+<body>
+ <div class="content"><div class="ccdoccontent"><a name="pos_1"><h1>DynTable</h1></a>
+<p>The DynTable contains a previously defined <strong>collection of numeric or textual typed fields referenced by names</strong>.
+You can get/set this elements as a simple object attribute or even do arithmetic operation on all of them or
+store/load the whole object to/from database by simple api calls.<br/>
+The DynTable class elements can be show or edit as a simple <strong>two dimensional html table</strong> with the specified column and row names.
+The editing is achieved through ajax functions.
+</p>
+<p><img src="images/dyntable2.png"  style="" alt="dyntable2.png"/>
+</p>
+<p>Because the DynTable class is inheritable in your codes, you can extend the functions of the base class to meet your special needs.
+The class contains many redefineable methods to easy extend base functions.
+</p>
+<p>Let's see a simple example of DynTable
+</p>
+<p></p><pre><code class="php">$definition = [
+     'rows' =&gt; [0 =&gt; 'Apple',1 =&gt; 'Plum',2 =&gt; 'Pear',3 =&gt; 'Nut',],
+     'cols' =&gt; [0 =&gt; 'Good (Kg)',1 =&gt; 'Decent (kg)',2 =&gt; 'Waste (kg)'],
+     'default_type' =&gt; 'num',
+     'datacells' =&gt; [
+         'applegood'   =&gt; ['row' =&gt; 0,'col' =&gt; 0],
+         'appledecent' =&gt; ['row' =&gt; 0,'col' =&gt; 1],
+         'applewaste'  =&gt; ['row' =&gt; 0,'col' =&gt; 2],
+         'plumgood'    =&gt; ['row' =&gt; 1,'col' =&gt; 0],
+         'plumdecent'  =&gt; ['row' =&gt; 1,'col' =&gt; 1],
+         'plumwaste'   =&gt; ['row' =&gt; 1,'col' =&gt; 2],
+         'peargood'    =&gt; ['row' =&gt; 2,'col' =&gt; 0],
+         'peardecent'  =&gt; ['row' =&gt; 2,'col' =&gt; 1],
+         'pearwaste'   =&gt; ['row' =&gt; 2,'col' =&gt; 2],
+         'nutgood'     =&gt; ['row' =&gt; 3,'col' =&gt; 0],
+         'nutwaste'    =&gt; ['row' =&gt; 3,'col' =&gt; 2],
+     ],
+     'table_border' =&gt; '1',
+];
+
+$d = new DynTable($definition);
+
+$d-&gt;zeroData();
+
+$d-&gt;nutgood = 12;
+$d-&gt;applegood = 200;
+$d-&gt;applewaste = 23;
+$d-&gt;plumgood = 68;
+$d-&gt;plumdecent = 12;
+
+print $d-&gt;getHtml();
+</code></pre><p>The code above generates the following table in the browser
+</p>
+<p><img src="images/dyntable1.png"  style="" alt="dyntable1.png"/>
+</p>
+<p><a name="dyntmethods"></a>
+</p><a name="pos_2"><h3>Methods of DynTable class</h3></a>
+<p><strong>Constructor:</strong>
+</p>
+<ul><li><span class="definition">DynTable($definition)</span> - The constructor (<code>__construct</code>) of DynTable
+<ul><li>The constructor should receive the definition of the DynTable. The definition is an associative array with the appropriate fields. (explained later) The definition array describes the fields of the DynTable the parameters of database appearance and the look and feel options of the whole table.</li></ul></li></ul><p><strong>Methods:</strong>
+</p>
+<ul><li><span class="definition"> zeroData()</span>
+<ul><li>It resets the value of all defined fields. The string typed fields set to empty string while the numerical fields are set to zero.</li></ul></li><li><span class="definition"> setReadonly($ro)</span>
+<ul><li>The DynTable has a read only mode which means that the web interface not enables the editing of the cells. Keep in mind that this read only attribute only affects the web interface only. You will be able to save the table to the database through the api methods.</li><li>Sets the read only status of the DynTable object.</li></ul></li><li><span class="definition"> isReadonly()</span>
+<ul><li>This method will returns the read only status of the current DynTable object. (<code>true</code>: Read only)</li><li>See <code>setReadonly()</code> for explanation what is read only.</li></ul></li><li><span class="definition"> isInSql()</span>
+<ul><li>This method returns <code>true</code> if the DynTable object is present in the sql database. It means that you will receive <code>true</code> if you read the table from the database or already saved or stored it. Otherwise you will receive <code>false</code> if you created the object with the api but not stored it.</li></ul></li><li><span class="definition"> arithmeticForAllNumeric($operation,$operand)</span>
+<ul><li>Do the specified arithmetic operation on all number typed fields.</li><li>The <code>$operation</code> parameter is a string, can be the following values:
+<ul><li><code>'+'</code> - Adds the <code>$operand</code> to each numeric type field.</li><li><code>'-'</code> - Subs the <code>$operand</code> from each numeric type field.</li><li><code>'*'</code> - Multiply each numeric type field with the <code>$operand</code>.</li><li><code>'/'</code> - Divide the each numeric type field by the <code>$operand</code>.</li></ul></li></ul></li><li><span class="definition"> collectForAllNumeric($operation)</span>
+<ul><li>Calculate the required value from all numeric typed fields.</li><li>The <code>$operation</code> parameter is a string, can be the following values:
+<ul><li><code>'sum'</code> - Searches/calculate the sum value of all numeric typed fields.</li><li><code>'count'</code> - Searches/calculate the number/count of all numeric typed fields.</li><li><code>'nonzerocount'</code> - Searches/calculate the number/count of all non zero valued numeric typed fields.</li><li><code>'max'</code> - Searches/calculate the maximum value of all numeric typed fields.</li><li><code>'min'</code> - Searches/calculate the minimum value of all numeric typed fields.</li><li><code>'avg'</code> - Searches/calculate the math average value of all numeric typed fields.</li></ul></li></ul></li><li><span class="definition"> getHtml($readonly = false, $skipheaders = false)</span>
+<ul><li>Generate the html codes of the DynTable. The fields are shows in the rows/columns specified in the definition structure.</li><li>By default this function generates an (popup ajax) editable table. If you set <code>$readonly</code> parameter <code>true</code> the editing is disabled.</li><li>If you set <code>$skipheaders</code> to <code>true</code> the function will not draw the column and row labels but the table body only.</li><li>This function is generate an unique html div container around the table code so that the ajax codes can refresh the table without reload the full page. The (replaced) inner code of the table is generated by <code>html_table_body()</code> method. This mechanism is works automatic if you use the <code>ajax_add_refreshHtmlTable()</code> method in your ajax handler to refresh the table.</li></ul></li><li><span class="definition"> html_table_body($readonly = false, $skipheaders = false)</span>
+<ul><li>Generated the inner body of the html codes of DynTable. Use <code>getHtml()</code> and <code>ajax_add_refreshHtmlTable()</code> instead of this except if you exactly know what you do.</li></ul></li><li><span class="definition"> generateIntoTable($receiverobj,$skipheaders = false)</span>
+<ul><li>This function fills the received <a href="tablegen.html#html_table_generator">HtmlTable</a> or <a href="tablegen.html#excelxml">ExcelXmlDocument</a> object with the data of DynTable according to the columns and rows.</li><li>If the <code>$skipheaders</code> parameter is <code>true</code> the function generates a bare table only without the the row and column labels.</li><li>You can customise the generated table cell properties by set the <code>gentable_</code> prefixed attributes in data definition array. (See below)</li></ul></li><li><span class="definition"> setData($name,$toValue,$method = '')</span>
+<ul><li>Sets the <code>$name</code> named data cell to <code>$toValue</code> value.</li><li>The <code>$method</code> parameter is unused here. You can use it when you redefine this function in your subclass. This way you can determine the source of the change.
+<ul><li>The dyntable setter method will call this function with method: "__set";</li></ul></li></ul></li><li><span class="definition"> setDataFromAjax($name,$toValue,$method = 'ajax')</span>
+<ul><li>Sets a cell value according to the form name of the passed value. If a modification request received through ajax interface the cell names are prefixed with "dync_". This function can received this prefixed names and correctly calculate the normal cell name and set to a value by calling <code>setData()</code>. So use this method to set data cell in your ajax handler. By default this method will call the <code>setData()</code> internal method with "ajax" method string parameter.</li></ul></li><li><span class="definition"> readFromDatabase($id)</span>
+<ul><li>Read DynTable from sql database with <code>$id</code> key.</li><li>The DynTable object's current Id is available through <code>dyntable_id</code> property.</li><li>It returns <code>false</code> on success read, <code>true</code> if something goes wrong. (For example the give Id is not found)</li></ul></li><li><span class="definition"> saveToDatabase()</span>
+<ul><li>Save the DynTable object to the database. It's only work when the id is set. (Already read or stored object)</li><li>The DynTable object's current Id is available through <code>dyntable_id</code> property.</li></ul></li><li><span class="definition"> storeToDatabase()</span>
+<ul><li>Store (insert) the DynTable object to the database. This method fills the id field after the insert.</li><li>The DynTable object's current Id is available through <code>dyntable_id</code> property.</li></ul></li><li><span class="definition"> sql_create_schema() </span>
+<ul><li>Creates the sql schema describe array of the DynTable. The generated array can directly used in <a href="sql.html#definesqlreq"><code>HOOK_required_sql_schema</code></a> hook.</li><li>Example code in <code>hook_mymodule_required_sql_schema()</code> body:
+<ul><li><code>return ['mydyntable_def' => $dt->sql_create_schema()];</code></li></ul></li></ul></li><li><span class="definition"> ajax_add_refreshHtmlTable($readonly = false,$skipheaders = false)</span>
+<ul><li>Use this function in your ajax handler to makes refresh the table in the browser.</li><li>The parameters works same way as <code>getHtml()</code></li></ul></li></ul><p><a name="rdmethods"></a>
+<strong>The following methods does nothing, they can be re defined in subclasses to achieve special needs.</strong>
+</p>
+<ul><li><span class="definition">html_table_body_before()</span>
+<ul><li>The return of this method will be inserted before the DynTable html codes when generated with <code>html_table_body()</code>. The <code>genHtml()</code> also use <code>html_table_body()</code> inside.</li></ul></li><li><span class="definition">html_table_body_after()</span>
+<ul><li>The return of this method will be put after the DynTable html codes when generated with <code>html_table_body()</code>. The <code>genHtml()</code> also use <code>html_table_body()</code> inside.</li></ul></li><li><span class="definition">generateIntoTable_before($receiverobj)</span>
+<ul><li>This method runs before the <code>generateIntoTable()</code> method start to generate the table. It received the same parameter than <code>generateIntoTable()</code> so the object can be modified here.</li></ul></li><li><span class="definition">generateIntoTable_after($receiverobj)</span>
+<ul><li>This method runs after the <code>generateIntoTable()</code> method end with generate the table. It received the same parameter than <code>generateIntoTable()</code> so the object can be modified here.</li></ul></li><li><span class="definition">readFromDatabase_preaction($queryobject)</span>
+<ul><li>This method called immediately before the database query is executed which queries the DynTable.</li><li>The method receive the (already set) <a href="sql.html#databasequery">DatabaseQuery</a> object, so the redefined methods can modify it. (For example add more field queries).</li></ul></li><li><span class="definition">readFromDatabase_postaction($resultobject)</span>
+<ul><li>This method called after the database query is executed and the field data is read from it. (from the query results).</li><li>The method receive the array resulted by the query.</li></ul></li><li><span class="definition">saveToDatabase_preaction($queryobject)</span>
+<ul><li>This method called immediately before the database save request is executed which save the DynTable.</li><li>The method receive the (already set) <a href="sql.html#databasequery">DatabaseQuery</a> object, so the redefined methods can modify it. (For example add more field to save).</li></ul></li><li><span class="definition">saveToDatabase_postaction()</span>
+<ul><li>This method called after the database save is executed.</li></ul></li><li><span class="definition">storeToDatabase_preaction($queryobject)</span>
+<ul><li>This method called immediately before the database store (insert) request is executed which save the DynTable.</li><li>The method receive the (already set) <a href="sql.html#databasequery">DatabaseQuery</a> object, so the redefined methods can modify it. (For example add more field to insert).</li></ul></li><li><span class="definition">storeToDatabase_postaction()</span>
+<ul><li>This method called after the database store is executed.</li></ul></li></ul><p><strong>Attributes of DynTable:</strong>
+</p>
+<p>Every defined field is accessible for read and write as object attribute. Except that ones there are more attributes to
+read:
+</p>
+<ul><li><code>dyntable_id</code> (Read only)
+<ul><li>The Id of the DynTable. If you read the DynTable from the database the Id is same you gave to <code>readFromDatabase()</code> If your created DynTable without database existence a temporally id is generated with "temp_" prefix. After success store the Id is set to database given value.</li></ul></li><li><code>dyntable_definition</code> (Read only)
+<ul><li>You can read the data definition structure which passed to constructor.</li></ul></li></ul><p><a name="dyntabledatadef"></a>
+</p><a name="pos_3"><h3>Data definition structure</h3></a>
+<p>The data definition array is php associative array structure to driven DynTable
+object features, specify fields, look and feel, and other features of the generated tables or database values.
+This definition structure described here is passed to the constructor of DynTable. (Above)
+</p>
+<p><a name="dnydeftoplevel"></a>
+<strong> The structure : Top level attributes </strong>
+</p>
+<p></p>
+<ul><li><strong>Top level attributes</strong>
+<ol><li>Associated sql table</li><li>Properties of sql record</li><li>Look and feel of html table</li><li>Features of ajax edit interface</li><li>Features of popup ajax edit dialog</li><li>Generated table properties
+<ul><li><code>"rows" =></code>
+<ul><li>Generated table row indexes and labels</li></ul></li><li><code>"cols" =></code>
+<ul><li>Generated table column indexes and labels</li></ul></li><li><code>"datacells" =></code>
+<ul><li>Contains array items, each is a single field where the index is the field name.
+<ul><li>The array value can contains optional elements to set some properties of the field.
+<ol><li>Type of the field</li><li>Associated row and column</li><li>Optional (different) sql name, if the sql field name is differs from the DynTable field name.</li></ol></li></ul></li></ul></li></ul></li></ol></li></ul><p><strong>List of top level attributes/features:</strong>
+</p>
+<ul><li><code>"sqltable" => sql_table_name</code>
+<ul><li>The SQL table name in the database. This attribute is necessary if you intend to read/save this DynTable from/to database. If defined the DynTable values are appears as a record of the given named database table.</li></ul></li><li><code>"idfield" => sql_table_primary_key</code>
+<ul><li>The name of the primary key of the related sql table. It must be an autoincrement type. (SERIAL)</li><li>The Id of the DynTable is contains this value of the DynTable is loaded from the database or already stored.</li></ul></li><li><code>"default_type" => typestring </code>
+<ul><li>Possible values:
+<ul><li><code>"str"</code> - String</li><li><code>"num"</code> - Number</li></ul></li><li>Specify the type of that fields where does not exact type specified.</li></ul></li><li><code>"sql_schema_bypass" => bool</code>
+<ul><li>You can add the data definition array to <a href="forms.html#datadefstrrepository">Data definition structure repository</a>. Every data structure which present in that repository is examined on case where sql structure is checked by sql <a href="sql.html#schemeedit">schema editor</a>. If this bool value is present and <code>true</code> the structure will be skipped by schema editor.</li></ul></li><li><code>"sqltype_numeric" => sqltype</code>
+<ul><li>In case you generated the required sql schema of the DynTable by <code>sql_create_schema()</code> or through the definition structure repository the numeric typed fields will have the sql type given here. If this attribute is not set the numerical fields will be generated with <code>"NUMERIC(15,5)"</code></li></ul></li><li><code>"sqltype_string" => sqltype</code>.
+<ul><li>In case you generated the required sql schema of the DynTable by <code>sql_create_schema()</code> or through the definition structure repository the string typed fields will have the sql type given here. If this attribute is not set the textual fields will be generated with <code>"VARCHAR(128)"</code></li></ul></li><li><code>"sqltype_idfield" => sqltype</code>.
+<ul><li>In case you generated the required sql schema of the DynTable by <code>sql_create_schema()</code> or through the definition structure repository the Id field will have the sql type given here. If this attribute is not set the Id field will be generated with <code>"SERIAL"</code>.</li></ul></li><li><code>"table_seq_name" => sql_sequence_name</code>
+<ul><li>The sql sequence name related to the Id field. (Optional, It's only need if special key is generated)</li></ul></li><li><code>"table_key_prefix" => keyprefix_string</code>
+<ul><li>A prefix string which prepend to the sql sequence generated value to generate the Id value. (Optional, It's only need if special key is generated)</li></ul></li><li><code>"table_key_suffix" => keysuffix_string</code>
+<ul><li>A prefix string which append to the sql sequence generated value to generate the Id value. (Optional, It's only need if special key is generated)</li></ul></li><li><code>"numeric_format_string" => formatstring</code>
+<ul><li>The Html generator function of the DynTable (<code>genHtml()</code>) will generate the numerical typed field to the browser with this format string. The format string is the standard format string of php <a href="http://php.net/manual/en/function.sprintf.php"><code>sprintf()</code></a>. The default value is <code>"%.2f"</code>.</li></ul></li></ul><p><br/>
+</p>
+<ul><li><code>"table_border" => numeric</code>
+<ul><li>This attribute is used when DynTable html code is generated by <code>genHtml()</code>.</li><li>The given numeric value will be set as the border of the generated html table.</li></ul></li><li><code>"table_class" => string</code>
+<ul><li>This attribute is used when DynTable html code is generated by <code>genHtml()</code>.</li><li>The given string value will be set as the css class of the (whole) generated html table.</li></ul></li><li><code>"table_rowlabel_class" => string</code>
+<ul><li>This attribute is used when DynTable html code is generated by <code>genHtml()</code>.</li><li>The given string value will be set as the css class of the generated html table's row labels.</li></ul></li><li><code>"table_columnlabel_class" => string</code>
+<ul><li>This attribute is used when DynTable html code is generated by <code>genHtml()</code>.</li><li>The given string value will be set as the css class of the generated html table's column labels.</li></ul></li><li><code>"table_cell_class" => string</code>
+<ul><li>This attribute is used when DynTable html code is generated by <code>genHtml()</code>.</li><li>The given string value will be set as the css class of the generated html table's data cells (not column or row labels).</li></ul></li><li><code>"table_missing_cell_class" => string</code>
+<ul><li>This attribute is used when DynTable html code is generated by <code>genHtml()</code>.</li><li>The given string value will be set as the css class of the generated html table's data not defined (empty) cells.</li></ul></li></ul><p><br/>
+</p>
+<ul><li><code>"gentable_colheader_opts" => array</code>
+<ul><li>This attribute is used when the DynTable is generated into <a href="tablegen.html#html_table_generator">HtmlTable</a> or <a href="tablegen.html#excelxml">ExcelXmlDocument</a> object.</li><li>The given options array is set for column header cells. See the <code>opts()</code> method of <a href="tablegen.html#html_table_methods">HtmlTable </a>.</li></ul></li><li><code>"gentable_rowheader_opts" => array</code>
+<ul><li>This attribute is used when the DynTable is generated into <a href="tablegen.html#html_table_generator">HtmlTable</a> or <a href="tablegen.html#excelxml">ExcelXmlDocument</a> object.</li><li>The given options array is set for row label cells. See the <code>opts()</code> method of <a href="tablegen.html#html_table_methods">HtmlTable </a>.</li></ul></li><li><code>"gentable_strcell_opts" => array</code>
+<ul><li>This attribute is used when the DynTable is generated into <a href="tablegen.html#html_table_generator">HtmlTable</a> or <a href="tablegen.html#excelxml">ExcelXmlDocument</a> object.</li><li>The given options array is set for textual cells. (Where <code>"type"=>"str"</code> is set) See the <code>opts()</code> method of <a href="tablegen.html#html_table_methods">HtmlTable </a>.</li></ul></li><li><code>"gentable_numcell_opts" => array</code>
+<ul><li>This attribute is used when the DynTable is generated into <a href="tablegen.html#html_table_generator">HtmlTable</a> or <a href="tablegen.html#excelxml">ExcelXmlDocument</a> object.</li><li>The given options array is set for numerical cells. (Where <code>"type"=>"num"</code> is set) See the <code>opts()</code> method of <a href="tablegen.html#html_table_methods">HtmlTable </a>.</li></ul></li><li><code>"gentable_misscell_opts" => array</code>
+<ul><li>This attribute is used when the DynTable is generated into <a href="tablegen.html#html_table_generator">HtmlTable</a> or <a href="tablegen.html#excelxml">ExcelXmlDocument</a> object.</li><li>The given options array is set for missing cells. (Where not data is shown) See the <code>opts()</code> method of <a href="tablegen.html#html_table_methods">HtmlTable </a>.</li></ul></li></ul><p><br/>
+</p>
+<ul><li><code>"popupedit_title" => string</code>
+<ul><li>The title string of the popup dialog in case of the DynTable values are edited through the ajax editor.</li></ul></li><li><code>"popupedit_btntext" => string</code>
+<ul><li>The "save" button text of the popup dialog in case of the DynTable values are edited through the ajax editor.</li></ul></li><li><code>"popupedit_ajaxurl" => urlstring</code>
+<ul><li>The url of the ajax handler which requested by the popup dialog in case of the DynTable values are edited. You should provide this ajax handler (and the url) to make DynTable editable.</li></ul></li><li><code>"popupedit_ajaxsubtype" => string</code>
+<ul><li>The ajax handler (set by previous settings) will receive this helper string value. This value is usable for distinct different save request of different DynTables.</li></ul></li></ul><p><br/>
+</p>
+<ul><li><code>"rows" => associative_array</code>
+<ul><li>Here you can specify the rows of the DynTable. The array should contains numerical indexes and the textual label values. (See example above)</li></ul></li><li><code>"cols" = associative_array</code>
+<ul><li>Here you can specify the columns of the DynTable. The array should contains numerical indexes and the textual label values. (See example above)</li></ul></li><li><code>"datacells" = associative array</code>
+<ul><li>The fields of the DynTable is defined here by the given associative array where the index strings are the names of the fields. The values of the array items are arrays, where the following optional options can be present:
+<ul><li><code>"row" => row_index_number</code> - The field will be put in this row.</li><li><code>"col" => column_index_number</code> - The field will be put under this column label.</li><li><code>"sql" => redefined_sql_name</code> - If you specified this attribute the field will be referenced with this sql name.</li><li><code>"type" => type_of_the_field</code> - Can be <code>"num"</code> or <code>str</code>.</li></ul></li></ul></li></ul><a name="pos_4"><h3>Data definition structure repository</h3></a>
+<p>You can add the data definition array of DynTable to the same repository as SpeedForm definitions.
+Use the same <code>HOOK_datadef_repository</code> <a href="hooks.html">hook</a> to add a data definition structure to
+the repository, see <a href="forms.html#datadefstrrepository">documentation here</a>.
+</p>
+<p>You can use the same <code>datadef_from_repository('repository_name')</code> function to get the definition.
+</p>
+<p><em>Note: The definition which are stored in the repository will be processed by sql schema requisites check tool unless </em>
+<em>you set the <code>sql_schema_bypass</code> toplevel attribute to <code>true</code> !</em>
+</p><a name="pos_5"><h3>A complex example</h3></a>
+<p>Let's see a complex example of using DynTable. Here we will define a DynTable and build an edit interface which
+immediately store the edited table to the database.
+</p>
+<p>First of all, let's put the definition of our DynTable to the data definition structure repository:
+</p><pre><code class="php">function hook_mymodule_datadef_repository()
+{
+    return [
+        'fruitsdef' =&gt; 'generate_fruits_def',
+    ];
+}
+
+function generate_fruits_def()
+{
+    return [
+        'sqltable' =&gt; 'fruit_harvest',
+        'idfield' =&gt; 'year',
+
+        'table_border' =&gt; '1',
+
+        'popupedit_ajaxurl' =&gt; 'ajaxfruitedit',
+        'popupedit_ajaxsubtype' =&gt; 'fruits',
+        'popupedit_title' =&gt; 'Set the selected item',
+        'popupedit_btntext' =&gt; 'Modify',
+
+        'rows' =&gt; [
+            0 =&gt; 'Apple',
+            1 =&gt; 'Plum',
+            2 =&gt; 'Pear',
+            3 =&gt; 'Nut',
+        ],
+        'cols' =&gt; [
+            0 =&gt; 'Good (Kg)',
+            1 =&gt; 'Decent (kg)',
+            2 =&gt; 'Waste (kg)'
+        ],
+        'default_type' =&gt; 'num',
+        'datacells' =&gt; [
+            'applegood'   =&gt; ['row' =&gt; 0, 'col' =&gt; 0],
+            'appledecent' =&gt; ['row' =&gt; 0, 'col' =&gt; 1],
+            'applewaste'  =&gt; ['row' =&gt; 0, 'col' =&gt; 2],
+            'plumgood'    =&gt; ['row' =&gt; 1, 'col' =&gt; 0],
+            'plumdecent'  =&gt; ['row' =&gt; 1, 'col' =&gt; 1],
+            'plumwaste'   =&gt; ['row' =&gt; 1, 'col' =&gt; 2],
+            'peargood'    =&gt; ['row' =&gt; 2, 'col' =&gt; 0],
+            'peardecent'  =&gt; ['row' =&gt; 2, 'col' =&gt; 1],
+            'pearwaste'   =&gt; ['row' =&gt; 2, 'col' =&gt; 2],
+            'nutgood'     =&gt; ['row' =&gt; 3, 'col' =&gt; 0],
+            'nutwaste'    =&gt; ['row' =&gt; 3, 'col' =&gt; 2],
+        ],
+    ];
+}
+</code></pre><p>Now we have our definition in the repository, let's create a page where we put an edit page for one instance of the table.
+The Id is received in url parameter.
+</p>
+<p></p><pre><code class="php">function hook_mymodule_defineroute()
+{
+    $r = [];
+    $r[] = [
+        'path' =&gt; 'editfruittable/{id}',
+        'callback' =&gt; 'pc_editfruittable',
+    ];
+
+    $r[] = [
+        "path" =&gt; "ajaxfruitedit",
+        "callback" =&gt; 'aj_fruitedit',
+        "type" =&gt; "ajax",
+    ];
+    return $r;
+}
+
+function pc_editfruittable()
+{
+    par_def('id','number0');
+
+    ob_start();
+    print "My DynTable:&lt;br/&gt;";
+
+    $d = new DynTable(datadef_from_repository('fruitsdef'));
+    $d-&gt;readFromDatabase(par('id'));
+    print $d-&gt;getHtml();
+
+    return ob_get_clean();
+}
+</code></pre><p>Here comes the ajax handler which save the edited value to the database and update the table in the browser.
+</p>
+<p></p><pre><code class="php">function aj_fruitedit()
+{
+    par_def('subtype','text1ns');
+    par_def('value','textbase64');
+    par_def('modname','text1ns');
+    par_def('id','text1ns');
+
+    $subtype = par('subtype');
+    $mname = par('modname');
+    $mvalue = base64_decode(par('value'));
+    $id = par('id');
+
+    if($subtype == 'fruits')
+    {
+        $dmod = new DynTable(datadef_from_repository('fruitsdef'));
+        if(!$dmod-&gt;readFromDatabase($id))
+        {
+            $dmod-&gt;setDataFromAjax($mname, floatval($mvalue), 'fromajax');
+            $dmod-&gt;saveToDatabase();
+            $dmod-&gt;ajax_add_refreshHtmlTable(false);
+            return;
+        }
+        load_loc('error','Error, ...');
+    }
+}
+</code></pre></div><script>hljs.initHighlightingOnLoad();</script><div class="ccdocpanel"><ul class="docsidemenu no-print"><li><a href="start.html">CodKep introduction</a><ul class=" closed"><li><a href="start.html#pos_2">What is CodKep</a></li><li><a href="start.html#pos_3">The main chapters of this document</a></li><li><a href="start.html#pos_4">Author, License</a></li></ul></li><li><a href="modules.html">Installing, Modules</a><ul class=" closed"><li><a href="modules.html#pos_2">Installing codkep</a></li><li><a href="modules.html#pos_3">Directories</a></li><li><a href="modules.html#pos_4">Site settings, configuration</a></li><li><a href="modules.html#pos_5">Modules</a></li></ul></li><li><a href="routes.html">Routes</a><ul class=" closed"><li><a href="routes.html#pos_2">Add custom locations</a></li><li><a href="routes.html#pos_3">The route definition array</a></li><li><a href="routes.html#pos_4">Parameters in URL</a></li><li><a href="routes.html#pos_5">Caching routes</a></li><li><a href="routes.html#pos_6">Generating URLs</a></li><li><a href="routes.html#pos_7">Generating Links</a></li><li><a href="routes.html#pos_8">Redirections</a></li><li><a href="routes.html#pos_9">Tags</a></li><li><a href="routes.html#pos_10">Clean URLs</a></li><li><a href="routes.html#pos_11">Hooks related to routes</a></li></ul></li><li><a href="hooks.html">Hooks</a><ul class=" closed"><li><a href="hooks.html#pos_2">Implement hooks</a></li><li><a href="hooks.html#pos_3">Interaction of hooks</a></li><li><a href="hooks.html#pos_4">Hook sequence of a page load</a></li><li><a href="hooks.html#pos_5">Create hooks</a></li><li><a href="hooks.html#pos_6">Caching hooks</a></li><li><a href="hooks.html#pos_7">Change hook order</a></li><li><a href="hooks.html#pos_8">Debugging hooks</a></li><li><a href="hooks.html#pos_9">Hooks</a></li></ul></li><li><a href="parameters.html">Parameters</a><ul class=" closed"><li><a href="parameters.html#pos_2">Defining parameters</a></li><li><a href="parameters.html#pos_3">Defining in route definition array</a></li><li><a href="parameters.html#pos_4">Using parameters</a></li><li><a href="parameters.html#pos_5">Other parameter related functions</a></li><li><a href="parameters.html#pos_6">Security classes</a></li><li><a href="parameters.html#pos_7">Parameter handling relates settings</a></li><li><a href="parameters.html#pos_8">Hooks</a></li></ul></li><li><a href="structure.html">Themes</a><ul class=" closed"><li><a href="structure.html#pos_2">Functions unrelated to themes</a></li><li><a href="structure.html#pos_3">Using of themes</a></li><li><a href="structure.html#pos_4">Place your own content to a site area</a></li><li><a href="structure.html#pos_5">Settings of flex theme</a></li><li><a href="structure.html#pos_6">Create own themes</a></li><li><a href="structure.html#pos_7">Menu system</a></li><li><a href="structure.html#pos_8">Custom themes and menu generation</a></li><li><a href="structure.html#pos_9">Hooks</a></li></ul></li><li><a href="ajax.html">Ajax framework</a><ul class=" closed"><li><a href="ajax.html#pos_2">Start ajax requests</a></li><li><a href="ajax.html#pos_3">1. Place an user (click) triggered ajax link in html code</a></li><li><a href="ajax.html#pos_4">2. Set HTML form action to ajax</a></li><li><a href="ajax.html#pos_5">3. Place a delayed ajax call to the page</a></li><li><a href="ajax.html#pos_6">4. Fill page parts/block by simply call fill_through_ajax() function</a></li><li><a href="ajax.html#pos_7">The ajax handler</a></li><li><a href="ajax.html#pos_8">Ajax commands</a></li><li><a href="ajax.html#pos_9">A complex ajax example (Version 1 - standard)</a></li><li><a href="ajax.html#pos_10">A complex ajax example (Version 2 - autorouted)</a></li></ul></li><li><a href="sql.html">Sql</a><ul class=" closed"><li><a href="sql.html#pos_2">Sql database settings</a></li><li><a href="sql.html#pos_3">Connect and disconnect</a></li><li><a href="sql.html#pos_4">Execute SQL commands</a></li><li><a href="sql.html#pos_5">General database CRUD interface</a></li><li><a href="sql.html#pos_6">Methods of DatabaseQuery</a></li><li><a href="sql.html#pos_7">Methods of DatabaseCond</a></li><li><a href="sql.html#pos_8">Simple and easy database operations</a></li><li><a href="sql.html#pos_9">Sql transactions</a></li><li><a href="sql.html#pos_10">Error handling</a></li><li><a href="sql.html#pos_11">Schema editor</a></li><li><a href="sql.html#pos_12">Define sql schema requirements</a></li><li><a href="sql.html#pos_13">Hooks</a></li></ul></li><li><a href="files.html">Files</a><ul class=" closed"><li><a href="files.html#pos_2">Storing type</a></li><li><a href="files.html#pos_3">File class</a></li><li><a href="files.html#pos_4">Fixed properties of the File object</a></li><li><a href="files.html#pos_5">Methods of File object</a></li><li><a href="files.html#pos_6">Helper functions of File class</a></li><li><a href="files.html#pos_7">File access control</a></li><li><a href="files.html#pos_8">Tricks with file hooks</a></li><li><a href="files.html#pos_9">Image size classes</a></li><li><a href="files.html#pos_10">Settings of the file module</a></li><li><a href="files.html#pos_11">Hooks</a></li></ul></li><li><a href="forms.html">Forms</a><ul class=" closed"><li><a href="forms.html#pos_2">Simple HTML form generation</a></li><li><a href="forms.html#pos_3">Form checker method</a></li><li><a href="forms.html#pos_4">The SpeedForm </a></li><li><a href="forms.html#pos_5">Methods of SpeedForm</a></li><li><a href="forms.html#pos_6">Data definition structure</a></li><li><a href="forms.html#pos_7">The structure : Top level attributes</a></li><li><a href="forms.html#pos_8">Field types</a></li><li><a href="forms.html#pos_9">Common field attributes</a></li><li><a href="forms.html#pos_10">Output format of SpeedForm</a></li><li><a href="forms.html#pos_11">Query and Add field types</a></li><li><a href="forms.html#pos_12">Data definition structure repository</a></li><li><a href="forms.html#pos_13">Helper functions</a></li><li><a href="forms.html#pos_14">Settings of the forms module</a></li><li><a href="forms.html#pos_15">Hooks</a></li></ul></li><li><a href="tablegen.html">Table generator</a><ul class=" closed"><li><a href="tablegen.html#pos_2">Html table generation</a></li><li><a href="tablegen.html#pos_3">Excel output generator</a></li><li><a href="tablegen.html#pos_4">Convert Excel XML tables to HTML tables</a></li></ul></li><li><a href="totable.html">Query formatter</a><ul class=" closed"><li><a href="totable.html#pos_2">Automatic output generator for sql queries</a></li><li><a href="totable.html#pos_3">Input of to_table()</a></li><li><a href="totable.html#pos_4">Outout of to_table()</a></li><li><a href="totable.html#pos_5">Options affects the whole table</a></li><li><a href="totable.html#pos_6">Change the number or/and the order of the fields</a></li><li><a href="totable.html#pos_7">Customize of fields</a></li><li><a href="totable.html#pos_8">Modify the value of the fields</a></li><li><a href="totable.html#pos_9">Using virtual fields</a></li><li><a href="totable.html#pos_10">Using field repository</a></li><li><a href="totable.html#pos_11">Using field repository directly from SQL</a></li><li><a href="totable.html#pos_12">Backend of to_table()</a></li><li><a href="totable.html#pos_13">Generate HTML and Excel tables with same way</a></li></ul></li><li><a href="dyntable.html">DynTable</a><ul class=""><li><a href="dyntable.html#pos_2">Methods of DynTable class</a></li><li><a href="dyntable.html#pos_3">Data definition structure</a></li><li><a href="dyntable.html#pos_4">Data definition structure repository</a></li><li><a href="dyntable.html#pos_5">A complex example</a></li></ul></li><li><a href="user.html">User module</a><ul class=" closed"><li><a href="user.html#pos_2">The global $user object</a></li><li><a href="user.html#pos_3">Login and logout</a></li><li><a href="user.html#pos_4">Managing users</a></li><li><a href="user.html#pos_5">Helper functions</a></li><li><a href="user.html#pos_6">CodKep session data</a></li><li><a href="user.html#pos_7">Settings of user module</a></li><li><a href="user.html#pos_8">Hooks</a></li></ul></li><li><a href="node.html">Node</a><ul class=" closed"><li><a href="node.html#pos_2">Fixed properties(fields) of the Node</a></li><li><a href="node.html#pos_3">Methods of Node class</a></li><li><a href="node.html#pos_4">Helper functions of node class</a></li><li><a href="node.html#pos_5">Defining a node</a></li><li><a href="node.html#pos_6">Dynamic node definition</a></li><li><a href="node.html#pos_7">Modify existing node types</a></li><li><a href="node.html#pos_8">Database appearance of nodes</a></li><li><a href="node.html#pos_9">Querying node lists from database</a></li><li><a href="node.html#pos_10">Node access control</a></li><li><a href="node.html#pos_11">REST api for nodes</a></li><li><a href="node.html#pos_12">Node related REST commands</a></li><li><a href="node.html#pos_13">A complete example</a></li><li><a href="node.html#pos_14">Custom Node objects</a></li><li><a href="node.html#pos_15">Settings of the nodes</a></li><li><a href="node.html#pos_16">Hooks</a></li></ul></li><li><a href="page.html">Page</a><ul class=" closed"><li><a href="page.html#pos_2">Fields of the page</a></li><li><a href="page.html#pos_3">Permissions of pages</a></li><li><a href="page.html#pos_4">Extending page type</a></li><li><a href="page.html#pos_5">Hooks</a></li></ul></li><li><a href="doc.html">Documenting</a><ul class=" closed"><li><a href="doc.html#pos_2">My mark language</a></li><li><a href="doc.html#pos_3">Highlights</a></li><li><a href="doc.html#pos_4">Headings</a></li><li><a href="doc.html#pos_5">Other elements</a></li><li><a href="doc.html#pos_6">Tables</a></li><li><a href="doc.html#pos_7">Lists</a></li><li><a href="doc.html#pos_8">Codes</a></li><li><a href="doc.html#pos_9">Links</a></li><li><a href="doc.html#pos_10">Images</a></li></ul></li><li><a href="debug.html">Debugging</a><ul class=" closed"><li><a href="debug.html#pos_2">Dumping arbitrary data objects</a></li><li><a href="debug.html#pos_3">Special pages</a></li><li><a href="debug.html#pos_4">Debug sql calls</a></li><li><a href="debug.html#pos_5">Dump the parameters of the page</a></li></ul></li></ul></div></div>
+</body>
+</html>

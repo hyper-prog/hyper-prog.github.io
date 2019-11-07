@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Parameters</title>
+  <meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css"/>
+  <link rel="stylesheet" type="text/css" href="default.css"/>
+  <link rel="stylesheet" type="text/css" href="ckcomm.css"/>
+  <link rel="stylesheet" type="text/css" href="flex.css"/>
+  <script type="text/javascript" src="highlight.pack.js"></script>
+</head>
+<body>
+ <div class="content"><div class="ccdoccontent"><a name="pos_1"><h1>Parameters</h1></a>
+<p>Every page can receive parameters from the user side/browsers. The CodKep can use 3 type of parameters:
+</p>
+<ul><li>Parameters <a href="routes.html#urlparameters">came from URL</a></li><li>Standard html GET parameters</li><li>Standard html POST parameters</li></ul><p>All type of parameters above can access same way in CodKep.
+<a name="par_define"></a>
+</p><a name="pos_2"><h2>Defining parameters</h2></a>
+<p>By security reasons you have to define each parameter before use it.
+The definition have to specify the type of the parameter which divided to security classes,
+and can tell other properties.
+</p>
+<p>You can define a parameter with the following function:<br/>
+<span class="definition">par_def($name,$security_class,$source = 'all',$accept_empty = true,$default = NULL,$required = NULL)</span>
+</p>
+<p></p>
+<ul><li><code>$name</code> parameter
+<ul><li>This is the name of the parameter. If this is an url parameter the name must be identical the placeholder name in route definition string.</li></ul></li><li><code>$security_class</code> parameter
+<ul><li>Specify the content accepted by this parameter. If the parameter not fit in this security class, the CodKep will disable the access, and show an error message. See <a href="#securityclasses">available security classes</a></li></ul></li><li><code>$source</code> parameter.
+<ul><li>Restrict the parameter came from a specified source. Possible values are:
+<ul><li><code>"all"</code> All source is accepted. (default)</li><li><code>"get"</code> Allows as html GET parameter only.</li><li><code>"post"</code> Allows as html POST parameter only.</li><li><code>"url"</code> Allows as url parameter only.</li></ul></li></ul></li><li><code>$accept_empty</code> parameter
+<ul><li>If this parameter is set the <code>par_ex()</code> function accepts empty value as defined parameter. (This is the default behaviour)</li></ul></li><li><code>$default</code>
+<ul><li>The default value in case the parameter is not received.</li></ul></li><li><code>$required</code>
+<ul><li>If the required text is not NULL: The system check the existing of this parameter. In case the parameter is not recieived the CodKep will raise error, with the error text set in this parameter above.</li></ul></li></ul><p>Example definition of two get parameter
+</p><pre><code class="php">function mypage()
+{
+  par_def("id","number0","url",false,NULL,"You have to specify the id of the item");
+  par_def("name","text3");
+  //...
+  //parameters are accesible by par()
+  print "Id: ".par("id");
+  print "Name:".par("name");
+}
+</code></pre><p><a name="par_def_inroutedef"></a>
+</p><a name="pos_3"><h3>Defining in route definition array</h3></a>
+<p>It is possible to do the parameter definition in <a href="routes.html#routedefarray">route definition array</a>.
+</p>
+<p>You have to put an associative array under <code>"parameters"</code> index in
+<a href="routes.html#routedefarray">route definition array</a>.
+The structure of this array structured this way:
+</p>
+<ul><li><code>"parameters"=</code>
+<ul><li>An associative array of parameters where the index is the name of the parameter which defined.
+<ol><li>Easy definition:The value of the array can be a simple string which is a security class of the parameter.</li><li>Complex definition: The value of the array item is an another associative array where the following key values can presents:
+<ul><li><code>security</code> The security class of the parameter</li><li><code>source</code> The source restriction of the parameter</li><li><code>acceptempty</code> Accepts empty parameters or not</li><li><code>default</code> The default value if not received</li><li><code>required</code> Make the parameter mandatory, and specify missing error text.</li></ul></li></ol></li></ul></li></ul><p><em>Note: The items of this array are passed to the <code>par_def()</code> function which define the parameters</em>
+<em>according to this array. Because the values of this array are passed to the <code>par_def()</code> see</em>
+<em>the documentation of that for further explanations.</em>
+</p>
+<p>An examample <code>defineroute</code> hook which defined two parameter "id" and "name"
+</p><pre><code class="php">function hook_mymodule_defineroute()
+{
+    $r = [];
+    $r[] = [
+             'path' =&gt; 'showitem/{id}',
+             'callback' =&gt; 'showitempage',
+             'parameters' =&gt; [
+                                'id' =&gt; ['security' =&gt; 'number0'
+                                         'source' =&gt; 'url',
+                                         'required' =&gt; 'You have to specify the id of the item',
+                                        ],
+                                'name' =&gt; 'text3',
+                             ],
+           ];
+    return $r;
+}
+
+function showitempage()
+{
+    ob_start();
+    //You can use par() function here to access parameters
+    print "Id:".par("id");
+    print "Name:".par("name");
+    //...
+    return ob_get_clean();
+}
+</code></pre><a name="pos_4"><h2>Using parameters</h2></a>
+<p><span class="definition">par($name, $autodefine_type = 'no')</span>
+<br/>
+Returns the value of the parameter <code>$name</code>. The parameter must be defined before the value is requested.
+</p>
+<p>In case the <code>$site_config->parameter_autodefine</code> is set <code>true</code> in
+<a href="modules.html#site_settings">site settings</a> the par() function can automatically define the
+parameter by the security class <code>$autodefine_type</code>.
+</p>
+<p><span class="definition">par_ex($name, $autodefine_type = 'no')</span>
+<br/>
+Return <code>true</code> if the parameter is received, otherwise <code>false</code>.
+It does not raise error if the parameter is not defined.
+</p>
+<p><span class="definition">par_is($name, $value,$autodefine_type = 'no')</span>
+<br/>
+Return <code>true</code> if the parameter is received and have same value as <code>$value</code> parameter, otherwise <code>false</code>.
+It does not raise error if the parameter is not defined.
+</p>
+<p></p><pre><code class="php">function mypage()
+{
+  par_def("id","number0","url",false,NULL,"You have to specify the id of the item");
+  par_def("name","text3");
+
+  ob_start();
+  if(par_is("id","0"))
+  {
+    //Only displayed if the "id" parameter is "0"
+    print "This is the first element!";
+  }
+
+  print "Id: ".par("id");
+
+  if(par_ex("name"))
+  {
+    //Only displayed if the "name" parameter is received
+    print "Name:".par("name");
+  }
+
+  return ob_get_clean();
+}
+</code></pre><p><em>There are some helper function to easy handle form date fields: (See <a href="forms.html">forms</a>)</em>
+</p>
+<p><span class="definition">par_date_def($name)</span>
+<br/>
+This function defines the three parameter of the specified form date field. It means that you call this function
+with <code>"birth"</code> it will define the <code>"birth_year"</code>, <code>"birth_month"</code> and <code>"birth_day"</code> parameters with <code>"number0"</code> security class.
+</p>
+<p><span class="definition">par_date_ex($name)</span>
+<br/>
+This function returns <code>true</code> if all three part of the specified form date field is passed. Otherwise returns <code>false</code>.
+(It uses <code>par_ex()</code> inside)
+</p>
+<p><span class="definition">par_date($name,$define = false)</span>
+<br/>
+This function returns the isodate string (yyyy-mm-dd) from the parameter passed form date field if all parts is passed.
+If some parts are missing <code>null</code> value returned.
+If you pass <code>true</code> in parameter <code>$define</code> the function calls <code>par_date_def($name)</code> before the query.
+</p>
+<p></p><a name="pos_5"><h2>Other parameter related functions</h2></a>
+<p><span class="definition">par_reset()</span>
+<br/>
+Erase all parameter definition.
+</p>
+<p><span class="definition">parameters(array $change = [], array $infilter = [], array $outfilter = [])</span>
+<br/>
+Returns a key-value array with the defined and set parameters.
+The parameter name will be the index, the value is the current value of the parameter,
+except if modified by <code>$change</code> parameter.
+</p>
+<ul><li><code>$change</code> parameter
+<ul><li>Value overwrite array, contains name-value pairs. It does not modify real parameter value just the returned array.</li></ul></li><li><code>$infilter</code> parameter
+<ul><li>Filters the returned parameters. If this parameter is set an not an empty array, the function only returns that parameters which index is present in <code>$filter</code> array.</li></ul></li><li><code>$outfilter</code> parameter
+<ul><li>Filters the returned parameters. If this parameter is set an not an empty array, the function skip returning that parameters which index is present in this array.</li></ul></li></ul><p><span class="definition">is_par_defined($name)</span>
+<br/>
+Returns true if the <code>$name</code> named parameter is defined, otherwise false.
+<a name="securityclasses"></a>
+</p><a name="pos_6"><h2>Security classes</h2></a>
+<p>Every parameter is received through the CodKep parameter system,
+must meet the restriction of a security class which is assigned to the parameter during the definition.
+Each security class is defined by a regex. (You can add your own security classes, see below)
+</p>
+<p>Built-in security classes in CodKep:
+</p>
+<table><thead>
+<tr><th>code name</th><th>Allowed characters/contets</th></tr></thead>
+<tbody>
+<tr><td><code>bool</code></td><td>01onf</td></tr>
+<tr><td><code>number0</code></td><td>0123456789</td></tr>
+<tr><td><code>number0ne</code></td><td>0123456789 (Not empty)</td></tr>
+<tr><td><code>number1</code></td><td>whitespaces 0123456789 . , -</td></tr>
+<tr><td><code>number1ns</code></td><td>0123456789 . , -</td></tr>
+<tr><td><code>numberi</code></td><td>0123456789 -</td></tr>
+<tr><td><code>number2</code></td><td>whitespaces 0123456789 . , ; + -</td></tr>
+<tr><td><code>text0</code></td><td>whitespaces a-z A-Z 0-9</td></tr>
+<tr><td><code>text0nsne</code></td><td>a-z A-Z 0-9 (Not empty)</td></tr>
+<tr><td><code>text1</code></td><td>whitespaces a-z A-Z 0-9 - _</td></tr>
+<tr><td><code>text1ns</code></td><td>a-z A-Z 0-9 - _</td></tr>
+<tr><td><code>text2</code></td><td>whitespaces a-z A-Z 0-9 UnicodeLetters</td></tr>
+<tr><td><code>text2ns</code></td><td>a-z A-Z 0-9 UnicodeLetters</td></tr>
+<tr><td><code>text3</code></td><td>whitespaces a-z A-Z 0-9 UnicodeLetters - _</td></tr>
+<tr><td><code>text3ns</code></td><td>a-z A-Z 0-9 UnicodeLetters - _</td></tr>
+<tr><td><code>text4</code></td><td>whitespaces a-z A-Z 0-9 UnicodeLetters - _ . , : ? # / ! ( ) = +</td></tr>
+<tr><td><code>text4m</code></td><td>whitespaces a-z A-Z 0-9 UnicodeLetters - _ . , : ? # / ! ( ) = + @</td></tr>
+<tr><td><code>text4ns</code></td><td>a-z A-Z 0-9 UnicodeLetters - _ . , : ? # / ! ( ) = +</td></tr>
+<tr><td><code>text5</code></td><td>whitespaces a-z A-Z 0-9 UnicodeLetters - _ . , : ? & # / ! ( ) = % + ; @ *</td></tr>
+<tr><td><code>text6</code></td><td>whitespaces a-z A-Z 0-9 UnicodeLetters - _ . , : ? & # / ! ( ) = % + ; @ * "</td></tr>
+<tr><td><code>textemail</code></td><td>a-z A-Z 0-9 UnicodeLetters - _ . @ "</td></tr>
+<tr><td><code>textbase64</code></td><td>a-z A-Z 0-9 =</td></tr>
+<tr><td><code>tst</code></td><td>whitespaces a-z A-Z 0-9 UnicodeLetters - : . +</td></tr>
+<tr><td><code>tstns</code></td><td>a-z A-Z 0-9 UnicodeLetters - : . +</td></tr>
+<tr><td><code>isodate</code></td><td>NNNN-NN-NN e.g: 2016-10-11</td></tr>
+<tr><td><code>ipv4address</code></td><td>IPv4 addresses eg: 192.168.1.12</td></tr>
+<tr><td><code>free</code></td><td>no limitations</td></tr>
+<tr><td><code>no</code></td><td>only match to empty string</td></tr></tbody></table><p>You can define your own security classes with <code>register_parameter_security_class(name,regex)</code> function.
+<br/>
+<span class="definition">register_parameter_security_class($name,$regex)</span>
+</p>
+<ul><li><code>$name</code>
+<ul><li>The security class name to define</li></ul></li><li><code>$regex</code>
+<ul><li>The regex pattern to assign with the defined security class</li></ul></li></ul><p>A security class can be defined by a regex.
+See the following example which define the "user_id" security class in "mymodule" module.
+</p><pre><code class="php">function hook_mymodule_init()
+{
+    register_parameter_security_class('user_id','/^user_[0-9]+$/');
+}
+
+function mypage()
+{
+  par_def("uid","user_id");
+  $uid = par("uid");
+  //...
+}
+</code></pre><p><a name="parametersettings"></a>
+</p><a name="pos_7"><h2>Parameter handling relates settings</h2></a>
+<p>The settings which can set <a href="modules.html#site_settings">in site settings</a>.
+</p>
+<p></p>
+<table><thead>
+<tr><th>name</th><th>default</th><th>description</th></tr></thead>
+<tbody>
+<tr><td><small> <code>$site_config->param_event_locations['undefined']</code> </small></td><td><small> 'param_undefined_error' </small></td><td>The built-in undefined parameter error page <a href="routes.html">location</a>.</td></tr>
+<tr><td><small> <code>$site_config->param_event_locations['missing']</code>   </small></td><td><small> 'missing_parameter_error'  </small></td><td>The built-in missing parameter error page <a href="routes.html">location</a>.</td></tr>
+<tr><td><small> <code>$site_config->param_event_locations['security']</code>  </small></td><td><small> 'param_security_error'  </small></td><td>The built-in parameter not match to the security class error page <a href="routes.html">location</a>.</td></tr></tbody></table><a name="pos_8"><h2>Hooks</h2></a>
+<p>The following <a href="hooks.html">hooks</a> can be implement related to the parameter system.
+</p>
+<table><thead>
+<tr><th>Hook</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>HOOK_parameter_missing($name,$required)</td><td>The hook is activated when a required parameter is missing.</td></tr>
+<tr><td>HOOK_parameter_undefined($name)</td><td>The hook is activated when a parameter is queried but not defined.</td></tr>
+<tr><td>HOOK_parameter_security_error($name,$sc)</td><td>The hook is activated when a parameter does not fit in the defined security class.</td></tr></tbody></table></div><script>hljs.initHighlightingOnLoad();</script><div class="ccdocpanel"><ul class="docsidemenu no-print"><li><a href="start.html">CodKep introduction</a><ul class=" closed"><li><a href="start.html#pos_2">What is CodKep</a></li><li><a href="start.html#pos_3">The main chapters of this document</a></li><li><a href="start.html#pos_4">Author, License</a></li></ul></li><li><a href="modules.html">Installing, Modules</a><ul class=" closed"><li><a href="modules.html#pos_2">Installing codkep</a></li><li><a href="modules.html#pos_3">Directories</a></li><li><a href="modules.html#pos_4">Site settings, configuration</a></li><li><a href="modules.html#pos_5">Modules</a></li></ul></li><li><a href="routes.html">Routes</a><ul class=" closed"><li><a href="routes.html#pos_2">Add custom locations</a></li><li><a href="routes.html#pos_3">The route definition array</a></li><li><a href="routes.html#pos_4">Parameters in URL</a></li><li><a href="routes.html#pos_5">Caching routes</a></li><li><a href="routes.html#pos_6">Generating URLs</a></li><li><a href="routes.html#pos_7">Generating Links</a></li><li><a href="routes.html#pos_8">Redirections</a></li><li><a href="routes.html#pos_9">Tags</a></li><li><a href="routes.html#pos_10">Clean URLs</a></li><li><a href="routes.html#pos_11">Hooks related to routes</a></li></ul></li><li><a href="hooks.html">Hooks</a><ul class=" closed"><li><a href="hooks.html#pos_2">Implement hooks</a></li><li><a href="hooks.html#pos_3">Interaction of hooks</a></li><li><a href="hooks.html#pos_4">Hook sequence of a page load</a></li><li><a href="hooks.html#pos_5">Create hooks</a></li><li><a href="hooks.html#pos_6">Caching hooks</a></li><li><a href="hooks.html#pos_7">Change hook order</a></li><li><a href="hooks.html#pos_8">Debugging hooks</a></li><li><a href="hooks.html#pos_9">Hooks</a></li></ul></li><li><a href="parameters.html">Parameters</a><ul class=""><li><a href="parameters.html#pos_2">Defining parameters</a></li><li><a href="parameters.html#pos_3">Defining in route definition array</a></li><li><a href="parameters.html#pos_4">Using parameters</a></li><li><a href="parameters.html#pos_5">Other parameter related functions</a></li><li><a href="parameters.html#pos_6">Security classes</a></li><li><a href="parameters.html#pos_7">Parameter handling relates settings</a></li><li><a href="parameters.html#pos_8">Hooks</a></li></ul></li><li><a href="structure.html">Themes</a><ul class=" closed"><li><a href="structure.html#pos_2">Functions unrelated to themes</a></li><li><a href="structure.html#pos_3">Using of themes</a></li><li><a href="structure.html#pos_4">Place your own content to a site area</a></li><li><a href="structure.html#pos_5">Settings of flex theme</a></li><li><a href="structure.html#pos_6">Create own themes</a></li><li><a href="structure.html#pos_7">Menu system</a></li><li><a href="structure.html#pos_8">Custom themes and menu generation</a></li><li><a href="structure.html#pos_9">Hooks</a></li></ul></li><li><a href="ajax.html">Ajax framework</a><ul class=" closed"><li><a href="ajax.html#pos_2">Start ajax requests</a></li><li><a href="ajax.html#pos_3">1. Place an user (click) triggered ajax link in html code</a></li><li><a href="ajax.html#pos_4">2. Set HTML form action to ajax</a></li><li><a href="ajax.html#pos_5">3. Place a delayed ajax call to the page</a></li><li><a href="ajax.html#pos_6">4. Fill page parts/block by simply call fill_through_ajax() function</a></li><li><a href="ajax.html#pos_7">The ajax handler</a></li><li><a href="ajax.html#pos_8">Ajax commands</a></li><li><a href="ajax.html#pos_9">A complex ajax example (Version 1 - standard)</a></li><li><a href="ajax.html#pos_10">A complex ajax example (Version 2 - autorouted)</a></li></ul></li><li><a href="sql.html">Sql</a><ul class=" closed"><li><a href="sql.html#pos_2">Sql database settings</a></li><li><a href="sql.html#pos_3">Connect and disconnect</a></li><li><a href="sql.html#pos_4">Execute SQL commands</a></li><li><a href="sql.html#pos_5">General database CRUD interface</a></li><li><a href="sql.html#pos_6">Methods of DatabaseQuery</a></li><li><a href="sql.html#pos_7">Methods of DatabaseCond</a></li><li><a href="sql.html#pos_8">Simple and easy database operations</a></li><li><a href="sql.html#pos_9">Sql transactions</a></li><li><a href="sql.html#pos_10">Error handling</a></li><li><a href="sql.html#pos_11">Schema editor</a></li><li><a href="sql.html#pos_12">Define sql schema requirements</a></li><li><a href="sql.html#pos_13">Hooks</a></li></ul></li><li><a href="files.html">Files</a><ul class=" closed"><li><a href="files.html#pos_2">Storing type</a></li><li><a href="files.html#pos_3">File class</a></li><li><a href="files.html#pos_4">Fixed properties of the File object</a></li><li><a href="files.html#pos_5">Methods of File object</a></li><li><a href="files.html#pos_6">Helper functions of File class</a></li><li><a href="files.html#pos_7">File access control</a></li><li><a href="files.html#pos_8">Tricks with file hooks</a></li><li><a href="files.html#pos_9">Image size classes</a></li><li><a href="files.html#pos_10">Settings of the file module</a></li><li><a href="files.html#pos_11">Hooks</a></li></ul></li><li><a href="forms.html">Forms</a><ul class=" closed"><li><a href="forms.html#pos_2">Simple HTML form generation</a></li><li><a href="forms.html#pos_3">Form checker method</a></li><li><a href="forms.html#pos_4">The SpeedForm </a></li><li><a href="forms.html#pos_5">Methods of SpeedForm</a></li><li><a href="forms.html#pos_6">Data definition structure</a></li><li><a href="forms.html#pos_7">The structure : Top level attributes</a></li><li><a href="forms.html#pos_8">Field types</a></li><li><a href="forms.html#pos_9">Common field attributes</a></li><li><a href="forms.html#pos_10">Output format of SpeedForm</a></li><li><a href="forms.html#pos_11">Query and Add field types</a></li><li><a href="forms.html#pos_12">Data definition structure repository</a></li><li><a href="forms.html#pos_13">Helper functions</a></li><li><a href="forms.html#pos_14">Settings of the forms module</a></li><li><a href="forms.html#pos_15">Hooks</a></li></ul></li><li><a href="tablegen.html">Table generator</a><ul class=" closed"><li><a href="tablegen.html#pos_2">Html table generation</a></li><li><a href="tablegen.html#pos_3">Excel output generator</a></li><li><a href="tablegen.html#pos_4">Convert Excel XML tables to HTML tables</a></li></ul></li><li><a href="totable.html">Query formatter</a><ul class=" closed"><li><a href="totable.html#pos_2">Automatic output generator for sql queries</a></li><li><a href="totable.html#pos_3">Input of to_table()</a></li><li><a href="totable.html#pos_4">Outout of to_table()</a></li><li><a href="totable.html#pos_5">Options affects the whole table</a></li><li><a href="totable.html#pos_6">Change the number or/and the order of the fields</a></li><li><a href="totable.html#pos_7">Customize of fields</a></li><li><a href="totable.html#pos_8">Modify the value of the fields</a></li><li><a href="totable.html#pos_9">Using virtual fields</a></li><li><a href="totable.html#pos_10">Using field repository</a></li><li><a href="totable.html#pos_11">Using field repository directly from SQL</a></li><li><a href="totable.html#pos_12">Backend of to_table()</a></li><li><a href="totable.html#pos_13">Generate HTML and Excel tables with same way</a></li></ul></li><li><a href="dyntable.html">DynTable</a><ul class=" closed"><li><a href="dyntable.html#pos_2">Methods of DynTable class</a></li><li><a href="dyntable.html#pos_3">Data definition structure</a></li><li><a href="dyntable.html#pos_4">Data definition structure repository</a></li><li><a href="dyntable.html#pos_5">A complex example</a></li></ul></li><li><a href="user.html">User module</a><ul class=" closed"><li><a href="user.html#pos_2">The global $user object</a></li><li><a href="user.html#pos_3">Login and logout</a></li><li><a href="user.html#pos_4">Managing users</a></li><li><a href="user.html#pos_5">Helper functions</a></li><li><a href="user.html#pos_6">CodKep session data</a></li><li><a href="user.html#pos_7">Settings of user module</a></li><li><a href="user.html#pos_8">Hooks</a></li></ul></li><li><a href="node.html">Node</a><ul class=" closed"><li><a href="node.html#pos_2">Fixed properties(fields) of the Node</a></li><li><a href="node.html#pos_3">Methods of Node class</a></li><li><a href="node.html#pos_4">Helper functions of node class</a></li><li><a href="node.html#pos_5">Defining a node</a></li><li><a href="node.html#pos_6">Dynamic node definition</a></li><li><a href="node.html#pos_7">Modify existing node types</a></li><li><a href="node.html#pos_8">Database appearance of nodes</a></li><li><a href="node.html#pos_9">Querying node lists from database</a></li><li><a href="node.html#pos_10">Node access control</a></li><li><a href="node.html#pos_11">REST api for nodes</a></li><li><a href="node.html#pos_12">Node related REST commands</a></li><li><a href="node.html#pos_13">A complete example</a></li><li><a href="node.html#pos_14">Custom Node objects</a></li><li><a href="node.html#pos_15">Settings of the nodes</a></li><li><a href="node.html#pos_16">Hooks</a></li></ul></li><li><a href="page.html">Page</a><ul class=" closed"><li><a href="page.html#pos_2">Fields of the page</a></li><li><a href="page.html#pos_3">Permissions of pages</a></li><li><a href="page.html#pos_4">Extending page type</a></li><li><a href="page.html#pos_5">Hooks</a></li></ul></li><li><a href="doc.html">Documenting</a><ul class=" closed"><li><a href="doc.html#pos_2">My mark language</a></li><li><a href="doc.html#pos_3">Highlights</a></li><li><a href="doc.html#pos_4">Headings</a></li><li><a href="doc.html#pos_5">Other elements</a></li><li><a href="doc.html#pos_6">Tables</a></li><li><a href="doc.html#pos_7">Lists</a></li><li><a href="doc.html#pos_8">Codes</a></li><li><a href="doc.html#pos_9">Links</a></li><li><a href="doc.html#pos_10">Images</a></li></ul></li><li><a href="debug.html">Debugging</a><ul class=" closed"><li><a href="debug.html#pos_2">Dumping arbitrary data objects</a></li><li><a href="debug.html#pos_3">Special pages</a></li><li><a href="debug.html#pos_4">Debug sql calls</a></li><li><a href="debug.html#pos_5">Dump the parameters of the page</a></li></ul></li></ul></div></div>
+</body>
+</html>

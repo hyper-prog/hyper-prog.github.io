@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Sql</title>
+  <meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css"/>
+  <link rel="stylesheet" type="text/css" href="default.css"/>
+  <link rel="stylesheet" type="text/css" href="ckcomm.css"/>
+  <link rel="stylesheet" type="text/css" href="flex.css"/>
+  <script type="text/javascript" src="highlight.pack.js"></script>
+</head>
+<body>
+ <div class="content"><div class="ccdoccontent"><a name="pos_1"><h1>Sql</h1></a>
+<p>Allows the use of different database servers, while provides unified code base and error handling.
+<br/>
+The sql module uses <a href="http://php.net/manual/en/book.pdo.php">php pdo extension</a>,
+thus your php have to the PDO installed.
+<br/>
+The main functions of sql module is:
+</p>
+<ul><li>Manage of sql <a href="#connect">connect/disconnect</a></li><li><a href="#sqlexec">Execute sql commands</a></li><li>Manage <a href="#transactions">transactions</a></li><li>Sql <a href="#errorhandling">error handling</a></li><li><a href="#schemeedit">Manage sql schema</a>/other module requirements</li></ul><p><a name="settings"></a>
+</p><a name="pos_2"><h2>Sql database settings</h2></a>
+<p>In order to connect an sql database you have to place the appropriate
+connection settings to <a href="modules.html#site_settings">site settings</a> in <code>_settings.php</code>
+</p><pre><code class="php">    global $db;
+
+    //mandatory to connect:
+    $db-&gt;servertype = "mysql";
+    $db-&gt;host = "127.0.0.1";
+    $db-&gt;name = "web_example_db";
+    $db-&gt;user = "web_db_user";
+    $db-&gt;password = "secretpass1";
+
+    //optional settings:
+    $db-&gt;sqlencoding = "utf8";
+    $db-&gt;schema_editor_password = "secretpass2"; //empty means disabled!
+    $db-&gt;schema_editor_allowed_for_admin = true;
+    //$db-&gt;schema_editor_allowed_only_for_login = 'superadmin';
+</code></pre><p>Mandatory settings
+</p>
+<ul><li><code>$db->servertype</code>
+<ul><li>Specifies the server type. Possible values:
+<ul><li>"mysql" - to connect mysql or mariadb</li><li>"pgsql" - to connect postgresql</li><li>"none" - to disable sql connection</li></ul></li></ul></li><li><code>$db->host</code>
+<ul><li>The hostname or IP address where the sql database is available</li></ul></li><li><code>$db->name</code>
+<ul><li>The name of the database on the sql server</li></ul></li><li><code>$db->user</code>
+<ul><li>The username to connect</li></ul></li><li><code>$db->password</code>
+<ul><li>The password for the specified user</li></ul></li></ul><p>Optional settings
+</p>
+<ul><li><code>$db->sqlencoding</code>
+<ul><li>Runs <code>SET NAMES sqlencoding;</code> sql command to set the connection encoding immediately after database connect.</li><li>If not set the default is empty string, which bypass running of <code>SET NAMES</code>.</li></ul></li><li><code>$db->schema_editor_password</code>
+<ul><li>Specifies a password for the <a href="#schemeedit">schema editor page</a>. Empty string will disable of accessing this page with password. (See next setting)</li></ul></li><li><code>$db->schema_editor_allowed_for_admin</code>
+<ul><li>If this value is set true an authenticated admin user can access the schema editor page without any further password.</li></ul></li><li><code>$db->schema_editor_allowed_only_for_login</code>
+<ul><li>If this value is set, only the user with the specified login can access the schema editor page without any further password. (Have to enable the <code>$db->schema_editor_allowed_for_admin</code>)</li></ul></li></ul><p><a name="connect"></a>
+</p><a name="pos_3"><h2>Connect and disconnect</h2></a>
+<p><em>Before first time connect to an sql database please check your php have the appropriate sql driver available!</em>
+</p>
+<p><strong>If your sql setting are correctly set in <code>_settings.php</code> the CodKep will automatically connect</strong>
+<strong>to the specified database. It means that usually does not need to explicit call connect and disconnect function!</strong>
+</p>
+<p>Connect to the sql database
+</p>
+<p><span class="definition">sql_connect()</span>
+</p>
+<p>Disconnects the current opened database
+</p>
+<p><span class="definition">sql_disconnect()</span>
+</p>
+<p>The connect and disconnect functions does not have parameters. The connection is done according to the settings
+(<a href="#settings">see above</a>).<br/>
+If the connection is failed the execution is automatically redirected to
+the <code>sql_connection_error</code> sql error handling
+<a href="routes.html">location</a>, which print the sql error message by default.
+</p>
+<p>An sql connection error as looks in a browser:
+</p>
+<p><img src="images/sqlconnect_error.png" title="Sql connect error"  style="border: 2px solid #999; " alt="sqlconnect_error.png"/>
+</p>
+<p>You can test if a database opened or by checking the value of <code>$db->open</code> variable. Usually does not necessary to
+check this, because all further sql related functions will done this, or do correct error handling.
+</p>
+<p><em>Note: On successful sql connect the <code>HOOK_sql_connected</code> <a href="hooks.html">hook</a> is activated</em>
+<a name="sqlexec"></a>
+</p><a name="pos_4"><h2>Execute SQL commands</h2></a>
+<p>You can execute arbitrary sql command by the following functions in this section or you use the
+<a href="#database_query_interface">general database CRUD interface</a> described later.
+These functions here are "low level" sql functions they almost directly pass the sql commands
+to the underlying driver interface.
+</p>
+<p><span class="definition">sql_exec($sql,array $parameters = [],$errormsg = '')</span>
+</p>
+<p></p>
+<ul><li><code>$sql</code> parameter
+<ul><li>The prepared sql statement to run. It can accept named placeholders.</li></ul></li><li><code>$parameters</code> parameter
+<ul><li>An array of values to substitute into the query. If the query uses placeholders, this is an associative array in any order.</li></ul></li><li><code>$errormsg</code> parameter
+<ul><li>An optional custom error message, which printed on sql error handling page when the execution failed by any reason.</li></ul></li></ul><p>This function returns an executed pdo object. See <a href="http://php.net/manual/en/book.pdo.php">php pdo documentation</a>
+</p><pre><code class="php">$r1 = sql_exec('SELECT name FROM users;');
+
+$login = 'alice';
+$r2 = sql_exec('SELECT name FROM users WHERE login=:login;' , [':login' =&gt; $login] );
+
+$secret = 'secretpassword';
+sql_exec('UPDATE users SET pwd=:password WHERE login=:login;',
+         [':login' =&gt; $login,
+          ':password' =&gt; $secret],
+          'Cannot set the password');
+</code></pre><p>In case of error occurred the function returns NULL.
+Usually does not need to do error handling because the function do automatically.
+</p>
+<p>See <a href="#errorhandling">error handling section</a> to learn how to handle errors.
+<hr/>
+<span class="definition">sql_exec_noredirect($sql,array $parameters = [])</span>
+</p>
+<p>Same function as <code>sql_exec</code> but newer do any redirection in case of error.
+Useful when sql used in some special hooks where the redirection is not possible or would create a loop.
+<hr/>
+<span class="definition">sql_exec_fetch($sql,array $parameters = [],$errormsg = '')</span>
+</p>
+<p>Executes and fetch an sql command.
+The parameters and the error handle works similar way as <a href="#sqlexec">sql_exec</a> the only difference
+is that this function calls fetch on the executed statement, consequently returns an array instead of pdo object.
+</p>
+<p>It returns an executed and fetched php array. (An associative array of the first record of the result)
+</p><pre><code class="php">$arr = sql_exec_fetch('SELECT name FROM users WHERE login=:login;' , [':login' =&gt; $login] );
+print "Name:".$arr['name'];
+</code></pre><p>This function raise error when the result is empty. (In the example above, when the $login is not found
+in users table the function will fail) If you would like to allow the empty result use the
+<code>sql_exec_fetchN</code> instead of this.
+</p>
+<p>See <a href="#errorhandling">error handling section</a> to learn how to handle errors.
+<hr/>
+<span class="definition">sql_exec_fetchN($sql,array $parameters = [],$errormsg = '')</span>
+</p>
+<p>Executes and fetch an sql command.
+The parameters and the error handle works similar way as <a href="#sqlexec">sql_exec</a> the only
+difference is that this function calls fetch on the executed statement,
+consequently returns an array instead of pdo object. Allows empty result.
+It returns an executed and fetched array.
+</p><pre><code class="php">$arr = sql_exec_fetch('SELECT name FROM users WHERE login=:login;' , [':login' =&gt; $login] );
+print "Name:". (empty($arr) ? "Unknown" : $arr['name']);
+</code></pre><p>See <a href="#errorhandling">error handling section</a> to learn how to handle errors.
+<hr/>
+<span class="definition">sql_exec_single($sql,array $parameters = [],$errormsg = '')</span>
+</p>
+<p>Executes and fetch an sql command and returns the first field of the first received record.
+It returns a single value. This function is useful if a single value is queried from the database.
+</p><pre><code class="php">print "Time:";
+print sql_exec_single('SELECT current_time;');
+</code></pre><p>See <a href="#errorhandling">error handling section</a> to learn how to handle errors.
+<hr/>
+<span class="definition">sql_exec_fetchAll($sql,array $parameters = [],$errormsg = '',$fetch_names_only = false)</span>
+</p>
+<p>Executes an sql command and call <code>fetchAll()</code> on it.
+It means that this function returns an array containing all of the result set rows.
+In a nutshell the result is array of associative arrays of resulted records.
+</p>
+<p>If <code>$fetch_names_only</code> parameter is false the <code>fetchAll</code> function called with <code>fetch_style=PDO::FETCH_NAMED</code>
+otherwise the default mode <code>PDO::FETCH_BOTH</code> is used.
+To understand this see <a href="http://php.net/manual/en/pdostatement.fetchall.php">PDO fetchAll() documentation</a>.
+</p><pre><code class="php">print "&lt;ul&gt;";
+$allres = sql_exec_fetchAll('SELECT name FROM users;');
+foreach($allres as $res)
+ print "&lt;li&gt;".$res['name']."&lt;/li&gt;";
+print "&lt;/ul&gt;";
+</code></pre><p>See <a href="#errorhandling">error handling section</a>
+<a name="database_query_interface"></a>
+</p><a name="pos_5"><h2>General database CRUD interface</h2></a>
+<p>The CodKep's sql module have a database Create/Read/Update/Delete interface which can generate the sql commands
+dynamically. It makes easier to create polymorph/variable database actions, or simply creates cleaner look database operations.
+<br/>
+This interface uses the CodKep's internal sql functions to execute so that the transaction and error handling
+is same that you get in <code>sql_exec_</code>* functions.
+</p>
+<p><strong>Demonstration exaples:</strong>
+<table><tr>
+<td>
+</p><pre><code class="code">sql_exec_single(
+ 'SELECT name FROM students WHERE sid=:sidp',
+ [':sidp' =&gt; 5]);
+</code></pre><p></td><td>
+</p><pre><code class="code">db_query('students')
+  -&gt;get('name')
+  -&gt;cond_fv('sid',5,'=')
+  -&gt;execute_to_single();
+</code></pre><p></td>
+</tr><tr>
+<td>
+</p><pre><code class="code">sql_exec('
+  SELECT name,identifier FROM students
+  INNER JOIN exams ON exams.stid=students.sid
+  WHERE exams.eid=:eidp AND exams.result &gt; :resp
+  ORDER BY name',
+  [':eidp' =&gt; 15,':resp' =&gt; 1]);
+</code></pre><p></td><td>
+</p><pre><code class="code">db_query('students')
+  -&gt;get_a(['name','identifier'])
+  -&gt;join_ffe('exams','','stid','sid')
+  -&gt;cond_fv('eid',15,'=')
+  -&gt;cond_fv('result',1,'&gt;')
+  -&gt;sort('name')
+  -&gt;execute();
+</code></pre><p></td>
+</tr><tr>
+<td>
+</p><pre><code class="code">sql_exec('
+  INSERT INTO students(name,bday)
+  VALUES(:namep,:bdayp)',
+  [':namep' =&gt; 'Dave',
+   ':bdayp' =&gt; '2005-01-03']);
+</code></pre><p></td><td>
+</p><pre><code class="code">db_insert('students')
+  -&gt;set_fv_a(['name' =&gt; 'Dave',
+              'bday' =&gt; '2005-01-03'])
+  -&gt;execute();
+</code></pre><p></td>
+</tr><tr>
+<td>
+</p><pre><code class="code">sql_exec('
+  UPDATE exams SET result=:resp
+  WHERE stid=:studentp AND result IS NULL',
+  [':resp' =&gt; 3,
+   ':studentp' =&gt; 135]);
+</code></pre><p></td><td>
+</p><pre><code class="code">db_update('exams')
+  -&gt;set_fv('result',3)
+  -&gt;cond_fv('stid',135,'=')
+  -&gt;cond_fnull('result')
+  -&gt;execute();
+</code></pre><p></td>
+</tr></table>
+<strong>Using of the general database interface:</strong>
+</p>
+<p>The interface has 4 starter function to create the four base operation.
+</p>
+<ul><li><span class="definition">db_query($tablename,$alias = '',array $options = [])</span>
+<ul><li>Usable for start database queries/reads.</li></ul></li><li><span class="definition">db_insert($tablename,array $options = [])</span>
+<ul><li>Usable for start database inserts. (create)</li></ul></li><li><span class="definition">db_update($tablename,array $options = [])</span>
+<ul><li>Usable for start database updates.</li></ul></li><li><span class="definition">db_delete($tablename,array $options = [])</span>
+<ul><li>Usable for start database deletions.</li></ul></li></ul><p>All four function above returns a <code>DatabaseQuery</code> descendant object which have many methods to customize/set the
+features of the desired database operation.
+<a name="databasequery"></a>
+</p><a name="pos_6"><h3>Methods of DatabaseQuery</h3></a>
+
+<ul><li><span class="definition">get($fieldspec,$alias = '',array $options = [])</span>
+<ul><li>Adds exactly one field to the queried fields list</li><li>The <code>$fieldspec</code> parameter specify the field according to <a href="#fieldspec">FIELDSPEC specification</a>.</li><li>If the <code>$alias</code> parameter is not empty the field data will be available under this name. Otherwise the field name is usable.</li><li>The <code>$options</code> parameter is an optional associative array of the field options according to <a href="#fieldopts">OPTIONS specification</a>.</li></ul></li><li><span class="definition">get_a(array $fieldnames,$container = '',array $options = [])</span>
+<ul><li>Adds an <strong>A</strong>rray of fields to the queried fields list</li><li><code>$fieldnames</code> is an array of strings containing the needed field names.</li><li>If the <code>$container</code> parameter is not empty the specified fields will be assigned to this container (table).</li><li>The <code>$options</code> parameter is an optional associative array of the field options according to <a href="#fieldopts">OPTIONS specification</a>.</li></ul></li><li><span class="definition">get_clean()</span>
+<ul><li>Erase every field from the queried fields list</li></ul></li><li><span class="definition">counting($fieldspec = '',$alias = '')</span>
+<ul><li>Erase the queried fields list and add the specified field as COUNT field.</li><li>The <code>$fieldspec</code> parameter specify the field according to <a href="#fieldspec">FIELDSPEC specification</a>.</li><li>If the <code>$alias</code> parameter is not empty the COUNT field data will be available under this name.</li><li>If no parameter passed the function will count the * fields under name "cnt". So it means: COUNT(*) AS cnt</li></ul></li><li><span class="definition">set_fv($fieldspec,$value,array $options = [])</span>
+<ul><li><strong>Set</strong> a <strong>F</strong>ield-<strong>V</strong>alue.</li><li>Sets a single field's value according to the <code>$value</code> parameter. The value is set through the sql parameter system.</li><li>The <code>$fieldspec</code> parameter specify the field according to <a href="#fieldspec">FIELDSPEC specification</a>.</li><li>The <code>$options</code> parameter is an optional associative array of the field options according to <a href="#fieldopts">OPTIONS specification</a>.</li></ul></li><li><span class="definition">set_fv_a(array $field_value_array)</span>
+<ul><li><strong>Set</strong> a <strong>F</strong>ield-<strong>V</strong>alue <strong>A</strong>rray.</li><li>Sets an array of field's value according to the parameter passed associative array where the indexes are the field names and the values are the desired values to set.</li></ul></li><li><span class="definition">set_fe($fieldspec,$expression,array $options = [])</span>
+<ul><li><strong>Set</strong> a <strong>F</strong>ield-<strong>E</strong>xpression.</li><li>Sets a single field's value according to the <code>$expression</code> parameter. The expression value is writed directly into the sql query. The parameter system is not used here.</li><li>The <code>$fieldspec</code> parameter specify the field according to <a href="#fieldspec">FIELDSPEC specification</a>.</li><li>The <code>$options</code> parameter is an optional associative array of the field options according to <a href="#fieldopts">OPTIONS specification</a>.</li></ul></li><li><span class="definition">set_clean()</span>
+<ul><li>Erase every field settings from the set fields list. (Erase all effects of <code>set_</code>* functions.)</li></ul></li><li><span class="definition">join($container,$alias,DatabaseCond $conditions)</span>
+<ul><li>Join a container/table to this query (INNER JOIN)</li><li>The <code>$container</code> parameter is the name of the table to join.</li><li>If the <code>$alias</code> is not null the passed alias name will be used.</li><li>The <code>$conditions</code> parameter should be a <code>DatabaseCond</code> object. This object have to describe the connection rules. See <a href="#databasecond">DatabaseCond</a> class</li></ul></li><li><span class="definition">join_ffe($container,$alias,$field1,$field2)</span>
+<ul><li>Join a container/table easy way when <strong>F</strong>ield <strong>F</strong>ield <strong>E</strong>qual condition is sufficient. (INNER JOIN)</li><li>This is a easy to use variable of normal <code>join()</code> method. It is usable when only a field equal to field typed condition is used to join the tables. (<code>INNER JOIN secondtable ON secondtable.idf=maintable.connf</code>)</li><li>The <code>$container</code> parameter is the name of the table to join.</li><li>If the <code>$alias</code> is not null the passed alias name will be used.</li><li>The <code>$field1</code> and <code>$field2</code> parameters are specifies the equal fields according to <a href="#fieldspec">FIELDSPEC specification</a>.</li></ul></li><li><span class="definition">join_opt($container,$alias,DatabaseCond $conditions)</span>
+<ul><li>Join a container/table <strong>opt</strong>ional way to this query (LEFT OUTER JOIN)</li><li>The <code>$container</code> parameter is the name of the table to join.</li><li>If the <code>$alias</code> is not null the passed alias name will be used.</li><li>The <code>$conditions</code> parameter should be a <code>DatabaseCond</code> object. This object have to describe the connection rules. See <a href="#databasecond">DatabaseCond</a> class</li></ul></li><li><span class="definition">join_opt_ffe($container,$alias,$field1,$field2)</span>
+<ul><li>Join a container/table <strong>opt</strong>ional and easy way when <strong>F</strong>ield <strong>F</strong>ield <strong>E</strong>qual condition is sufficient. (INNER JOIN)</li><li>This is a easy to use variable of normal <code>join_opt()</code> method. It is usable when only a field equal to field typed condition is used to join the tables.</li><li>The <code>$container</code> parameter is the name of the table to join.</li><li>If the <code>$alias</code> is not null the passed alias name will be used.</li><li>The <code>$field1</code> and <code>$field2</code> parameters are specifies the equal fields according to <a href="#fieldspec">FIELDSPEC specification</a>.</li></ul></li><li><span class="definition">join_auto($container,$join_to = '',$alias = '')</span>
+<ul><li>Joins a container/table automatically according to pre defined field matches. (Works only on field equal to field join conditions)</li><li>The <code>$join_to</code> parameter can specify the table to join. If empty the CodKep try to join to the main container first. If not success it walks through the joined tables (in the specification order) until it finds a matches.</li><li>See <a href="#autojoin"><code>db_register_autojoin()</code></a> function.</li></ul></li><li><span class="definition">join_opt_auto($container,$join_to = '',$alias = '')</span>
+<ul><li>Joins a container/table optionally and automatically according to pre defined field matches. (Works only on field equal to field join conditions)</li><li>The <code>$join_to</code> parameter can specify the table to join. If empty the CodKep try to join to the main container first. If not success it walks through the joined tables (in the specification order) until it finds a matches.</li><li>See <a href="#autojoin"><code>db_register_autojoin()</code></a> function.</li></ul></li><li><span class="definition">join_clean()</span>
+<ul><li>Erase every connection/join settings from the query. (Erase all effects of <code>join_</code>* functions.)</li></ul></li><li><span class="definition">cond(DatabaseCond $cond)</span>
+<ul><li>Adds a complex condition to the condition lists.</li><li>The <code>$cond</code> parameter have to be a <code>DatabaseCond</code> object. See <a href="#databasecond">DatabaseCond</a> class</li></ul></li><li><span class="definition">cond_ff($fieldspec1,$fieldspec2,$op,array $options = [])</span>
+<ul><li>Adds a <strong>F</strong>ield to <strong>F</strong>ield type toplevel condition to the condition list.</li><li>This function calls the main condition object's <code>ff()</code> function. See <a href="#databasecond">DatabaseCond</a> class</li><li>The <code>$fieldspec1</code> and <code>$fieldspec2</code> parameters are specifies the equal fields according to <a href="#fieldspec">FIELDSPEC specification</a>.</li></ul></li><li><span class="definition">cond_fv($fieldspec,$value,$op,array $options = [])</span>
+<ul><li>Adds a <strong>F</strong>ield to <strong>V</strong>alue type toplevel condition to the condition list.</li><li>This function calls the main condition object's <code>fv()</code> function. See <a href="#databasecond">DatabaseCond</a> class</li><li>The <code>$fieldspec</code> parameter specify the field according to <a href="#fieldspec">FIELDSPEC specification</a>.</li></ul></li><li><span class="definition">cond_fe($fieldspec,$expression,$op,array $options = [])</span>
+<ul><li>Adds a <strong>F</strong>ield to <strong>E</strong>xpression type toplevel condition to the condition list.</li><li>This function calls the main condition object's <code>fe()</code> function. See <a href="#databasecond">DatabaseCond</a> class</li><li>The <code>$fieldspec</code> parameter specify the field according to <a href="#fieldspec">FIELDSPEC specification</a>.</li></ul></li><li><span class="definition">cond_fb($fieldspec,array $options = [])</span>
+<ul><li>Adds a <strong>F</strong>ield to <strong>B</strong>ool type toplevel condition to the condition list.</li><li>This function calls the main condition object's <code>fb()</code> function. See <a href="#databasecond">DatabaseCond</a> class</li><li>The <code>$fieldspec</code> parameter specify the field according to <a href="#fieldspec">FIELDSPEC specification</a>.</li></ul></li><li><span class="definition">cond_fnull($fieldspec,array $options = [])</span>
+<ul><li>Adds a <strong>F</strong>ield is <strong>null</strong> type toplevel condition to the condition list.</li><li>This function calls the main condition object's <code>fnull()</code> function. See <a href="#databasecond">DatabaseCond</a> class</li><li>The <code>$fieldspec</code> parameter specify the field according to <a href="#fieldspec">FIELDSPEC specification</a>.</li></ul></li><li><span class="definition">cond_sql($sqlpart)</span>
+<ul><li>Adds a free textual <strong>SQL</strong> confition text to the condition list.</li><li>This function calls the main condition object's <code>sql()</code> function. See <a href="#databasecond">DatabaseCond</a> class</li></ul></li><li><span class="definition">cond_clean()</span>
+<ul><li>Erase every condition settings from the query/update. (Erase all effects of <code>cond_</code>* functions.)</li></ul></li><li><span class="definition">sort($fieldspec,array $options = [])</span>
+<ul><li>Adds a sorter field according to the field specified by <code>$fieldspec</code> parameter.</li><li>The <code>$options</code> parameter is an optional associative array of the field options according to <a href="#fieldopts">OPTIONS specification</a>.</li><li>You can call this function more time to makes secondary, third, etc. level sorting.</li></ul></li><li><span class="definition">sort_clean()</span>
+<ul><li>Erase every sort settings from the query (Erase all effects of <code>sort</code>* function.)</li></ul></li><li><span class="definition">start($start)</span>
+<ul><li>In case of database query this method set the starting offset of the results (Sql OFFSET)</li></ul></li><li><span class="definition">length($length)</span>
+<ul><li>In case of database query this method set the numbers of results (Sql LIMIT)</li></ul></li><li><span class="definition">local_cmd()</span>
+<ul><li>This method will returns the built sql command. This does not need to execute the command, it's only for information or debugging purposes.</li></ul></li><li><span class="definition">execute(array $eopts = [])</span>
+<ul><li>Execute the database action and returns an executed pdo object.</li><li>The <code>$options</code> parameter is an optional associative array of the field options according to <a href="#fieldopts">OPTIONS specification</a>.</li></ul></li><li><span class="definition">execute_and_fetch(array $eopts = [])</span>
+<ul><li>Execute the database action and fetch the results (once). It returns an array resulted by the fetch.</li></ul></li><li><span class="definition">execute_to_single(array $eopts = [])</span>
+<ul><li>Execute the database action and returns the first field of the first received record. It returns a single value. This function is useful if a single value is queried from the database.</li></ul></li><li><span class="definition">execute_to_row(array $eopts = [])</span>
+<ul><li>Same as <code>execute_and_fetch()</code>.</li></ul></li><li><span class="definition">execute_to_arrays(array $eopts = [])</span>
+<ul><li>Executes the database query command and call fetchAll() on it. It means that this function returns an array containing all of the result set rows. Calls <code>sql_exec_fetchAll()</code> inside.</li></ul></li></ul><p>The recommended way to create new a condition object (which can be add to the DatabaseQuery <code>cond_</code>* or
+<code>join_</code>* methods is to calling one of the following two function:
+</p>
+<ul><li><span class="definition">cond($mainconn)</span>
+<ul><li>Create a normal condition branch</li><li>The <code>$mainconn</code> can be
+<ul><li><code>"and"</code> - Set the AND logical connection between the sub conditions added here.</li><li><code>"or"</code> - Set the OR logical connection between the sub conditions added here.</li></ul></li></ul></li><li><span class="definition">not_cond($mainconn)</span>
+<ul><li>Create a denial (opposite) condition branch</li><li>The <code>$mainconn</code> can be
+<ul><li><code>"and"</code> - Set the AND logical connection between the sub conditions added here.</li><li><code>"or"</code> - Set the OR logical connection between the sub conditions added here.</li></ul></li></ul></li></ul><p>Both function returns a DatabaseCond object. Every DatabaseCond object contains an array of conditions
+(connected with the defined logical relation). You can add sub conditions with the methods of
+DatabaseCond. This sub conditions can be stacked with the <code>cond()</code> method which also receives a DatabaseCond object.
+</p>
+<p><a name="databasecond"></a>
+</p><a name="pos_7"><h3>Methods of DatabaseCond</h3></a>
+
+<ul><li><span class="definition">cond(DatabaseCond $cond)</span></li><li><span class="definition">add(DatabaseCond $cond)</span>
+<ul><li>Adds a (different) completely new sub condition object to the current list.</li></ul></li><li><span class="definition">ff($fieldspec1,$fieldspec2,$op,array $options = [])</span>
+<ul><li>Adds a <strong>F</strong>ield to <strong>F</strong>ield type condition to the condition list.</li><li>Use this method when a field is compared to an another field. You can specify wrapping methods or more operations with the <code>$options</code> parameter, but in base concept field values are compared.
+<ul><li><em>Example 1</em>: <code>ff(['users','name'],['customer','name'],'=')</code></li><li><em>In SQL 1</em>: <code> users.name = customer.name </code></li><li><em>Example 2</em>: <code>ff('surname','lastname','>',['f1function'=>'LENGTH','f2function'=>'LENGTH'])</code></li><li><em>In SQL 2</em>: <code> LENGTH(surname) > LENGTH(lastname) </code></li></ul></li><li>Usable operands are: <code> = , != , > , < , >= , <= , regex </code></li><li>The <code>$options</code> is an optional associative array contains the options according to the <a href="#fieldopts">OPTIONS specification</a></li></ul></li><li><span class="definition">fv($fieldspec,$value,$op,array $options = [])</span>
+<ul><li>Adds a <strong>F</strong>ield to <strong>V</strong>alue type condition to the condition list.</li><li>Use this method when a field is compared to an external value given from program side. You can specify wrapping methods or more operations with the <code>$options</code> parameter, but in base concept field value are compared to an user defined value.
+<ul><li><em>Example 1</em>: <code>fv(['users','name'],'John Doe','=')</code></li><li><em>In SQL 1</em>: <code> users.name = :placeholder </code> and <code>[':placeholder' => 'John Doe']</code></li><li><em>Example 2</em>: <code>fv('surname','dave','=',['ffunction'=>'LOWER'])</code></li><li><em>In SQL 2</em>: <code> LOWER(surname) = :placeholder </code> and <code>[':placeholder' => 'dave']</code></li></ul></li><li>Usable operands are: <code> = , != , > , < , >= , <= , regex, in </code>
+<ul><li>If the operand is "in" the value have to be an array.</li></ul></li><li>The <code>$options</code> is an optional associative array contains the options according to the <a href="#fieldopts">OPTIONS specification</a></li></ul></li><li><span class="definition">fe($fieldspec,$expression,$op,array $options = [])</span>
+<ul><li>Adds a <strong>F</strong>ield to <strong>E</strong>xpression type condition to the condition list.</li><li>Use this method when a field is compared to an sql expression. You can specify wrapping methods or more operations with the <code>$options</code> parameter, but in base concept field value are compared to an database originated difficult expression.
+<ul><li><em>Example</em>: <code>fe('itemcount','(height-10)','>')</code></li><li><em>In SQL</em>: <code> itemcount > (height-10) </code></li></ul></li><li>Usable operands are: <code> = , != , > , < , >= , <= , regex , in </code>
+<ul><li>If the operand is "in" the expression have to contains an sql expression (eg. subquery) which returns an array.</li></ul></li><li>The <code>$options</code> is an optional associative array contains the options according to the <a href="#fieldopts">OPTIONS specification</a></li></ul></li><li><span class="definition">fb($fieldspec,array $options = [])</span>
+<ul><li>Adds a <strong>F</strong>ield to <strong>B</strong>ool type condition to the condition list.</li><li>Use this method when a field is tested to be TRUE or FALSE. You can specify wrapping methods around the field or do more operations with the <code>$options</code> parameter, but in base concept field value are tested to be logically true or false.
+<ul><li><em>Example 1</em>: <code>fb(['user','active'])</code></li><li><em>In SQL 1</em>: <code> user.active </code></li><li><em>Example 2</em>: <code>fb(['user','password'],['ffunction' => 'IS_VALID','opposite' => true])</code></li><li><em>In SQL 2</em>: <code> NOT IS_VALID(user.password) </code></li></ul></li><li>The <code>$options</code> is an optional associative array contains the options according to the <a href="#fieldopts">OPTIONS specification</a></li></ul></li><li><span class="definition">fnull($fieldspec,array $options = [])</span>
+<ul><li>Adds a <strong>F</strong>ield is <strong>null</strong> type condition to the condition list.</li><li>Use this method when a field is tested to be NULL or NOT NULL. You can specify wrapping methods around the field or do more operations with the <code>$options</code> parameter, but in base concept field value are tested to be NULL or NOT NULL.
+<ul><li><em>Example 1</em>: <code>fnull(['user','password'])</code></li><li><em>In SQL 1</em>: <code> user.password IS NULL </code></li><li><em>Example 2</em>: <code>fnull(['user','password'],['opposite' => true])</code></li><li><em>In SQL 2</em>: <code> NOT user.password IS NULL </code></li></ul></li><li>The <code>$options</code> is an optional associative array contains the options according to the <a href="#fieldopts">OPTIONS specification</a></li></ul></li><li><span class="definition">sql($sqlpart,array $options = [])</span>
+<ul><li>Adds an arbitrary sql command string as a condition. This string will be directly copied to the sql command. It is not recommend to use it except the condition is cannot described with methods above.</li><li>The <code>$options</code> is an optional associative array contains the options according to the <a href="#fieldopts">OPTIONS specification</a></li></ul></li></ul><p>Let's see a more complex condition example where more condition object is stacked each other:
+</p><pre><code class="code">/*
+SELECT name FROM users
+WHERE (gender = 'm' AND name REGEXP '^D') OR
+      (gender = 'f' AND NOT( name REGEXP '^A' OR name REGEXP '^B' ));
+*/
+
+db_query('users')
+    -&gt;get('name')
+    -&gt;cond(
+            cond('or')
+             -&gt;add( cond('and')
+                     -&gt;fv('gender','m','=')
+                     -&gt;fv('name','^D','regex')
+                  )
+             -&gt;add( cond('and')
+                      -&gt;fv('gender','f','=')
+                      -&gt;add(not_cond('or')
+                             -&gt;fv('name','^A','regex')
+                             -&gt;fv('name','^B','regex'))
+                  )
+          )
+    -&gt;execute_to_arrays()
+</code></pre><p>Keep in mind that the built in top level condition object (which default exists in DatabaseQuery to make it possible to add more
+conditions top level) has always AND logic. It's means that you have to add one sub condition object with OR logic to
+achieve top level OR conditions between arguments. You can see this method in the example above.
+</p>
+<p>Later the node module extends this interface to query nodes more easy way, see
+<a href="node.html#node_query">node_query()</a> for more details.
+<a name="fieldspec"></a>
+</p><a name="pos_8"><h3>The FIELDSPEC typed parameters</h3></a>
+<p>Most methods in <code>DatabaseQuery</code> and <code>DatabaseCond</code> can receive field specification. This can be done two way:
+</p>
+<ol><li><strong>A simple string</strong>
+<ul><li>This case the string contains the name of the field</li><li><em>Example</em>: <code>"name"</code></li></ul></li><li><strong>Array of strings</strong>
+<ul><li>This case the array should contains two string where the first have to specify the container while the second specify the field by name</li><li><em>Example</em>: <code>["users","apple"]</code></li></ul></li></ol><p><a name="fieldopts"></a>
+</p><a name="pos_8"><h3>Options available in methods</h3></a>
+<p>Available options in methods. (This options can be mixed together when available)
+</p>
+<table><thead>
+<tr><th>name</th><th>value</th><th>Description</th><th>Available here</th></tr></thead>
+<tbody>
+<tr><td><code>"function"</code></td><td>string</td><td>Embrace the value in a function call</td><td><code>set_fv()</code>, <code>set_fe()</code>, <code>get()</code>, <code>get_a()</code>, <code>sort()</code></td></tr>
+<tr><td><code>"more_args"</code></td><td>string</td><td>Adds additional arguments to the function call</td><td><code>set_fv()</code>, <code>set_fe()</code>, <code>get()</code>, <code>get_a()</code>, <code>sort()</code></td></tr>
+<tr><td><code>"direction"</code></td><td>"REVERSE"</td><td>Reverse the sorting directions on this field</td><td><code>sort()</code></td></tr>
+<tr><td><code>"opposite"</code></td><td>true</td><td>Negate the condition's result where set</td><td><code>cond_ff()</code>, <code>cond_fv()</code>, <code>cond_fe()</code>, <code>cond_fb()</code>, <code>cond_fnull()</code>, <code>ff()</code>, <code>fv()</code>, <code>fe()</code>, <code>fb()</code>, <code>fnull()</code></td></tr>
+<tr><td><code>"f1function"</code></td><td>string</td><td>Embrace the field 1 in a function call</td><td><code>cond_ff()</code>, <code>ff()</code></td></tr>
+<tr><td><code>"f2function"</code></td><td>string</td><td>Embrace the field 2 in a function call</td><td><code>cond_ff()</code>, <code>ff()</code></td></tr>
+<tr><td><code>"ffunction"</code></td><td>string</td><td>Embrace the field in a function call</td><td><code>cond_fv()</code>, <code>cond_fe()</code>, <code>cond_fb()</code>, <code>cond_fnull()</code>, <code>fv()</code>, <code>fe()</code>, <code>fb()</code>, <code>fnull()</code></td></tr>
+<tr><td><code>"vfunction"</code></td><td>string</td><td>Embrace the value in a function call</td><td><code>cond_fv()</code>, <code>fv()</code></td></tr>
+<tr><td><code>"efunction"</code></td><td>string</td><td>Embrace the expression in a function call</td><td><code>cond_fe()</code>, <code>fe()</code></td></tr>
+<tr><td><code>"noredirect"</code></td><td>true</td><td>Disable automatic page redirection in case of error</td><td><code>execute()</code></td></tr>
+<tr><td><code>"errormsg"</code></td><td>string</td><td>Custom error message, which is passed to the underlying <code>sql_exec_</code>* functions. See <a href="#sqlexec">here</a></td><td><code>execute()</code>, <code>execute_and_fetch()</code>, <code>execute_to_row()</code>, <code>execute_to_single()</code>, <code>execute_to_arrays()</code></td></tr>
+<tr><td><code>"fetch_names_only"</code></td><td>true</td><td>This options is set the <code>fetch_names_only</code> parameter of <code>sql_exec_fetchAll()</code>. See <a href="#sqlexec">here</a></td><td><code>execute_to_arrays()</code></td></tr></tbody></table><p><a name="autojoin"></a>
+</p><a name="pos_8"><h3>Auto join system</h3></a>
+<p>You can register table+field pairs in db query system which is usable to join tables with less code.<br/>
+In a properly set environment you only have to tell which table to join, the system will do the field matches according
+to the registrations done with the following function:
+</p>
+<p><span class="definition">db_register_autojoin($join_this_container, $to_this_container, $this_fieldname, $to_fieldname, $mode = ONE_WAY)</span>
+<br/>
+Registers a new auto join hint in system.
+</p>
+<ul><li>The <code>$join_this_container</code> parameter is the table A to join.</li><li>The <code>$to_this_container</code> parameter is the table B where to join.</li><li>The <code>$this_fieldname</code> parameter is the matching field of table A.</li><li>The <code>$to_fieldname</code> parameter is the matching field of table B.</li><li>If the <code>$mode</code> parameter is the default <code>ONE_WAY</code> the join hint is used only when A table joined to B. Other ways the <code>$mode</code> is <code>TWO_WAY</code> the hint is used both the A->B and B->A directions join.</li></ul><p>Example:
+</p><pre><code class="php">function hook_mymodule_init()
+{
+    db_register_autojoin('people','address', 'addr', 'a_id', TWO_WAY);
+}
+</code></pre><p>After you do this registration above you can use the <code>join_auto()</code> and <code>join_opt_auto()</code> function in db queries.
+</p><pre><code class="php">$r = db_query('people')
+     -&gt;get('name')
+     -&gt;join_auto('address')
+     -&gt;get('address_string')
+     -&gt;sort('name')
+     -&gt;execute_to_arrays();
+
+// Here the join_auto('address') will be translated to
+//    join_ffe('address','',['people','addr'],['address','a_id])
+
+print to_table($r);
+</code></pre><a name="pos_8"><h2>Simple and easy database operations</h2></a>
+<p>There is a simplified database access interface for simple database manipulations based on DatabaseQuery
+(The Database CRUD interface described above)
+This operations is usable for simple insert/delete/update/list elements from a single sql table.
+</p>
+<p>You can use the following helper function to use this simplified interface:
+</p>
+<p><span class="definition">db_x($tablename)</span>
+</p>
+<p>This function above (means <strong>db</strong> e<strong>X</strong>ecute) creates a SimpleDatabaseQuery instance which has the following methods:
+</p>
+<ul><li><span class="definition">add(array $field_value_array)</span>
+<ul><li>Inserts a new record to the <code>$tablename</code> table according to <code>$field_value_array</code>, and executes the statement.</li><li>It's equivalent to call:<br/> <code>db_query($tablename)</code><br/> <code>  ->set_fv_a($field_value_array)</code><br/> <code>  ->execute();</code></li></ul></li><li><span class="definition">update(array $fields_to_set,array $field_value_filters = [])</span>
+<ul><li>Update records according to the filter array in the <code>$tablename</code> table to <code>$field_value_array</code>, and executes the statement. Every key value pairs in the <code>$field_value_filters</code> array is added as a separate condition, which resulting that all field index have to match with all values to update the record.</li><li>It's equivalent to call:<br/> <code>db_update($tablename)</code><br/> <code>  ->set_fv_a($field_value_array)</code><br/> <code>  ->cond_fv(...first key-value pair of $field_value_filters...)</code><br/> <code>  ->cond_fv(...second key-value pair of $field_value_filters...)</code><br/> <code>  ...</code><br/> <code>  ->execute();</code></li></ul></li><li><span class="definition">del(array $field_value_filters)</span>
+<ul><li>Deletes all record from the <code>$tablename</code> table according to <code>$field_value_filters</code>, and executes the statement. Every key value pairs in the <code>$field_value_filters</code> array is added as a separate condition, which resulting that all field index have to match with all values to delete a record.</li><li>It's equivalent to call:<br/> <code>db_delete($tablename)</code><br/> <code>  ->cond_fv(...first key-value pair of $field_value_filters...)</code><br/> <code>  ->cond_fv(...second key-value pair of $field_value_filters...)</code><br/> <code>  ...</code><br/> <code>  ->execute();</code></li></ul></li><li><span class="definition">get($showfield,array $field_value_filters = [])</span>
+<ul><li>Returns an array of the first record matched to the filters of <code>$field_value_filters</code>. The returned field list consists of the columns specified by <code>$showfield</code>. If the <code>$showfield</code> parameter is an array of field names the return value will be an array. Otherwise the <code>$showfield</code> is a simple string a simple value will be retuened. Every key value pairs in the <code>$field_value_filters</code> array is added as a separate condition, which resulting that all field index have to match with all values to delete a record.</li><li>It's equivalent to call: (When <code>is_array($showfield) == true</code>)<br/> <code>db_query($tablename)</code><br/> <code>  ->get_a($showfield)</code><br/> <code>  ->cond_fv(...first key-value pair of $field_value_filters...)</code><br/> <code>  ->cond_fv(...second key-value pair of $field_value_filters...)</code><br/> <code>  ...</code><br/> <code>  ->execute_and_fetch();</code></li><li>It's equivalent to call: (When <code>is_array($showfield) == false</code>)<br/> <code>db_query($tablename)</code><br/> <code>  ->get($showfield)</code><br/> <code>  ->cond_fv(...first key-value pair of $field_value_filters...)</code><br/> <code>  ->cond_fv(...second key-value pair of $field_value_filters...)</code><br/> <code>  ...</code><br/> <code>  ->execute_to_single();</code></li></ul></li><li><span class="definition">lst(array $showfields,array $field_value_filters = [],array $sort = [])</span>
+<ul><li>Returns an array of arrays of all records matched to the filters of <code>$field_value_filters</code>. The returned field lists consists of the columns specified by <code>$showfields</code>. Every key value pairs in the <code>$field_value_filters</code> array is added as a separate condition, which resulting that all field index have to match with all values to delete a record. If you specify an array to the sort parameter, the result is sorted according to that fields, otherwise the result is sorted by the first value of <code>$showfields</code> array. If a column name in <code>$sort</code> is started with <code>-</code> sign, the sorting by that field is reversed.</li><li>It's equivalent to call:<br/> <code>db_query($tablename)</code><br/> <code>  ->get_a($showfields)</code><br/> <code>  ->cond_fv(...first key-value pair of $field_value_filters...)</code><br/> <code>  ->cond_fv(...second key-value pair of $field_value_filters...)</code><br/> <code>  ...</code><br/> <code>  ->sort(...first value of $sort...)</code><br/> <code>  ->sort(...second value of $sort...)</code><br/> <code>  ->execute_to_arrays();</code></li></ul></li></ul><p>In the functions above the <code>$field_value_filters</code> array values can be the following "magic strings":
+</p>
+<ul><li><code>##NULL##</code> - the field is match when NULL</li><li><code>##NOTNULL##</code> - the field is match when not NULL</li><li><code>##TRUE##</code> - the field is match when TRUE</li><li><code>##FALSE##</code> - the field is match when FALSE</li></ul><p>Examples using of this simple database manipulation interface
+</p><pre><code class="php">//Inserts a new record to the "mysqltable" table
+//with the describe:'Lorem ipsum' and height:150 values
+db_x('mysqltable')-&gt;add(['describe' =&gt; 'Lorem ipsum','height' =&gt; 150]);
+
+//Delete the id:123 record from the "mysqltable" table
+db_x('mysqltable')-&gt;del(['id' =&gt; 123]);
+
+//Change the name field value to "Dave" on "names" table id:112 record.
+db_x('names')-&gt;update(['name' =&gt; 'Dave'],['id' =&gt; 112]);
+
+//Get the following field values of the id:112 record from "names" table.
+$a = db_x('names')-&gt;get(['name','id','age'],['id' =&gt; 112]);
+print implode(', ',$a);
+
+//List all employe from "names" sorted by name and descending to age with the specified fields.
+$a = db_x('names')-&gt;lst(['name','id','age'],['employee' =&gt; '##TRUE##'],['name','-age']);
+print to_table($a);
+
+//Simply get the name of the id:88 from "names" table.
+$n = db_x('names')-&gt;get('name',['id' =&gt; 88]);
+print "The name is $n";
+</code></pre><p><a name="transactions"></a>
+</p><a name="pos_9"><h2>Sql transactions</h2></a>
+<p>It's possible to use sql transactions, the sql module have helper functions to do this.
+The transaction manage functions works on the current database connections.
+</p>
+<p>Functions to manage transactions
+</p>
+<ul><li><code>sql_transaction()</code> Start a new sql transaction.</li><li><code>sql_commit()</code> Commits the current transaction.</li><li><code>sql_rollback()</code> Rollbacks the current transaction.</li><li><code>sql_commit_if_needed()</code> Commits the current transaction if exists. Otherwise do nothing.</li><li><code>sql_rollback_if_needed()</code> Rollbacks the current transaction if exists. Otherwise do nothing.</li></ul><p>Every transaction should begin by calling <code>sql_transaction()</code>. There is no way to nest sql transactions,
+thus every <code>sql_transaction()</code> should proceed some other function which rollback or commits the transaction.
+</p>
+<p><em>Note: If you start a new transaction in another opened transaction the system will raise an error message</em>
+</p>
+<p>Example to use transactions
+</p><pre><code class="php">//Example to use transactions
+sql_transaction();
+sql_exec("UPDATE systable SET value=:val WHERE key=:key;",
+         [':key' =&gt; $key,
+          ':val' =&gt; $value]);
+//In case the update failed the execution is redirected to error handling page,
+//thus the sql_commit won't executed
+sql_commit();
+</code></pre><p>Without automatic error redirection
+</p><pre><code class="php">$db-&gt;auto_error_page = false;
+sql_transaction();
+sql_exec("UPDATE systable SET value=:val WHERE key=:key;",
+         [':key' =&gt; $key,
+          ':val' =&gt; $value]);
+if($db-&gt;error)
+{
+    sql_rollback();
+    //other error handling
+    return;
+}
+sql_commit();
+</code></pre><p>If you have started transaction the <code>$db->transaction</code> value is <code>true</code> otherwise is <code>false</code>.
+<a name="errorhandling"></a>
+</p><a name="pos_10"><h2>Error handling</h2></a>
+<p>Most sql related function can failed by any reasons.
+Every time you call a functions of sql module the following processes will be done:
+</p>
+<ol><li>Set <code>$db->error</code> to <code>false</code> and <code>$db->errormsg</code> to empty</li><li>Set the <code>$db->lastsql</code> value to the command will be executed</li><li>Do the sql related work
+<ul><li>In case of success, will normally exit</li><li>In case of error
+<ol><li>Set <code>$db->error</code> to <code>true</code></li><li>Fill the <code>$db->errormsg</code> with an available error message.</li><li>By default do an automatic redirection to an sql error page. It means that the execution won't continue after the failed function call.</li></ol></li></ul></li></ol><p>In a nutshell usually you does not have to care about error handling
+because the site will automatically stop the execution in case of error,
+and will do a redirection to an sql error page and show an error message.
+</p>
+<p>An example of an error:
+</p>
+<p><img src="images/sqlerror.png" title="Sql connect error"  style="border: 2px solid #999; " alt="sqlerror.png"/>
+</p>
+<p>In case of error the following sql error routes are used:
+</p>
+<table><thead>
+<tr><th>Functions</th><th>path</th></tr></thead>
+<tbody>
+<tr><td>sql_connect(), sql_disconnect()</td><td>sql_connection_error</td></tr>
+<tr><td>sql_exec_*(), sql_transaction(), sql_commit(), sql_rollback(), etc...</td><td>sql_error</td></tr></tbody></table><p>You can disable the automatic error redirection by set the <code>$db->auto_error_page</code> to <code>false</code>.
+If you do this way you should check the value of <code>$db->error</code> after every sql command.
+</p>
+<p>In case you disabled the automatic error redirection and you handle and error, you can always
+find the available error message in <code>$db->errormsg</code> and the last executed sql command in <code>$db->lastsql</code> variables.
+</p>
+<p>By default two default built in error handling <a href="routes.html">route</a> exists in CodKep the:
+</p>
+<ul><li><code>"sql_connection_error"</code> for connection errors</li><li><code>"sql_error"</code> for other sql related errors</li></ul><p>You can redefine this error targets in case you need a special kind of error handling. For example: In case you
+create REST interfaces you need to send special HTTP response code and error message instead of built in methods.
+(Which responds with http/html of course)
+Redefining of this error targets can be done by
+the <code>$db->error_locations</code> global variable the following way:
+</p><pre><code class="php">global $db;
+
+$db-&gt;error_locations['connection_error'] = 'my_sql_connection_error_route';
+$db-&gt;error_locations['generic_error'   ] = 'my_sql_generic_error_route';
+</code></pre><p><em>Of course you need to define these routes above and associate with your callbacks as described <a href="routes.html">here</a>.</em>
+<a name="schemeedit"></a>
+</p><a name="pos_11"><h2>Schema editor</h2></a>
+<p>The CodKep core itself is not depend on sql, it means that the CodKep inner core does not have any sql schema requirements.<br/>
+On the other hand further system and user modules can have some sql schema requirements, to achieve their functionality.
+(Some system modules like user, node or file also have sql schema requirements)
+</p>
+<p>The CodKep's sql module has a schema editor page, which can check the schema requirements of the active modules,
+and can update the schema if necessary. <strong>After a clean codkep install the schema editor can build the initial</strong>
+<strong>database structure for the codkep's sql related system modules.</strong>
+</p>
+<p><strong>The schema editor is available on <a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">sqlschema</a> internal location.</strong>
+<small>
+</p>
+<ul><li>http://yoursite.com/index.php?q=sqlschema</li><li>http://yoursite.com/sqlschema (if clean url's enabled)</li></ul><p></small>
+A schema editor page looks like similar way:
+<img src="images/schemaeditor.png"  style="" alt="schemaeditor.png"/>
+</p>
+<p>In order to reach schema editor page, you should set the schema editor password or admin access.<br/>
+See <a href="#settings">sql settings</a>
+<a name="definesqlreq"></a>
+</p><a name="pos_12"><h3>Define sql schema requirements</h3></a>
+<p>The modules can define their sql schema requirements by implementing <code>HOOK_required_sql_schema</code>
+<a href="hooks.html">hook</a>.
+This hook does not receive parameters, it returns an associative array which describe the required schema.
+</p>
+<p>The structure of return array of the following
+</p>
+<ul><li>"An identifier name" =
+<ul><li>"tablename" = "sql table name"</li><li>"columns" =
+<ul><li>"column name 1" => "SQL type"</li><li>"column name 2" => "SQL type"</li><li>etc...</li></ul></li></ul></li></ul><p>It looks like this way in a real example:
+</p><pre><code class="php">//Implemented "required_sql_schema" of meetroom module.
+function hook_meetroom_required_sql_schema()
+{
+    $t = [];
+    $t['meetroom_module_meetings_table'] =
+        [
+            "tablename" =&gt; 'meetings',
+            "columns" =&gt; [
+                'id'        =&gt; 'SERIAL',
+                'room'      =&gt; 'VARCHAR(3)',
+                'takeby'    =&gt; 'VARCHAR(16)',
+                'title'     =&gt; 'VARCHAR(256)',
+                'prior'     =&gt; 'NUMERIC(3)',
+                'modd'      =&gt; 'TIMESTAMP',
+                'mdate'     =&gt; 'DATE',
+                'mstart'    =&gt; 'VARCHAR(8)',
+                'mend'      =&gt; 'VARCHAR(8)',
+            ],
+        ];
+    return $t;
+}
+</code></pre><p>If you implement the <code>HOOK_required_sql_schema</code> hook with a correct return value,
+the schema requirements will display in <a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">schema editor page</a> and the
+requirements can be met with some clicks.
+</p><a name="pos_13"><h2>Hooks</h2></a>
+<p>The following <a href="hooks.html">hooks</a> can be implement to interact with sql module.
+</p>
+<table><thead>
+<tr><th>Hook</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>HOOK_required_sql_schema()</td><td>Define SQL schema requirements of a module</td></tr>
+<tr><td>HOOK_before_sql_schema_collection()</td><td>Runs before the sqlschema code collects the sql requirements. Usable to include dynamic codes which contains definitions.</td></tr>
+<tr><td>HOOK_sql_connected()</td><td>Runs after the sql connection is established</td></tr>
+<tr><td>HOOK_execute_sql($sql,$parameters)</td><td>Runs before an sql command is executed. It received the sql command and parameters but cannot modify its.</td></tr>
+<tr><td>HOOK_begin_generate_sql($object)</td><td>Runs before an sql command is generated by DatabaseQuery descendant class.</td></tr>
+<tr><td>HOOK_end_generate_sql($object)</td><td>Runs after an sql command is generated by DatabaseQuery descendant class.</td></tr>
+<tr><td>HOOK_sql_show_builtin_connerror_page()</td><td>Runs immediately before the built in sql connection error page is delivered.</td></tr>
+<tr><td>HOOK_sql_show_builtin_error_page()</td><td>Runs immediately before the built in sql general error page is delivered.</td></tr></tbody></table></div><script>hljs.initHighlightingOnLoad();</script><div class="ccdocpanel"><ul class="docsidemenu no-print"><li><a href="start.html">CodKep introduction</a><ul class=" closed"><li><a href="start.html#pos_2">What is CodKep</a></li><li><a href="start.html#pos_3">The main chapters of this document</a></li><li><a href="start.html#pos_4">Author, License</a></li></ul></li><li><a href="modules.html">Installing, Modules</a><ul class=" closed"><li><a href="modules.html#pos_2">Installing codkep</a></li><li><a href="modules.html#pos_3">Directories</a></li><li><a href="modules.html#pos_4">Site settings, configuration</a></li><li><a href="modules.html#pos_5">Modules</a></li></ul></li><li><a href="routes.html">Routes</a><ul class=" closed"><li><a href="routes.html#pos_2">Add custom locations</a></li><li><a href="routes.html#pos_3">The route definition array</a></li><li><a href="routes.html#pos_4">Parameters in URL</a></li><li><a href="routes.html#pos_5">Caching routes</a></li><li><a href="routes.html#pos_6">Generating URLs</a></li><li><a href="routes.html#pos_7">Generating Links</a></li><li><a href="routes.html#pos_8">Redirections</a></li><li><a href="routes.html#pos_9">Tags</a></li><li><a href="routes.html#pos_10">Clean URLs</a></li><li><a href="routes.html#pos_11">Hooks related to routes</a></li></ul></li><li><a href="hooks.html">Hooks</a><ul class=" closed"><li><a href="hooks.html#pos_2">Implement hooks</a></li><li><a href="hooks.html#pos_3">Interaction of hooks</a></li><li><a href="hooks.html#pos_4">Hook sequence of a page load</a></li><li><a href="hooks.html#pos_5">Create hooks</a></li><li><a href="hooks.html#pos_6">Caching hooks</a></li><li><a href="hooks.html#pos_7">Change hook order</a></li><li><a href="hooks.html#pos_8">Debugging hooks</a></li><li><a href="hooks.html#pos_9">Hooks</a></li></ul></li><li><a href="parameters.html">Parameters</a><ul class=" closed"><li><a href="parameters.html#pos_2">Defining parameters</a></li><li><a href="parameters.html#pos_3">Defining in route definition array</a></li><li><a href="parameters.html#pos_4">Using parameters</a></li><li><a href="parameters.html#pos_5">Other parameter related functions</a></li><li><a href="parameters.html#pos_6">Security classes</a></li><li><a href="parameters.html#pos_7">Parameter handling relates settings</a></li><li><a href="parameters.html#pos_8">Hooks</a></li></ul></li><li><a href="structure.html">Themes</a><ul class=" closed"><li><a href="structure.html#pos_2">Functions unrelated to themes</a></li><li><a href="structure.html#pos_3">Using of themes</a></li><li><a href="structure.html#pos_4">Place your own content to a site area</a></li><li><a href="structure.html#pos_5">Settings of flex theme</a></li><li><a href="structure.html#pos_6">Create own themes</a></li><li><a href="structure.html#pos_7">Menu system</a></li><li><a href="structure.html#pos_8">Custom themes and menu generation</a></li><li><a href="structure.html#pos_9">Hooks</a></li></ul></li><li><a href="ajax.html">Ajax framework</a><ul class=" closed"><li><a href="ajax.html#pos_2">Start ajax requests</a></li><li><a href="ajax.html#pos_3">1. Place an user (click) triggered ajax link in html code</a></li><li><a href="ajax.html#pos_4">2. Set HTML form action to ajax</a></li><li><a href="ajax.html#pos_5">3. Place a delayed ajax call to the page</a></li><li><a href="ajax.html#pos_6">4. Fill page parts/block by simply call fill_through_ajax() function</a></li><li><a href="ajax.html#pos_7">The ajax handler</a></li><li><a href="ajax.html#pos_8">Ajax commands</a></li><li><a href="ajax.html#pos_9">A complex ajax example (Version 1 - standard)</a></li><li><a href="ajax.html#pos_10">A complex ajax example (Version 2 - autorouted)</a></li></ul></li><li><a href="sql.html">Sql</a><ul class=""><li><a href="sql.html#pos_2">Sql database settings</a></li><li><a href="sql.html#pos_3">Connect and disconnect</a></li><li><a href="sql.html#pos_4">Execute SQL commands</a></li><li><a href="sql.html#pos_5">General database CRUD interface</a></li><li><a href="sql.html#pos_6">Methods of DatabaseQuery</a></li><li><a href="sql.html#pos_7">Methods of DatabaseCond</a></li><li><a href="sql.html#pos_8">Simple and easy database operations</a></li><li><a href="sql.html#pos_9">Sql transactions</a></li><li><a href="sql.html#pos_10">Error handling</a></li><li><a href="sql.html#pos_11">Schema editor</a></li><li><a href="sql.html#pos_12">Define sql schema requirements</a></li><li><a href="sql.html#pos_13">Hooks</a></li></ul></li><li><a href="files.html">Files</a><ul class=" closed"><li><a href="files.html#pos_2">Storing type</a></li><li><a href="files.html#pos_3">File class</a></li><li><a href="files.html#pos_4">Fixed properties of the File object</a></li><li><a href="files.html#pos_5">Methods of File object</a></li><li><a href="files.html#pos_6">Helper functions of File class</a></li><li><a href="files.html#pos_7">File access control</a></li><li><a href="files.html#pos_8">Tricks with file hooks</a></li><li><a href="files.html#pos_9">Image size classes</a></li><li><a href="files.html#pos_10">Settings of the file module</a></li><li><a href="files.html#pos_11">Hooks</a></li></ul></li><li><a href="forms.html">Forms</a><ul class=" closed"><li><a href="forms.html#pos_2">Simple HTML form generation</a></li><li><a href="forms.html#pos_3">Form checker method</a></li><li><a href="forms.html#pos_4">The SpeedForm </a></li><li><a href="forms.html#pos_5">Methods of SpeedForm</a></li><li><a href="forms.html#pos_6">Data definition structure</a></li><li><a href="forms.html#pos_7">The structure : Top level attributes</a></li><li><a href="forms.html#pos_8">Field types</a></li><li><a href="forms.html#pos_9">Common field attributes</a></li><li><a href="forms.html#pos_10">Output format of SpeedForm</a></li><li><a href="forms.html#pos_11">Query and Add field types</a></li><li><a href="forms.html#pos_12">Data definition structure repository</a></li><li><a href="forms.html#pos_13">Helper functions</a></li><li><a href="forms.html#pos_14">Settings of the forms module</a></li><li><a href="forms.html#pos_15">Hooks</a></li></ul></li><li><a href="tablegen.html">Table generator</a><ul class=" closed"><li><a href="tablegen.html#pos_2">Html table generation</a></li><li><a href="tablegen.html#pos_3">Excel output generator</a></li><li><a href="tablegen.html#pos_4">Convert Excel XML tables to HTML tables</a></li></ul></li><li><a href="totable.html">Query formatter</a><ul class=" closed"><li><a href="totable.html#pos_2">Automatic output generator for sql queries</a></li><li><a href="totable.html#pos_3">Input of to_table()</a></li><li><a href="totable.html#pos_4">Outout of to_table()</a></li><li><a href="totable.html#pos_5">Options affects the whole table</a></li><li><a href="totable.html#pos_6">Change the number or/and the order of the fields</a></li><li><a href="totable.html#pos_7">Customize of fields</a></li><li><a href="totable.html#pos_8">Modify the value of the fields</a></li><li><a href="totable.html#pos_9">Using virtual fields</a></li><li><a href="totable.html#pos_10">Using field repository</a></li><li><a href="totable.html#pos_11">Using field repository directly from SQL</a></li><li><a href="totable.html#pos_12">Backend of to_table()</a></li><li><a href="totable.html#pos_13">Generate HTML and Excel tables with same way</a></li></ul></li><li><a href="dyntable.html">DynTable</a><ul class=" closed"><li><a href="dyntable.html#pos_2">Methods of DynTable class</a></li><li><a href="dyntable.html#pos_3">Data definition structure</a></li><li><a href="dyntable.html#pos_4">Data definition structure repository</a></li><li><a href="dyntable.html#pos_5">A complex example</a></li></ul></li><li><a href="user.html">User module</a><ul class=" closed"><li><a href="user.html#pos_2">The global $user object</a></li><li><a href="user.html#pos_3">Login and logout</a></li><li><a href="user.html#pos_4">Managing users</a></li><li><a href="user.html#pos_5">Helper functions</a></li><li><a href="user.html#pos_6">CodKep session data</a></li><li><a href="user.html#pos_7">Settings of user module</a></li><li><a href="user.html#pos_8">Hooks</a></li></ul></li><li><a href="node.html">Node</a><ul class=" closed"><li><a href="node.html#pos_2">Fixed properties(fields) of the Node</a></li><li><a href="node.html#pos_3">Methods of Node class</a></li><li><a href="node.html#pos_4">Helper functions of node class</a></li><li><a href="node.html#pos_5">Defining a node</a></li><li><a href="node.html#pos_6">Dynamic node definition</a></li><li><a href="node.html#pos_7">Modify existing node types</a></li><li><a href="node.html#pos_8">Database appearance of nodes</a></li><li><a href="node.html#pos_9">Querying node lists from database</a></li><li><a href="node.html#pos_10">Node access control</a></li><li><a href="node.html#pos_11">REST api for nodes</a></li><li><a href="node.html#pos_12">Node related REST commands</a></li><li><a href="node.html#pos_13">A complete example</a></li><li><a href="node.html#pos_14">Custom Node objects</a></li><li><a href="node.html#pos_15">Settings of the nodes</a></li><li><a href="node.html#pos_16">Hooks</a></li></ul></li><li><a href="page.html">Page</a><ul class=" closed"><li><a href="page.html#pos_2">Fields of the page</a></li><li><a href="page.html#pos_3">Permissions of pages</a></li><li><a href="page.html#pos_4">Extending page type</a></li><li><a href="page.html#pos_5">Hooks</a></li></ul></li><li><a href="doc.html">Documenting</a><ul class=" closed"><li><a href="doc.html#pos_2">My mark language</a></li><li><a href="doc.html#pos_3">Highlights</a></li><li><a href="doc.html#pos_4">Headings</a></li><li><a href="doc.html#pos_5">Other elements</a></li><li><a href="doc.html#pos_6">Tables</a></li><li><a href="doc.html#pos_7">Lists</a></li><li><a href="doc.html#pos_8">Codes</a></li><li><a href="doc.html#pos_9">Links</a></li><li><a href="doc.html#pos_10">Images</a></li></ul></li><li><a href="debug.html">Debugging</a><ul class=" closed"><li><a href="debug.html#pos_2">Dumping arbitrary data objects</a></li><li><a href="debug.html#pos_3">Special pages</a></li><li><a href="debug.html#pos_4">Debug sql calls</a></li><li><a href="debug.html#pos_5">Dump the parameters of the page</a></li></ul></li></ul></div></div>
+</body>
+</html>

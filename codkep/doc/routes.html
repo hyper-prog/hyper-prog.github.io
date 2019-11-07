@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Routes</title>
+  <meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css"/>
+  <link rel="stylesheet" type="text/css" href="default.css"/>
+  <link rel="stylesheet" type="text/css" href="ckcomm.css"/>
+  <link rel="stylesheet" type="text/css" href="flex.css"/>
+  <script type="text/javascript" src="highlight.pack.js"></script>
+</head>
+<body>
+ <div class="content"><div class="ccdoccontent"><a name="pos_1"><h1>Routes</h1></a>
+<p>In CodKep, a location is the unique end portion part of the URL for a specific function or piece of content.
+For instance, for a page whose full URL is <code>http://example.com/?q=node/7</code>, the location is <code>node/7</code>.
+If your site is using clean URLs, the full URL in this example would be <code>http://example.com/node/7</code> the path
+would still be <code>node/7</code>. Also URL aliases can completely replace what visitors see as the URL,
+so the locations discussed here are sometimes called internal URLs or internal paths.
+</p>
+<p>Locations are important because many configuration screens or admin area refer to them.
+Here are some examples of locations you might find in a CodKep site:
+</p>
+<ul><li><code>hooks</code></li><li><code>sqlschema</code></li><li><code>speedformbuilder</code></li><li><code>node/7</code></li><li><code>user/login</code></li><li><code>user/3</code></li></ul><p>The URL you find could have several forms:
+</p>
+<p></p><pre><code class="code"> http://example.com/index.php?q=[something]
+  or
+ http://example.com/?q=[something]
+</code></pre><p> In this case, the [something] after <code>?q=</code> is the location. For example,
+ if the URL is <code>http://example.com/?q=node/7</code>, the route is <code>node/7</code>.
+ Under the hood the index.php of the CodKep will receive this <code>node/7</code> location
+ and do a routing process to find the corresponding page to display.
+</p><pre><code class="code"> http://example.com/[something]
+  or
+ //In case the CodKep installed in a subdirectory of the web server
+ http://example.com/[your CodKep subdirectory]/[something]
+</code></pre><p> In this case, the [something] after the base path of your site is the location. For example,
+ your URL could be <code>http://example.com/node/7</code> or <code>http://example.com/mysubdir/node/7</code>
+ the location in either case is node/7. In case you install CodKep in a subdirectory (like the second case)
+ the <code>$site_config->base_path</code> variable should set <a href="modules.html#site_settings">in site settings</a>
+ to that subdirectory where the CodKep installed.
+<a name="customlocations"></a>
+</p><a name="pos_2"><h2>Add custom locations</h2></a>
+<p>We can use <code>HOOK_defineroute</code> <a href="hooks.html">hook</a> to add our own routes to the CodKep.
+</p>
+<p>An implementation <code>HOOK_defineroute</code> hook have to return an array of associated arrays
+which define the routes and the actions matched to that routes. This hook does not have any parameter.
+</p>
+<p>For instance <code>mymodule</code> wants to add the "ownpage" route to the codkep with a callback function:
+</p><pre><code class="php">&lt;?php
+//mymodule.php file
+
+function hook_mymodule_defineroute()
+{
+    $r = [];
+    $r[] = [
+             'path' =&gt; 'own',
+             'callback' =&gt; 'ownpage',
+           ];
+    return $r;
+}
+
+function ownpage()
+{
+    return 'This is my first page!';
+}
+</code></pre><p>When <code>mymodule.php</code> is enabled in <code>_modules.php</code> the page is should alive on url:
+</p>
+<ul><li><code>http://example.com/index.php?q=own</code></li><li><code>http://example.com/own</code> (If clean urls are enabled)</li></ul><p>In case the <code>$site_config->base_path</code> value is "testsite"
+</p>
+<ul><li><code>http://example.com/testsite/index.php?q=own</code></li><li><code>http://example.com/testsite/own</code> (If clean urls are enabled)</li></ul><p><a name="routedefarray"></a>
+</p><a name="pos_3"><h3>The route definition array</h3></a>
+<p>The route definition array is an element should return by <code>HOOK_defineroute</code> hook
+</p>
+<ul><li><code>"path" = path_string</code>
+<ul><li>The custom route/path name which is defined. The <code>path_string</code> will be the new defined route. The route string can contains <code>/</code> signs and placeholders for url parameters. (See later)</li></ul></li><li><code>"title" = title_string</code>
+<ul><li>The page title</li></ul></li><li><code>"callback" = php_function_name</code>
+<ul><li>The function callback to associated with the route</li></ul></li><li><code>"type" = < empty | "html" | "ajax" | "json" | "raw" ></code>
+<ul><li>Tell the page type of the callback. It's optional settings does not need to set. The following values can be set:
+<ul><li><code>"html"</code> (default) The return value of the callback will interpreted as a html page. All html header and footer will be used, and delivered as html page with the appropriate theme.</li><li><code>"ajax"</code> The callback will run as ajax call, and the callback will use <code>ajax_add_</code>* functions to do what it want. The content will delivered as ajax calls.</li><li><code>"json"</code> The return value of the callback will be encoded to json and delivered as this way. The response header is also set to <code>application/json</code>. Useful to use this target type when you create callbacks for <a href="https://hu.wikipedia.org/wiki/REST">REST</a> interface. <em>Do not use php <code>json_encode()</code> function at the</em> <em>end of your callback code, the CodKep will do this immediately before delivery!</em></li><li><code>"raw"</code> The return value of the callback will be delivered as is, without any formatting or header/footer. Useful to deliver binary data for example images.</li></ul></li></ul></li><li><code>"file" = filename</code>
+<ul><li>This value is works as <code>"callback"</code> but this way the CodKep will execute the specified php file instead of callback function.</li></ul></li><li><code>"theme" = theme_name</code>
+<ul><li>Set a different theme for the route. Every route (with html type) will be rendered by using the default theme, in case this option is not set.</li></ul></li><li><code>"parameters" = parameter_definition_array</code>
+<ul><li>Setup parameters for the page. Read <a href="parameters.html#par_def_inroutedef">parameters chapter</a> to learn how to use it.</li></ul></li><li><code>#tag_string = string </code> tag. See <a href="#tags">tags</a>.</li></ul><p><a name="urlparameters"></a>
+</p><a name="pos_4"><h3>Parameters in URL</h3></a>
+<p>You can receive parameters passed in URL.<br/>
+In case you want to receive a parameter in URL
+you have to put a placeholder to the path string of the route.
+The placeholder should be the desired variable name between <code>{}</code> sings.
+</p>
+<p>Let's see some example routes with parameters
+</p>
+<ul><li><code>userpage/{username}</code>
+<ul><li>When <code>userpage/dave</code> is requested the <code>username</code> parameter will be <code>dave</code></li></ul></li><li><code>userpage/{username}/edit</code>
+<ul><li>When <code>userpage/dave/edit</code> is requested the <code>username</code> parameter will be <code>dave</code></li></ul></li><li><code>vcardfeed{type}</code>
+<ul><li>When <code>vcardfeedsimple</code> is requested the <code>type</code> parameter will be <code>simple</code></li></ul></li><li><code>edit/{item_id}/{mode}</code>
+<ul><li>When <code>edit/456/htmlmode</code> is requested the <code>item_id</code> parameter will be <code>456</code>, the <code>mode</code> will be <code>htmlmode</code></li></ul></li></ul><p>The parameters defined through route paths are accessible by <code>par($parameter_name)</code> function,
+but disabled by default because security reasons.
+Read <a href="parameters.html">parameters chapter</a> to learn how to use it.
+<a name="routecache"></a>
+</p><a name="pos_5"><h3>Caching routes</h3></a>
+<p>The CodKep caches the results of <code>HOOK_defineroute</code> hook calls if <a href="http://php.net/manual/en/book.apc.php">APC</a> is
+available and enable in the web server. It means that after you create a new <code>HOOK_defineroute</code> hook or change
+the content of one you have to clear the caches to make it work.
+You can drop the current cahches by hit the following CodKep <a href="routes.html">internal url</a>:
+</p>
+<ul><li><a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">emptycache</a></li></ul><p><em>Note: The APC is an optional requirement of CodKep. If it is not available the system work properly but a bit slower.</em>
+</p>
+<p><em>Note2: In case you create a defineroute hook which generate dynamic results (like page module) you should take care</em>
+<em>of dropping route caches if the dynamic content possibly changed.</em>
+<em>You can do this by calling <code>ccache_delete('routecache')</code> code.</em>
+<a name="urlfunc"></a>
+</p><a name="pos_6"><h2>Generating URLs</h2></a>
+<p>Because the internal location are not real urls the programmer should use a special functions
+to generate web urls correctly unified way.
+</p>
+<p><strong>Strongly recommend to use url generator functions of CodKep both internal locations and outer urls too!</strong>
+</p>
+<p>Generation of an url in codkep:<br/>
+<span class="definition">url($loc, array $query = [], array $options = [])</span>
+</p>
+<ul><li><code>$loc</code> parameter
+<ul><li>This is a location or external url to build the generated url.
+<ul><li>If the $loc is matched with an existing location the generated url will be reference that location.
+<ul><li>The url function will generate the output url according to the clean url enabled or not.</li><li>Keep in mind that the $loc is only accepted as internal location if the CodKep can match with an existing internal location in routing table!</li><li>If the <code>$site_config->base_path</code> variable is set it will be append to the appropriate place in url.</li><li>If the $loc is not found in routing table, it will be considered as static file url which may be different base path (<code>$site_config->base_path_nonexfiles</code>) or further settings.</li></ul></li><li>If the $loc is started with "http://" prefix the url is interpreted as external url without and further checking.</li></ul></li></ul></li><li><code>$query</code> parameter
+<ul><li>An array of query key/value-pairs (without any URL-encoding) to append to the URL. (GET parameters)</li></ul></li><li><code>$options</code> parameter associative array (optional)
+<ul><li>Possible elements
+<ul><li><code>"fragment" = string</code>
+<ul><li>The html anchor to reference.</li></ul></li><li><code>"skipbasepath" = <"all" | "internal" | "files"></code>
+<ul><li>Don't append base path for the specified typed urls.</li></ul></li><li><code>"skip_orig_query" = "skip"</code>
+<ul><li>Drop the original query (GET) parameters which came from the tokenize of $loc variables. (Not from $query parameter) If not set the parameters are merged.</li></ul></li></ul></li></ul></li></ul><p>The function returns a printable url which can directly used in browsers.
+</p><pre><code class="php">print "The url of the user login is: ".url("user/login");
+print "The site of the author is: ".url("http://hyperprog.com");
+//This is not a link, just put the raw url.
+//To make link use l() instead of url()
+</code></pre><p>The output of the code above could be:
+</p><pre><code class="code">The url of the user login is: http://example.com/index.php?q=user/login
+The site of the author is: http://hyperprog.com
+</code></pre><p>The <code>url()</code> function can invoke some <a href="hooks.html">hook</a> during the url generation.
+This hooks receives the url object parameter, which contains the parts of the url, and may be modified.
+(Use <code>d2()</code> <a href="debug.html">debugging function</a> to determine the structure of <code>$uo</code>)
+</p>
+<ul><li><code>HOOK_outbound_internal_url($uo)</code></li><li><code>HOOK_outbound_external_url($uo)</code></li><li><code>HOOK_outbound_internal_file_url($uo)</code></li></ul><p><a name="lfunc"></a>
+</p><a name="pos_7"><h2>Generating Links</h2></a>
+<p>Many cases we have to generate html links instead of simple urls.
+The CodKep have a html anchor tag generator function, which uses the <code>url()</code> function
+to generate a formatted html link.
+</p>
+<p><span class="definition">l($text, $loc, array $options = [], array $query = [], $fragment = NULL)</span>
+<br/>
+Generates a classic html link.
+The function returns a printable link/anchor tag which can directly used in browsers.
+You can customize the link with the following parameter options:
+</p>
+<ul><li><code>$text</code> parameter
+<ul><li>The link text for the anchor tag. Accept html tags too.</li></ul></li><li><code>$loc</code> parameter
+<ul><li>The location where the link points to. See the <a href="#urlfunc">url function</a> for more information.</li></ul></li><li><code>$options</code> parameter associative array (optional)
+<ul><li>Possible elements
+<ul><li><code>"query" = query_array</code>
+<ul><li>An array of query key/value-pairs (without any URL-encoding) to append to the URL. (GET parameters) This array will be merged with the <code>$query</code> parameter array.</li></ul></li><li><code>"url_options" = options_array</code>
+<ul><li>This array is directly passed to the <code>url()</code> function. See the <a href="#urlfunc">url()</a>.</li></ul></li><li><code>"title" = title_string</code>
+<ul><li><code>title_string</code> is the text of the title attribute of the anchor tag..</li></ul></li><li><code>"target" = target_string</code>
+<ul><li><code>target_string</code> is the text of the title attribute of the anchor tag..</li></ul></li><li><code>"class" = class_string</code>
+<ul><li><code>class_string</code> is the text of the class attribute of the anchor tag.</li></ul></li><li><code>"id" = id_string</code>
+<ul><li><code>id_string</code> is the text of the id attribute of the anchor tag.</li></ul></li><li><code>"style" = style_css_string</code>
+<ul><li><code>style_css_string</code> is the css text of the style attribute of the anchor tag.</li></ul></li><li><code>"newtab = true"</code>
+<ul><li>If this option is specified and true the anchor tag will have the <code>target="_tab"</code> attribute. It means that the browser try to open the link in a new browser tab.</li></ul></li><li><code>"rawattr" = raw attribute string of a tag</code>
+<ul><li>If this option is specified the string value is appended to the attributes of a tag without modification.</li></ul></li></ul></li></ul></li><li><code>$query</code> parameter
+<ul><li>An array of query key/value-pairs (without any URL-encoding) to append to the URL. (GET parameters)</li></ul></li><li><code>$fragment</code> parameter
+<ul><li>The html anchor to reference.</li></ul></li></ul><pre><code class="php">print l("Login","user/login");
+print l("The site of the author","http://hyperprog.com",["class" =&gt; "extlink"]);
+print l("Edit content: $title","edit/$id",[],['foo' =&gt; 'full']);
+</code></pre><p>The code above will generate the following html content (It may be different according to the settings of site)
+</p><pre><code class="code">&lt;a href="index.php?q=user/login"&gt;Login&lt;/a&gt;
+&lt;a href="http://hyperprog.com" class="extlink"&gt;The site of the author&lt;/a&gt;
+&lt;a href="index.php?q=edit/34&foo=full"&gt;Edit content: second&lt;/a&gt;
+</code></pre><p><a name="lxfunc"></a>
+<span class="definition">lx($text, $loc, array $options = [], array $query = [])</span>
+<br/>
+Generates a html link client side handled by <a href="ajax.html">Codkep ajax framework</a>.
+The <code>$options</code> and <code>$query</code> parameters works same as <a href="#lfunc"><code>l()</code></a> function.
+Technically this function calls <code>l()</code> inside so this is a simple link with an additional "use-ajax" CSS
+class which tells the codkep javascript API to handle link as ajax call.
+</p><pre><code class="php">//This two lines are generates same code:
+print l('Click me','dosomething/withajax',['class' =&gt; 'use-ajax mylinktype']);
+print lx('Click me','dosomething/withajax',['class' =&gt; 'mylinktype']);
+
+//This two lines are generates same code:
+print l('Click me2','dotwo/withajax',['class' =&gt; 'use-ajax']);
+print lx('Click me2','dotwo/withajax');
+</code></pre><p><a name="lxcfunc"></a>
+<span class="definition">lxc($text, $callbackfunction, array $options = [], array $query = [])</span>
+<br/>
+Generates a codkep ajax link which automatically routed to a <a href="ajax.html">user defined ajax</a> callback function
+passed in <code>$callbackfunction</code> parameter.
+The <code>$options</code> and <code>$query</code> parameters works same as <a href="#lfunc"><code>l()</code></a> function.
+(It means that you do not need to add this callback as route line in your <code>HOOK_defineroute</code>,
+the codkep system calls your callback through a special system defined route)
+</p>
+<p><strong>The callback function have to start with <code>"extcallable_"</code> prefix by security considerations.</strong>
+<strong><a href="ajax.html#arahsecrest">See sample and further documentation here</a></strong>.
+<a name="redirections"></a>
+</p><a name="pos_8"><h2>Redirections</h2></a>
+<p>In case the browser open a CodKep page, some location is requested. After the routing process is finished
+the programmer always can query the actual location is requested by the <code>current_loc()</code> function.
+</p>
+<p><span class="definition">current_loc()</span> - Returns the current location path if available.
+</p>
+<p><hr/>
+</p>
+<p>It is possible to change the location is currently executed. There is two possible way to do this:
+</p>
+<p><span class="definition">load_loc($location, ...parameters...)</span>
+</p>
+<p>Stops (or won't start) the current executing, drops the outputs,
+and immediately start execution of the parameter passed location/page.
+It means that this function does internal routing again,
+so the requested url in the browser will be unfinished.
+</p>
+<ul><li><code>$location</code> parameter is the location to go/exec. (Uses <code>url()</code> to generate)</li><li>The other parameters are passed to the callback function of the requested location</li></ul><p><em>Note: Because this function do internal redirection the original requested url is stay unchanged in browser.</em>
+<em>After this kind of redirection the client cannot detect the redirection.</em>
+<em>It will know that it see the requested url, but the content will change.</em>
+</p>
+<p><span class="definition">goto_loc($location,array $query = [])</span>
+</p>
+<p>Stops (or won't start) the current executing, drops the outputs, and immediately send
+redirection headers to the browsers with the parameter passed location.
+This function does redirection with http redirect header.
+</p>
+<ul><li><code>$location</code> parameter is the location to redirect. (Uses <code>url()</code> to generate)</li><li><code>$query</code> array
+<ul><li>An array of query key/value-pairs (without any URL-encoding) to append to the URL. (GET parameters) Uses <code>url()</code> inside.</li></ul></li></ul><p><em>Note: Bacause this function requiest the redirection from browser, the url will change in the browser's address line.</em>
+<a name="tags"></a>
+</p><a name="pos_9"><h2>Tags</h2></a>
+<p>It is possible to associate tags to the <a href="#routedefarray">route definition array</a>.
+This tags should starts with <code>#</code> sings and continue with a string.
+This string will be the name of the tag. The value of the tag will be the value of the array item
+which can be a simple string.
+</p>
+<p>This code defines two tag (<code>mainmenu</code> and <code>public</code>) in a <code>HOOK_defineroute</code> hook:
+</p><pre><code class="php">&lt;?php
+function hook_mymodule_defineroute()
+{
+    $r = [];
+    $r[] = [
+             'path' =&gt; 'own',
+             'callback' =&gt; 'ownpage',
+             '#mainmenu' =&gt; 'My own page',
+             '#public' =&gt; 'My own page',
+           ];
+
+    $r[] = [
+             'path' =&gt; 'secondsample',
+             'callback' =&gt; 'mysecondpage',
+             '#mainmenu' =&gt; 'My second page',
+           ];
+    return $r;
+}
+</code></pre><p><em>Note: This tags does not have special meanings. This is just arbitrary strings begins with <code>#</code> sign.</em>
+</p>
+<p>Later we can use this tags to get special array of routes by <code>routes_tag_array()</code> function.
+</p>
+<p><span class="definition">routes_tag_array($tag)</span>
+</p>
+<p>This function returns an associated array of routes where:
+</p>
+<ul><li>The array will contains all routes where the parameter passed tag is exists/defined.</li><li>The index of the array items will be the value of the tag in the corresponding route.</li><li>The value of the array will be the path of the corresponding route.</li></ul><p>In the example above the result of <code>routes_tag_array("mainmenu");</code> is:
+</p><pre><code class="php">[
+ "My own page" =&gt; "own",
+ "My second page" =&gt; "secondsample"
+]
+</code></pre><p>This function helps to use array of routes for a different purposes like menu building or link collections etc...
+</p>
+<p>The <code>mainmenu</code> has a special meaning. It can used to place a location to the main menu.
+See <a href="structure.html#menu">menu part of theme documentation</a>.
+<a name="cleanurls"></a>
+</p><a name="pos_10"><h2>Clean URLs</h2></a>
+<p>Like the Drupal CMS the CodKep also can use "Clean URLs" to looks internal urls better:<br/>
+By default, the generated URLs for your site's pages that look like <code>http://www.example.com/?q=node/83</code>.
+With so-called clean URLs this would be displayed without the <code>?q=</code> as <code>http://www.example.com/node/83</code>.
+</p>
+<p>The style of URLs using <code>?q=</code> can be hard to read,
+and may even prevent some search engines from indexing all the pages of your site.
+</p>
+<p><strong>Prerequisites of using Clean urls:</strong>
+</p>
+<p>To use clean urls have to set the webserver to redirect all queries to <code>index.php</code> of CodKep.<br/>
+<em>Note: The index.php of CodKep can receive the original query string and it can interpret as normal queries.</em>
+</p>
+<p>Sample configs for webservers to use clean urls:
+</p><pre><code class="code"># nginx config
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name sandbox.example.com;
+
+    root /var/www/mypage;
+    index index.php;
+
+    location / {
+        try_files $uri @rewrite;
+    }
+
+    location @rewrite {
+        rewrite ^ /index.php;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        # For php5:
+        #fastcgi_pass unix:/var/run/php5-fpm.sock;
+        # For php7:
+        fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+    }
+}
+</code></pre><pre><code class="code"># apache2.x config
+#
+# Have to enable rewrite module:
+#  a2enmod rewrite
+#
+&lt;VirtualHost *:80&gt;
+    ServerAdmin webmaster@localhost
+    ServerName sandbox.example.com
+    DocumentRoot /var/www/mypage
+    &lt;Directory /var/www/mypage/&gt;
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+
+        #On apache 2.2
+         Order allow,deny
+         allow from all
+        #On apache 2.4
+         Require all granted
+
+        RewriteEngine on
+        RewriteBase /
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule ^(.*)$ index.php [L]
+    &lt;/Directory&gt;
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+&lt;/VirtualHost&gt;
+</code></pre><p>On apache2 it is possible to do this redirection from <code>.htaccess</code> file
+</p><pre><code class="code">DirectoryIndex index.php
+Options -Indexes
+RewriteEngine on
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L]
+</code></pre><p><strong>Enable clean urls:</strong>
+</p>
+<p>In case the webserver are correctly set the only thing to do is enable clean urls
+<a href="modules.html#site_settings">in CodKep settings</a>:
+</p><pre><code class="code">// _settings.php
+global $site_config;
+
+// ...
+
+$site_config-&gt;clean_urls = true;
+</code></pre><p>If the <code>clean_urls</code> variable is set the <a href="#urlfunc"><code>url()</code></a> and <a href="#lfunc"><code>l()</code></a> functions
+are also generate clean urls.
+</p><a name="pos_11"><h2>Hooks related to routes</h2></a>
+<p>The following <a href="hooks.html">hooks</a> can be implemented related to routes.
+</p>
+<table><thead>
+<tr><th>Hook</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>HOOK_defineroute()</td><td>Define routes in the system</td></tr>
+<tr><td>HOOK_outbound_internal_url($url_object)</td><td>It can modify the generated url which targets an internal location of the site</td></tr>
+<tr><td>HOOK_outbound_internal_file_url($url_object)</td><td>It can modify the generated url which targets an internal location of the site but not known by routing (probably a file url)</td></tr>
+<tr><td>HOOK_outbound_external_url($url_object)</td><td>It can modify the generated url which targets out of the site</td></tr>
+<tr><td>HOOK_inbound_url($iu_object)</td><td>It runs immediately before the routing process. It can do a permanent redirection or url aliases</td></tr></tbody></table></div><script>hljs.initHighlightingOnLoad();</script><div class="ccdocpanel"><ul class="docsidemenu no-print"><li><a href="start.html">CodKep introduction</a><ul class=" closed"><li><a href="start.html#pos_2">What is CodKep</a></li><li><a href="start.html#pos_3">The main chapters of this document</a></li><li><a href="start.html#pos_4">Author, License</a></li></ul></li><li><a href="modules.html">Installing, Modules</a><ul class=" closed"><li><a href="modules.html#pos_2">Installing codkep</a></li><li><a href="modules.html#pos_3">Directories</a></li><li><a href="modules.html#pos_4">Site settings, configuration</a></li><li><a href="modules.html#pos_5">Modules</a></li></ul></li><li><a href="routes.html">Routes</a><ul class=""><li><a href="routes.html#pos_2">Add custom locations</a></li><li><a href="routes.html#pos_3">The route definition array</a></li><li><a href="routes.html#pos_4">Parameters in URL</a></li><li><a href="routes.html#pos_5">Caching routes</a></li><li><a href="routes.html#pos_6">Generating URLs</a></li><li><a href="routes.html#pos_7">Generating Links</a></li><li><a href="routes.html#pos_8">Redirections</a></li><li><a href="routes.html#pos_9">Tags</a></li><li><a href="routes.html#pos_10">Clean URLs</a></li><li><a href="routes.html#pos_11">Hooks related to routes</a></li></ul></li><li><a href="hooks.html">Hooks</a><ul class=" closed"><li><a href="hooks.html#pos_2">Implement hooks</a></li><li><a href="hooks.html#pos_3">Interaction of hooks</a></li><li><a href="hooks.html#pos_4">Hook sequence of a page load</a></li><li><a href="hooks.html#pos_5">Create hooks</a></li><li><a href="hooks.html#pos_6">Caching hooks</a></li><li><a href="hooks.html#pos_7">Change hook order</a></li><li><a href="hooks.html#pos_8">Debugging hooks</a></li><li><a href="hooks.html#pos_9">Hooks</a></li></ul></li><li><a href="parameters.html">Parameters</a><ul class=" closed"><li><a href="parameters.html#pos_2">Defining parameters</a></li><li><a href="parameters.html#pos_3">Defining in route definition array</a></li><li><a href="parameters.html#pos_4">Using parameters</a></li><li><a href="parameters.html#pos_5">Other parameter related functions</a></li><li><a href="parameters.html#pos_6">Security classes</a></li><li><a href="parameters.html#pos_7">Parameter handling relates settings</a></li><li><a href="parameters.html#pos_8">Hooks</a></li></ul></li><li><a href="structure.html">Themes</a><ul class=" closed"><li><a href="structure.html#pos_2">Functions unrelated to themes</a></li><li><a href="structure.html#pos_3">Using of themes</a></li><li><a href="structure.html#pos_4">Place your own content to a site area</a></li><li><a href="structure.html#pos_5">Settings of flex theme</a></li><li><a href="structure.html#pos_6">Create own themes</a></li><li><a href="structure.html#pos_7">Menu system</a></li><li><a href="structure.html#pos_8">Custom themes and menu generation</a></li><li><a href="structure.html#pos_9">Hooks</a></li></ul></li><li><a href="ajax.html">Ajax framework</a><ul class=" closed"><li><a href="ajax.html#pos_2">Start ajax requests</a></li><li><a href="ajax.html#pos_3">1. Place an user (click) triggered ajax link in html code</a></li><li><a href="ajax.html#pos_4">2. Set HTML form action to ajax</a></li><li><a href="ajax.html#pos_5">3. Place a delayed ajax call to the page</a></li><li><a href="ajax.html#pos_6">4. Fill page parts/block by simply call fill_through_ajax() function</a></li><li><a href="ajax.html#pos_7">The ajax handler</a></li><li><a href="ajax.html#pos_8">Ajax commands</a></li><li><a href="ajax.html#pos_9">A complex ajax example (Version 1 - standard)</a></li><li><a href="ajax.html#pos_10">A complex ajax example (Version 2 - autorouted)</a></li></ul></li><li><a href="sql.html">Sql</a><ul class=" closed"><li><a href="sql.html#pos_2">Sql database settings</a></li><li><a href="sql.html#pos_3">Connect and disconnect</a></li><li><a href="sql.html#pos_4">Execute SQL commands</a></li><li><a href="sql.html#pos_5">General database CRUD interface</a></li><li><a href="sql.html#pos_6">Methods of DatabaseQuery</a></li><li><a href="sql.html#pos_7">Methods of DatabaseCond</a></li><li><a href="sql.html#pos_8">Simple and easy database operations</a></li><li><a href="sql.html#pos_9">Sql transactions</a></li><li><a href="sql.html#pos_10">Error handling</a></li><li><a href="sql.html#pos_11">Schema editor</a></li><li><a href="sql.html#pos_12">Define sql schema requirements</a></li><li><a href="sql.html#pos_13">Hooks</a></li></ul></li><li><a href="files.html">Files</a><ul class=" closed"><li><a href="files.html#pos_2">Storing type</a></li><li><a href="files.html#pos_3">File class</a></li><li><a href="files.html#pos_4">Fixed properties of the File object</a></li><li><a href="files.html#pos_5">Methods of File object</a></li><li><a href="files.html#pos_6">Helper functions of File class</a></li><li><a href="files.html#pos_7">File access control</a></li><li><a href="files.html#pos_8">Tricks with file hooks</a></li><li><a href="files.html#pos_9">Image size classes</a></li><li><a href="files.html#pos_10">Settings of the file module</a></li><li><a href="files.html#pos_11">Hooks</a></li></ul></li><li><a href="forms.html">Forms</a><ul class=" closed"><li><a href="forms.html#pos_2">Simple HTML form generation</a></li><li><a href="forms.html#pos_3">Form checker method</a></li><li><a href="forms.html#pos_4">The SpeedForm </a></li><li><a href="forms.html#pos_5">Methods of SpeedForm</a></li><li><a href="forms.html#pos_6">Data definition structure</a></li><li><a href="forms.html#pos_7">The structure : Top level attributes</a></li><li><a href="forms.html#pos_8">Field types</a></li><li><a href="forms.html#pos_9">Common field attributes</a></li><li><a href="forms.html#pos_10">Output format of SpeedForm</a></li><li><a href="forms.html#pos_11">Query and Add field types</a></li><li><a href="forms.html#pos_12">Data definition structure repository</a></li><li><a href="forms.html#pos_13">Helper functions</a></li><li><a href="forms.html#pos_14">Settings of the forms module</a></li><li><a href="forms.html#pos_15">Hooks</a></li></ul></li><li><a href="tablegen.html">Table generator</a><ul class=" closed"><li><a href="tablegen.html#pos_2">Html table generation</a></li><li><a href="tablegen.html#pos_3">Excel output generator</a></li><li><a href="tablegen.html#pos_4">Convert Excel XML tables to HTML tables</a></li></ul></li><li><a href="totable.html">Query formatter</a><ul class=" closed"><li><a href="totable.html#pos_2">Automatic output generator for sql queries</a></li><li><a href="totable.html#pos_3">Input of to_table()</a></li><li><a href="totable.html#pos_4">Outout of to_table()</a></li><li><a href="totable.html#pos_5">Options affects the whole table</a></li><li><a href="totable.html#pos_6">Change the number or/and the order of the fields</a></li><li><a href="totable.html#pos_7">Customize of fields</a></li><li><a href="totable.html#pos_8">Modify the value of the fields</a></li><li><a href="totable.html#pos_9">Using virtual fields</a></li><li><a href="totable.html#pos_10">Using field repository</a></li><li><a href="totable.html#pos_11">Using field repository directly from SQL</a></li><li><a href="totable.html#pos_12">Backend of to_table()</a></li><li><a href="totable.html#pos_13">Generate HTML and Excel tables with same way</a></li></ul></li><li><a href="dyntable.html">DynTable</a><ul class=" closed"><li><a href="dyntable.html#pos_2">Methods of DynTable class</a></li><li><a href="dyntable.html#pos_3">Data definition structure</a></li><li><a href="dyntable.html#pos_4">Data definition structure repository</a></li><li><a href="dyntable.html#pos_5">A complex example</a></li></ul></li><li><a href="user.html">User module</a><ul class=" closed"><li><a href="user.html#pos_2">The global $user object</a></li><li><a href="user.html#pos_3">Login and logout</a></li><li><a href="user.html#pos_4">Managing users</a></li><li><a href="user.html#pos_5">Helper functions</a></li><li><a href="user.html#pos_6">CodKep session data</a></li><li><a href="user.html#pos_7">Settings of user module</a></li><li><a href="user.html#pos_8">Hooks</a></li></ul></li><li><a href="node.html">Node</a><ul class=" closed"><li><a href="node.html#pos_2">Fixed properties(fields) of the Node</a></li><li><a href="node.html#pos_3">Methods of Node class</a></li><li><a href="node.html#pos_4">Helper functions of node class</a></li><li><a href="node.html#pos_5">Defining a node</a></li><li><a href="node.html#pos_6">Dynamic node definition</a></li><li><a href="node.html#pos_7">Modify existing node types</a></li><li><a href="node.html#pos_8">Database appearance of nodes</a></li><li><a href="node.html#pos_9">Querying node lists from database</a></li><li><a href="node.html#pos_10">Node access control</a></li><li><a href="node.html#pos_11">REST api for nodes</a></li><li><a href="node.html#pos_12">Node related REST commands</a></li><li><a href="node.html#pos_13">A complete example</a></li><li><a href="node.html#pos_14">Custom Node objects</a></li><li><a href="node.html#pos_15">Settings of the nodes</a></li><li><a href="node.html#pos_16">Hooks</a></li></ul></li><li><a href="page.html">Page</a><ul class=" closed"><li><a href="page.html#pos_2">Fields of the page</a></li><li><a href="page.html#pos_3">Permissions of pages</a></li><li><a href="page.html#pos_4">Extending page type</a></li><li><a href="page.html#pos_5">Hooks</a></li></ul></li><li><a href="doc.html">Documenting</a><ul class=" closed"><li><a href="doc.html#pos_2">My mark language</a></li><li><a href="doc.html#pos_3">Highlights</a></li><li><a href="doc.html#pos_4">Headings</a></li><li><a href="doc.html#pos_5">Other elements</a></li><li><a href="doc.html#pos_6">Tables</a></li><li><a href="doc.html#pos_7">Lists</a></li><li><a href="doc.html#pos_8">Codes</a></li><li><a href="doc.html#pos_9">Links</a></li><li><a href="doc.html#pos_10">Images</a></li></ul></li><li><a href="debug.html">Debugging</a><ul class=" closed"><li><a href="debug.html#pos_2">Dumping arbitrary data objects</a></li><li><a href="debug.html#pos_3">Special pages</a></li><li><a href="debug.html#pos_4">Debug sql calls</a></li><li><a href="debug.html#pos_5">Dump the parameters of the page</a></li></ul></li></ul></div></div>
+</body>
+</html>

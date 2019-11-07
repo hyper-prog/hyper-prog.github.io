@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Query formatter</title>
+  <meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css"/>
+  <link rel="stylesheet" type="text/css" href="default.css"/>
+  <link rel="stylesheet" type="text/css" href="ckcomm.css"/>
+  <link rel="stylesheet" type="text/css" href="flex.css"/>
+  <script type="text/javascript" src="highlight.pack.js"></script>
+</head>
+<body>
+ <div class="content"><div class="ccdoccontent"><p><a name="to_table"></a>
+</p><a name="pos_1"><h1>Query formatter</h1></a>
+<p>The automatic query formatter is part of "forms" module which depends on "core" and "sql" modules.
+In fact this page describes the using of <code>to_table()</code> function.
+This function is a versatile and highly customisable table generator, which primary goal is to generate raw and well designed
+table outputs from sql queries and two dimensional arrays.
+<br/>
+This function can be used in early development phase to show raw query outputs as well to generate highly customised/designed
+tables in production code.
+</p><a name="pos_2"><h2>Automatic output generator for sql queries</h2></a>
+<p>You can pass the result of the <code>sql_exec_fetchAll()</code> function to the <code>to_table()</code> function.
+The <code>to_table()</code> will generate a html table to show the data.
+</p>
+<p><span class="definition">to_table($dataobj, array $options=[], array &$results = NULL)</span>
+<br/>
+</p><pre><code class="php">//Example - Raw output without any modifier
+$data = sql_exec_fetchAll('SELECT pid,name,city FROM people;');
+print to_table($data);
+</code></pre><p><img src="images/totableraw1.png"  style=" border: 0; " alt="totableraw1.png"/>
+</p><a name="pos_3"><h2>Input of to_table()</h2></a>
+<p>The <code>$dataobj</code> parameter of <code>to_table()</code> function can be:
+</p>
+<ol><li>Two dimensional array</li><li>Executed sql object</li></ol><p><strong>The to_table function is designed to work same way both cases.</strong>
+</p>
+<p><em>Example with case 1a:</em>
+</p><pre><code class="php">$data = sql_exec_fetchAll('SELECT pid,name,city FROM people;');
+print to_table($data);
+</code></pre><p><em>Example with case 1b:</em>
+</p><pre><code class="php">$data = [['Red'   ,'Apple' ,'One'   ],
+         ['Yellow','Banana','Two'   ],
+         ['Brown' ,'Nut'   ,'Three' ]];
+print to_table($data);
+</code></pre><p><em>Example with case 2:</em>
+</p><pre><code class="php">$data = sql_exec('SELECT pid,name,city FROM people;');
+print to_table($data);
+</code></pre><p>In the example <em>1a</em> and <em>1b</em> the <code>to_table()</code> receives a two dimensional arrays while in the example <em>2</em> it receives
+an executed sql query. In the second case the function fetch all rows data to show.
+</p><a name="pos_4"><h2>Outout of to_table()</h2></a>
+<p>By default the <code>to_table()</code> function returns the strings of the generated html table. With special options you can
+make <code>to_table()</code> to generate <a href="tablegen.html#excelxml">ExcelXml output</a> instead of html table.
+(See <code>#output_object</code> modifier below)
+</p>
+<p>The <code>to_table()</code> function generates a brand new table or excel xml object which appears as an individual table.
+It's possible to use <code>to_table()</code> to adds the generated data to an existing (and not empty) table  or excel xml object.
+Typical useful scenario when you generate a large excel xml document with more different tables in one worksheet.
+(See <code>#return_disabled</code> modifier below)
+</p><a name="pos_5"><h2>Options affects the whole table</h2></a>
+<p>We can pass an <code>$options</code> array to the second parameter of the <code>to_table()</code> which tells
+some formatting instruction to the table generator.
+</p>
+<p><strong>Options affects the whole table tag:</strong>
+</p>
+<ul><li><code>#output_object</code>
+<ul><li><code>table</code> - Generates a <a href="tablegen.html#html_table_generator">html table</a>. (default)</li><li><code>excelxml</code> - Generates a <a href="tablegen.html#excelxml">ExcelXml output</a></li></ul></li><li><code>#tableopts</code>
+<ul><li><code>border</code> - Set the border of the table</li><li><code>style</code> - CSS style for table tag</li><li><code>class</code> - CSS class of the table tag</li></ul></li><li><code>#lineoptions_callback</code> - Callback function which can feed the <a href="tablegen.html#html_table_methods">HtmlTable's nrow()</a> function.
+<ul><li>This callback function will called on every row creation in table and the returned array will pass to the HtmlTable's nrow() function. So you can set style and classes of the html tr element depending on query values.</li><li>The callback receive same parameters as <code>valuecallback</code>'s function below. (All sql fields and other fields like <code>&#95;&#95;rownumber&#95;&#95;</code> or <code>&#95;&#95;external&#95;&#95;</code>)</li></ul></li><li><code>#callback&#95;array&#95;external</code> - Arbitrary array or object passed to the internal callback functions.
+<ul><li>The variable's value is passed to the callback functions defined under <code>#lineoptions_callback</code> and <code>valuecallback</code>. These callback functions will receive the array under their parameter's <code>&#95;&#95;external&#95;&#95;</code> field name.</li></ul></li><li><code>#return_disabled</code> - If this option is set and the value is <code>true</code> the to_table() function does not generate and returns the html output of the table. This option is useful when the to_table() do the work into an external passed HtmlTable or ExcelXmlDocument object. (Opposite to the usual way when the returned string is used as output) This case you have to create HtmlTable or ExcelXmlDocument object before calling to_table() and pass to the function in the <code>$results</code> parameter's "target" field.
+<ul><li>Example: <br/> <code>$mytable = new HtmlTable("my");</code> <br/> <code>$results = ["target" => $mytable];</code> <br/> <code>to_table($tbl,["#return_disabled" => true],$results);</code></li></ul></li><li><code>#before</code> - You can set function name/callback here to insert some data before the generated table.
+<ul><li>The return value of the callback will be used to insert before the table.</li><li>The callback receives the output object as a parameter, so it can add some data directly to the output object. (as side effect)</li><li><small>By compatibility reasons the printed output of the callback will used as output if empty string returned!</small></li></ul></li><li><code>#after</code> - You can set function name/callback here to insert some data after the generated table.
+<ul><li>The return value of the callback will be used to insert after the table.</li><li>The callback receives the output object as a parameter, so it can add some data directly to the output object. (as side effect)</li><li><small>By compatibility reasons the printed output of the callback will used as output if empty string returned!</small></li></ul></li><li><code>#fields</code> - Controls the generated fields/columns (See documentation <a href="#fieldscontrol">below</a>)</li><li><code>#default_headeropts</code> - Sets the default options array for the columns where the <code>#headeropts</code> is not present.
+<ul><li>The value is same as usable for <code>#headeropts</code>.</li></ul></li><li><code>#default_cellopts</code> - Sets the default options array for the cells where the <code>#cellopts</code> is not present.
+<ul><li>The value is same as usable for <code>#cellopts</code>.</li></ul></li></ul><p>Let's see an example of using this options above:
+</p><pre><code class="php">$c = [
+   '#tableopts' =&gt; [
+       'border' =&gt; '1',
+       'style' =&gt; 'background-color: lightgray; border-collapse: collapse;']
+ ];
+
+$data = sql_exec_fetchAll('SELECT pid,name,city FROM people;');
+print to_table($data,$c);
+</code></pre><p><table class="invisible"><tr>
+ <td>From</td>
+ <td><img src="images/totableraw1.png"  style=" border: 0; " alt="totableraw1.png"/></td>
+ <td>to</td>
+<td><img src="images/totable2.png"  style=" border: 0; " alt="totable2.png"/></td></tr></table>
+Using of <code>#lineoptions_callback</code>:
+</p><pre><code class="php">$c = [
+    '#tableopts' =&gt; [
+        'border' =&gt; '1',
+        'style' =&gt; 'border-collapse: collapse;'],
+    '#lineoptions_callback' =&gt; function($r) {
+        if($r['__rownumber__']%3 == 2)
+            return ['style' =&gt; 'background-color: #aaaaaa;'];
+        if($r['__rownumber__']%3 == 1)
+            return ['style' =&gt; 'background-color: #bbbbbb;'];
+        return ['style' =&gt; 'background-color: #cccccc;'];
+    },
+ ];
+
+$data = sql_exec_fetchAll('SELECT pid,name,city FROM people;');
+print to_table($data,$c);
+</code></pre><p><table class="invisible"><tr>
+ <td>From</td>
+ <td><img src="images/totableraw1.png"  style=" border: 0; " alt="totableraw1.png"/></td>
+ <td>to</td>
+<td><img src="images/totable2-2.png"  style=" border: 0; " alt="totable2-2.png"/></td></tr></table>
+<a name="fieldscontrol"></a>
+</p><a name="pos_6"><h2>Change the number or/and the order of the fields</h2></a>
+<p>You can change the number or/and the order of the rows by set <code>#fields</code> value.
+<br/>
+In case the <code>#fields</code> value is set, it overwrites the field orders.
+You can safety change orders or skip some
+fields here. You can even add fields which doesn't exists in the original query. (See later examples)
+</p>
+<p>The <code>#fields</code> value is an array contains field names which can came from:
+</p>
+<ul><li>The sql name of the column in query</li><li>The index string of the inner associative array if two dimensional array is received.</li><li>A section name which exists in the <code>$options</code> array. (Virtual field)</li><li>A field repository name. (See later)</li></ul><p>The fields will be displayed in the results table as is ordered in the <code>#fields</code> array.
+</p>
+<p>Let's see the using of <code>#fields</code> here:
+</p><pre><code class="php">$c = [
+   '#tableopts' =&gt; [
+       'border' =&gt; '1',
+       'style' =&gt; 'background-color: lightgray; border-collapse: collapse;'],
+   '#fields' =&gt; ['city','name'],
+ ];
+
+$data = sql_exec_fetchAll('SELECT pid,name,city FROM people;');
+print to_table($data,$c);
+</code></pre><p><table class="invisible"><tr>
+ <td>From</td>
+ <td><img src="images/totableraw1.png"  style=" border: 0; " alt="totableraw1.png"/></td>
+ <td>to</td>
+<td><img src="images/totable3.png"  style=" border: 0; " alt="totable3.png"/></td></tr></table>
+</p><a name="pos_7"><h2>Customize of fields</h2></a>
+<p>You can customize the displayed fields and headers of the fields by the options array.
+<br/>
+Every top level index of the array which does not start with <code>#</code> sign is assigned to a field
+matched to the original query field name or a virtual field which only exists in <code>#fields</code> array.
+</p>
+<p>Fields definitions can receive the following options
+</p>
+<ul><li><code>headertext</code> - Sets the text of the table header of this field</li><li><code>headertextcallback</code> - Sets a callback function which returns the text of the header of this field
+<ul><li>The callback receive the header text string as parameter</li></ul></li><li><code>headeropts</code> - Options affects of the table header of this field
+<ul><li><code>style</code> - CSS style for the header tag</li><li><code>class</code> - CSS class of the header tag</li><li>Every <a href="tablegen.html#exmlstyleopts"><em>cell modifier option</em></a> can be used here jointly with the <code>"type" => "uni"</code> option.</li></ul></li><li><code>cellprefix</code> - Print this string immediately before the cell's value</li><li><code>cellsuffix</code> - Print this string immediately after the cell's value</li><li><code>cellopts</code> - Options affects of the cell
+<ul><li><code>style</code> - CSS style for the cell</li><li><code>class</code> - CSS class of the cell</li><li>Every <a href="tablegen.html#exmlstyleopts"><em>cell modifier option</em></a> can be used here jointly with the <code>"type" => "uni"</code> option.</li></ul></li><li><code>celloptscallback</code> - Sets a callback function which retrun the value of <code>cellopts</code>.
+<ul><li>The callback receive the header text string as parameter</li></ul></li><li><code>valuecallback</code> - Value callback (See the next chapter)</li><li><code>skip</code> - Does not show the field itself. See explanation later.</li><li><code>sqlname</code> - Sets the fields sql name. See explanation later.</li></ul><p>Let's see an example using of this options:
+</p><pre><code class="php">$c = [
+    '#tableopts' =&gt; [
+        'border' =&gt; '1',
+        'style' =&gt; 'background-color: lightgray; border-collapse: collapse;'],
+    '#fields' =&gt; ['name','city'],
+    'name' =&gt; [
+        'headertext' =&gt; 'The name',
+        'headeropts' =&gt; ['style' =&gt; 'background-color: yellow;'],
+    ],
+    'city' =&gt; [
+        'headertext' =&gt; 'Works in',
+        'headeropts' =&gt; ['style' =&gt; 'background-color: brown;'],
+        'cellprefix' =&gt; '&lt;i&gt;',
+        'cellsuffix' =&gt; '&lt;/i&gt;',
+        'cellopts' =&gt; ['style' =&gt; 'background-color: lightgrey;'],
+    ],
+ ];
+
+$data = sql_exec_fetchAll('SELECT pid,name,city FROM people;');
+print to_table($data,$c);
+</code></pre><p><table class="invisible"><tr>
+ <td>From</td>
+ <td><img src="images/totableraw1.png"  style=" border: 0; " alt="totableraw1.png"/></td>
+ <td>to</td>
+<td><img src="images/totable4.png"  style=" border: 0; " alt="totable4.png"/></td></tr></table>
+<strong>All of these options above can be used to restrict working with one output type only.</strong><br/>
+The restricted options begins the original option name and a : letter and the output name used in <code>#output_object</code>.
+As the usable outputs is the "table" and "excelxml" the restricted modifiers looks like this way:
+</p><pre><code class="code">$c = [
+    ...
+    'name' =&gt; [
+        "headertext:table" =&gt; "The Name in web",
+        "headertext:excelxml" =&gt; "The Name in excel",
+
+        "headeropts" =&gt; ['type' =&gt; 'uni',
+                        't' =&gt; 'str',
+                        'background-color' =&gt; '#454545',
+                        'color' =&gt; '#efefef',
+                        'border' =&gt; 'all'],
+
+        "cellopts:table" =&gt; ['type' =&gt; 'uni',
+                             't' =&gt; 'str',
+                             'background-color' =&gt; '#ccffcc'],
+        "cellopts:excelxml" =&gt; ['type' =&gt; 'uni',
+                                't' =&gt; 'str',
+                                'background-color' =&gt; '#ddeedd',
+                                'border' =&gt; 'all'],
+    ],
+    ...
+ ];
+</code></pre><a name="pos_8"><h2>Modify the value of the fields</h2></a>
+<p>You can change the value of a field by a callback function. The callback function is receive all fields value so can
+provide derived data from other fields.
+(You have to provide this callback in case the field is virtual thus not exists in original query)
+</p>
+<p>You can set callback function by set <code>valuecallback</code> option.
+The return value of the callback will be displayed in the cell.
+</p>
+<p><em>The callback function receive an array as parameter. This array contains all sql fields found in the sql query and</em>
+<em>a <code>&#95;&#95;rownumber&#95;&#95;</code> named element which contains a row number sequence. The array also contains</em>
+<em>an <code>&#95;&#95;external&#95;&#95;</code> field which is an array received in <code>to&#95;table()</code> <code>$options</code> parameter</em>
+<em>under the <code>#callback&#95;array&#95;external</code> index name.</em>
+</p>
+<p><em>The callback function can receive a second parameter too, which contains the current column name.</em>
+</p><pre><code class="php">$c = [
+    '#tableopts' =&gt; [
+        'border' =&gt; '1',
+        'style' =&gt; 'background-color: lightgray; border-collapse: collapse;'],
+    '#fields' =&gt; ['name','city'],
+    'name' =&gt; [
+        'headertext' =&gt; 'The name',
+        'headeropts' =&gt; ['style' =&gt; 'background-color: yellow;'],
+        'valuecallback' =&gt; function($r) {
+            return l($r['name'],'useredit',[],['id' =&gt; $r['pid']]);
+        },
+    ],
+ ];
+
+$data = sql_exec_fetchAll('SELECT pid,name,city FROM people;');
+print to_table($data,$c);
+</code></pre><p><table class="invisible"><tr>
+ <td>From</td>
+ <td><img src="images/totableraw1.png"  style=" border: 0; " alt="totableraw1.png"/></td>
+ <td>to</td>
+<td><img src="images/totable5.png"  style=" border: 0; " alt="totable5.png"/></td></tr></table>
+</p><a name="pos_9"><h2>Using virtual fields</h2></a>
+<p>With the <code>valuecallback</code> option you can create fields which not presents in original query.
+Let's see an example where the "selector" field is virtual:
+</p><pre><code class="php">$c = [
+    '#tableopts' =&gt; [
+        'border' =&gt; '1',
+        'style' =&gt; 'background-color: lightgray; border-collapse: collapse;'],
+    '#fields' =&gt; ['name','city','selector'],
+    'name' =&gt; [
+        'headertext' =&gt; 'The name',
+        'headeropts' =&gt; ['style' =&gt; 'background-color: yellow;'],
+        'valuecallback' =&gt; function($r) {
+            return l($r['name'],'useredit',[],['id' =&gt; $r['pid']]);
+        },
+    ],
+    'selector' =&gt; [
+        'headertext' =&gt; '-',
+        'headeropts' =&gt; ['style' =&gt; 'background-color: red;'],
+        'valuecallback' =&gt; function($r) {
+            return l('Select...','edit',[],['id' =&gt; $r['pid']]);
+        },
+    ],
+ ];.
+$data = sql_exec_fetchAll('SELECT pid,name,city FROM people;');
+print to_table($data,$c);
+</code></pre><p><table class="invisible"><tr>
+ <td>From</td>
+ <td><img src="images/totableraw1.png"  style=" border: 0; " alt="totableraw1.png"/></td>
+ <td>to</td>
+<td><img src="images/totable6.png"  style=" border: 0; " alt="totable6.png"/></td></tr></table>
+<a name="fieldrepository"></a>
+</p><a name="pos_10"><h2>Using field repository</h2></a>
+<p>You can see many field settings in the examples above. In a complex code many case this field options is repeating.
+You can reuse this field options by using field repository: You can add field options/settings to the field repository
+and can apply this settings to an arbitrary query's field.
+</p>
+<p>You can add field definitions to the field repository by implementing
+<code>HOOK_field_repository</code> <a href="hooks.html">hook</a>.
+The <code>HOOK_field_repository</code> hook have to return an array with the defined field names.
+The defined field names will presents in the field repository with <code>#</code> prefix.
+<br/>
+Every time you put a <code>#</code> prefixed field in the <code>#fields</code> array or
+pass an sql query containing <code>#</code> prefixed column names the field repository
+will be used to the appropriate field.
+</p>
+<p>You can use every field option in the field repository and some additional options:
+</p>
+<ul><li><code>base</code> - You can set an another field repository name here which act as base from where the options are inherited. <br/>The options set here are overwrite the options of "base" field definition, while the array typed options are merged priority with this values.</li><li><code>skip</code> - If this option is <code>true</code> the field will be completely skipped from the output table. (But can used in other field's value callback function)</li><li><code>sqlname</code> - A string value, specifies a redefined field/sql name. Can used for two reasons:
+<ul><li>If the repository name is matched to the query's field name (R2 example)
+<ul><li>The field will be available with this name in the parameter array of an another field's value callback function.</li></ul></li><li>If the repository name is different to the query's field name (R1 example)
+<ul><li>You can assign the repository field to the original query's field name. Usually the repository name is not same as the value's name coming from the query itself. You can tells to the repository object which field's value should use.</li></ul></li></ul></li></ul><p>Example of adding fields to the field repository:
+</p><pre><code class="php">function hook_mymodule_tables_field_repository()
+{
+    $c = [
+
+        //This field is invisible, but available for other fields as 'pid'
+        'pidfield' =&gt; [
+            'skip' =&gt; true,
+            'sqlname' =&gt; 'pid',
+        ],
+        'name_decorated' =&gt; [
+            'headertext' =&gt; 'The name',
+            'headeropts' =&gt; ['style' =&gt; 'background-color: lightgreen;'],
+            'sqlname' =&gt; 'name',
+            'cellopts' =&gt; ['style' =&gt; 'background-color: lightgray;'],
+            'valuecallback' =&gt; function($r) {
+                return l($r['name'],'useredit',[],['id' =&gt; $r['pid']]);
+            },
+        ],
+        'city_decorated' =&gt; [
+            'headertext' =&gt; 'Works in city',
+            'headeropts' =&gt; ['style' =&gt; 'background-color: lightblue;'],
+            'cellprefix' =&gt; '&lt;i&gt;',
+            'cellsuffix' =&gt; '&lt;/i&gt;',
+            'cellopts' =&gt; ['style' =&gt; 'background-color: lightgrey;'],
+            'sqlname' =&gt; 'city',
+        ],
+        'city_home_decorated' =&gt; [
+            'base' =&gt; 'city_decorated',
+            'headertext' =&gt; 'Live in city',
+        ],
+    ];
+    return $c;
+}
+</code></pre><p>After this hook field repository contains the following fields:
+</p>
+<ul><li><code>#pidfield</code></li><li><code>#name_decorated</code></li><li><code>#city_decorated</code></li><li><code>#city_home_decorated</code></li></ul><p>Using of field repository:
+</p><pre><code class="php">// R1 example
+$c = [
+    '#tableopts' =&gt; [
+        'border' =&gt; '1',
+        'style' =&gt; 'background-color: lightgray; border-collapse: collapse;'],
+    '#fields' =&gt; ['#name_decorated','#city_decorated'],
+ ];
+
+$data = sql_exec_fetchAll('SELECT pid,name,city FROM people;');
+print to_table($data,$c);
+</code></pre><p><table class="invisible"><tr>
+ <td>From</td>
+ <td><img src="images/totableraw1.png"  style=" border: 0; " alt="totableraw1.png"/></td>
+ <td>to</td>
+<td><img src="images/totable7.png"  style=" border: 0; " alt="totable7.png"/></td></tr></table>
+</p><a name="pos_11"><h2>Using field repository directly from SQL</h2></a>
+<p>Using of field repository (set in the previous example) is possible directly from SQL query:
+</p><pre><code class="php">// R2 example
+$data = sql_exec_fetchAll(
+  "SELECT pid as '#pidfield',name as '#name_decorated',city as '#city_decorated' FROM people;");
+print to_table($data);
+</code></pre><p><table class="invisible"><tr>
+ <td>From</td>
+ <td><img src="images/totableraw2.png"  style=" border: 0; " alt="totableraw2.png"/></td>
+ <td>to</td>
+<td><img src="images/totable8.png"  style=" border: 0; " alt="totable8.png"/></td></tr></table>
+<hr/>
+You can mix the SQL activated field repository options with the possibilities of options array:
+</p><pre><code class="php">$c = [
+    '#tableopts' =&gt; [
+        'border' =&gt; '1',
+        'style' =&gt; 'background-color: lightgray; border-collapse: collapse;'],
+    '#fields' =&gt; ['#city_decorated','#name_decorated'],
+ ];
+
+$data = sql_exec_fetchAll(
+  "SELECT pid as '#pidfield',name as '#name_decorated',city as '#city_decorated' FROM people;");
+print to_table($data,$c);
+</code></pre><p><table class="invisible"><tr>
+ <td>From</td>
+ <td><img src="images/totableraw2.png"  style=" border: 0; " alt="totableraw2.png"/></td>
+ <td>to</td>
+<td><img src="images/totable9.png"  style=" border: 0; " alt="totable9.png"/></td></tr></table>
+<em>Note: The column names started with # sign are searched in the field repository until the second # sign only!</em>
+<em>It means that only the first string between the # signs are serarched as repository element, the others are irrelevant.</em>
+<a name="totablebackend"></a>
+</p><a name="pos_12"><h2>Backend of to_table()</h2></a>
+<p>Useful to know that <code>to_table()</code> uses the <a href="tablegen.html#html_table_generator">HtmlTable class</a>
+in background to generate tables. Most options placed in <code>headeropts</code> or <code>cellopts</code> are passed
+to HtmlTable's <code>cell()</code> and <code>head()</code> methods.
+</p>
+<p>As the <a href="tablegen.html">documentation of HtmlTable</a> says the HtmlTable class can receive translated options
+from <a href="tablegen.html#excelxml">ExcelXmlDocument class</a> which is similar
+as HtmlTable but generate Excel XML documents.
+</p>
+<p>The result of this that we can write <code>to_table()</code> field definitions which usable to generate
+both HTML tables and Excel XML files same way!
+With the appropriate options the <code>to_table()</code> function can automatically translate the options using the
+<a href="tablegen.html#optionsconverter"><code>table_options_translator()</code></a> function.
+</p><a name="pos_13"><h2>Generate HTML and Excel tables with same way</h2></a>
+<p>Because the <code>to_table()</code> passes the <code>headeropts</code> and <code>cellopts</code> to <code>HtmlTable</code> class
+which can automatically convert options from options of <code>ExcelXmlDocument</code> we can write queries which
+can used to generate both html tables and excel xml tables.
+</p>
+<p>We only have to do the following things:
+</p>
+<ol><li>Put the <code>"type" => "uni"</code> key-value pair in all <code>headeropts</code> and <code>cellopts</code> options array.
+<ul><li>(Read <a href="tablegen.html#autoconv">this</a> to understand why)</li></ul></li><li>Use the <a href="tablegen.html#exmlstyleopts">style options</a> of <code>ExcelXmlDocument</code> in <code>headeropts</code> and <code>cellopts</code> instead of direct css styles.</li><li>Set the <code>"#output_object"</code> toplevel index to <code>"excelxml"</code> or <code>"table"</code>
+<ul><li><code>"excelxml"</code> - The <code>to_table()</code> will generate Excel XML table.</li><li><code>"table"</code> - The <code>to_table()</code> will generate html table.</li></ul></li></ol><p>A complex example which generate both output with same code:
+</p><pre><code class="php">function hook_mymodule_defineroute()
+{
+    $r = [];
+    $r[] = [
+        'path'=&gt; 'mytableexcel', // Excel XML file output path
+        'callback' =&gt; 'mytablegen_x',
+        'type' =&gt; 'raw', //This path will generate Microsoft Office XML, not HTML
+    ];
+    $r[] = [
+        'path'=&gt; 'mytablehtml', // Page path shows html table
+        'callback' =&gt; 'mytablegen_h',
+    ];
+    return $r;
+}
+
+function mytablegen_h() { return mytablegen_xh(true); }
+function mytablegen_x() { return mytablegen_xh(false); }
+
+function mytablegen_xh($html_excel)
+{
+    $c = [
+        '#tableopts' =&gt; ['style' =&gt; 'border-collapse: collapse;'],
+        '#output_object' =&gt; 'table',
+        'name' =&gt; [
+            'headertext' =&gt; 'Student name',
+            'headeropts' =&gt; ['type' =&gt; 'uni',
+                             'background-color' =&gt; '#333333',
+                             'color'=&gt;'#ffffff',
+                             'strong' =&gt; 'yes',
+                             'border' =&gt; 'all'],
+            'cellopts' =&gt; ['type' =&gt; 'uni',
+                           'width' =&gt; 80,
+                           'background-color' =&gt; '#ffff00',
+                           'border' =&gt; ['bottom','top','left']],
+        ],
+        'code' =&gt; [
+            'headertext' =&gt; 'Code',
+            'headeropts' =&gt; ['type' =&gt; 'uni',
+                             'background-color' =&gt; '#333333',
+                             'color'=&gt;'#ffffff',
+                             'strong' =&gt; 'yes',
+                             'border' =&gt; 'all'],
+            'cellopts' =&gt; ['type' =&gt; 'uni',
+                           'background-color' =&gt; '#99ff99',
+                           'border' =&gt; ['bottom','top','left']],
+        ],
+    ];
+
+    if(!$html_excel)
+    {
+        $c['#output_object'] = 'excelxml';
+        header('Content-Type:application/xml');
+        header('Content-Disposition: attachment; filename="mytablesample.xml"');
+    }
+
+    $data = sql_exec("SELECT name,code FROM student ORDER BY name");
+    return to_table($data,$c);
+}
+</code></pre></div><script>hljs.initHighlightingOnLoad();</script><div class="ccdocpanel"><ul class="docsidemenu no-print"><li><a href="start.html">CodKep introduction</a><ul class=" closed"><li><a href="start.html#pos_2">What is CodKep</a></li><li><a href="start.html#pos_3">The main chapters of this document</a></li><li><a href="start.html#pos_4">Author, License</a></li></ul></li><li><a href="modules.html">Installing, Modules</a><ul class=" closed"><li><a href="modules.html#pos_2">Installing codkep</a></li><li><a href="modules.html#pos_3">Directories</a></li><li><a href="modules.html#pos_4">Site settings, configuration</a></li><li><a href="modules.html#pos_5">Modules</a></li></ul></li><li><a href="routes.html">Routes</a><ul class=" closed"><li><a href="routes.html#pos_2">Add custom locations</a></li><li><a href="routes.html#pos_3">The route definition array</a></li><li><a href="routes.html#pos_4">Parameters in URL</a></li><li><a href="routes.html#pos_5">Caching routes</a></li><li><a href="routes.html#pos_6">Generating URLs</a></li><li><a href="routes.html#pos_7">Generating Links</a></li><li><a href="routes.html#pos_8">Redirections</a></li><li><a href="routes.html#pos_9">Tags</a></li><li><a href="routes.html#pos_10">Clean URLs</a></li><li><a href="routes.html#pos_11">Hooks related to routes</a></li></ul></li><li><a href="hooks.html">Hooks</a><ul class=" closed"><li><a href="hooks.html#pos_2">Implement hooks</a></li><li><a href="hooks.html#pos_3">Interaction of hooks</a></li><li><a href="hooks.html#pos_4">Hook sequence of a page load</a></li><li><a href="hooks.html#pos_5">Create hooks</a></li><li><a href="hooks.html#pos_6">Caching hooks</a></li><li><a href="hooks.html#pos_7">Change hook order</a></li><li><a href="hooks.html#pos_8">Debugging hooks</a></li><li><a href="hooks.html#pos_9">Hooks</a></li></ul></li><li><a href="parameters.html">Parameters</a><ul class=" closed"><li><a href="parameters.html#pos_2">Defining parameters</a></li><li><a href="parameters.html#pos_3">Defining in route definition array</a></li><li><a href="parameters.html#pos_4">Using parameters</a></li><li><a href="parameters.html#pos_5">Other parameter related functions</a></li><li><a href="parameters.html#pos_6">Security classes</a></li><li><a href="parameters.html#pos_7">Parameter handling relates settings</a></li><li><a href="parameters.html#pos_8">Hooks</a></li></ul></li><li><a href="structure.html">Themes</a><ul class=" closed"><li><a href="structure.html#pos_2">Functions unrelated to themes</a></li><li><a href="structure.html#pos_3">Using of themes</a></li><li><a href="structure.html#pos_4">Place your own content to a site area</a></li><li><a href="structure.html#pos_5">Settings of flex theme</a></li><li><a href="structure.html#pos_6">Create own themes</a></li><li><a href="structure.html#pos_7">Menu system</a></li><li><a href="structure.html#pos_8">Custom themes and menu generation</a></li><li><a href="structure.html#pos_9">Hooks</a></li></ul></li><li><a href="ajax.html">Ajax framework</a><ul class=" closed"><li><a href="ajax.html#pos_2">Start ajax requests</a></li><li><a href="ajax.html#pos_3">1. Place an user (click) triggered ajax link in html code</a></li><li><a href="ajax.html#pos_4">2. Set HTML form action to ajax</a></li><li><a href="ajax.html#pos_5">3. Place a delayed ajax call to the page</a></li><li><a href="ajax.html#pos_6">4. Fill page parts/block by simply call fill_through_ajax() function</a></li><li><a href="ajax.html#pos_7">The ajax handler</a></li><li><a href="ajax.html#pos_8">Ajax commands</a></li><li><a href="ajax.html#pos_9">A complex ajax example (Version 1 - standard)</a></li><li><a href="ajax.html#pos_10">A complex ajax example (Version 2 - autorouted)</a></li></ul></li><li><a href="sql.html">Sql</a><ul class=" closed"><li><a href="sql.html#pos_2">Sql database settings</a></li><li><a href="sql.html#pos_3">Connect and disconnect</a></li><li><a href="sql.html#pos_4">Execute SQL commands</a></li><li><a href="sql.html#pos_5">General database CRUD interface</a></li><li><a href="sql.html#pos_6">Methods of DatabaseQuery</a></li><li><a href="sql.html#pos_7">Methods of DatabaseCond</a></li><li><a href="sql.html#pos_8">Simple and easy database operations</a></li><li><a href="sql.html#pos_9">Sql transactions</a></li><li><a href="sql.html#pos_10">Error handling</a></li><li><a href="sql.html#pos_11">Schema editor</a></li><li><a href="sql.html#pos_12">Define sql schema requirements</a></li><li><a href="sql.html#pos_13">Hooks</a></li></ul></li><li><a href="files.html">Files</a><ul class=" closed"><li><a href="files.html#pos_2">Storing type</a></li><li><a href="files.html#pos_3">File class</a></li><li><a href="files.html#pos_4">Fixed properties of the File object</a></li><li><a href="files.html#pos_5">Methods of File object</a></li><li><a href="files.html#pos_6">Helper functions of File class</a></li><li><a href="files.html#pos_7">File access control</a></li><li><a href="files.html#pos_8">Tricks with file hooks</a></li><li><a href="files.html#pos_9">Image size classes</a></li><li><a href="files.html#pos_10">Settings of the file module</a></li><li><a href="files.html#pos_11">Hooks</a></li></ul></li><li><a href="forms.html">Forms</a><ul class=" closed"><li><a href="forms.html#pos_2">Simple HTML form generation</a></li><li><a href="forms.html#pos_3">Form checker method</a></li><li><a href="forms.html#pos_4">The SpeedForm </a></li><li><a href="forms.html#pos_5">Methods of SpeedForm</a></li><li><a href="forms.html#pos_6">Data definition structure</a></li><li><a href="forms.html#pos_7">The structure : Top level attributes</a></li><li><a href="forms.html#pos_8">Field types</a></li><li><a href="forms.html#pos_9">Common field attributes</a></li><li><a href="forms.html#pos_10">Output format of SpeedForm</a></li><li><a href="forms.html#pos_11">Query and Add field types</a></li><li><a href="forms.html#pos_12">Data definition structure repository</a></li><li><a href="forms.html#pos_13">Helper functions</a></li><li><a href="forms.html#pos_14">Settings of the forms module</a></li><li><a href="forms.html#pos_15">Hooks</a></li></ul></li><li><a href="tablegen.html">Table generator</a><ul class=" closed"><li><a href="tablegen.html#pos_2">Html table generation</a></li><li><a href="tablegen.html#pos_3">Excel output generator</a></li><li><a href="tablegen.html#pos_4">Convert Excel XML tables to HTML tables</a></li></ul></li><li><a href="totable.html">Query formatter</a><ul class=""><li><a href="totable.html#pos_2">Automatic output generator for sql queries</a></li><li><a href="totable.html#pos_3">Input of to_table()</a></li><li><a href="totable.html#pos_4">Outout of to_table()</a></li><li><a href="totable.html#pos_5">Options affects the whole table</a></li><li><a href="totable.html#pos_6">Change the number or/and the order of the fields</a></li><li><a href="totable.html#pos_7">Customize of fields</a></li><li><a href="totable.html#pos_8">Modify the value of the fields</a></li><li><a href="totable.html#pos_9">Using virtual fields</a></li><li><a href="totable.html#pos_10">Using field repository</a></li><li><a href="totable.html#pos_11">Using field repository directly from SQL</a></li><li><a href="totable.html#pos_12">Backend of to_table()</a></li><li><a href="totable.html#pos_13">Generate HTML and Excel tables with same way</a></li></ul></li><li><a href="dyntable.html">DynTable</a><ul class=" closed"><li><a href="dyntable.html#pos_2">Methods of DynTable class</a></li><li><a href="dyntable.html#pos_3">Data definition structure</a></li><li><a href="dyntable.html#pos_4">Data definition structure repository</a></li><li><a href="dyntable.html#pos_5">A complex example</a></li></ul></li><li><a href="user.html">User module</a><ul class=" closed"><li><a href="user.html#pos_2">The global $user object</a></li><li><a href="user.html#pos_3">Login and logout</a></li><li><a href="user.html#pos_4">Managing users</a></li><li><a href="user.html#pos_5">Helper functions</a></li><li><a href="user.html#pos_6">CodKep session data</a></li><li><a href="user.html#pos_7">Settings of user module</a></li><li><a href="user.html#pos_8">Hooks</a></li></ul></li><li><a href="node.html">Node</a><ul class=" closed"><li><a href="node.html#pos_2">Fixed properties(fields) of the Node</a></li><li><a href="node.html#pos_3">Methods of Node class</a></li><li><a href="node.html#pos_4">Helper functions of node class</a></li><li><a href="node.html#pos_5">Defining a node</a></li><li><a href="node.html#pos_6">Dynamic node definition</a></li><li><a href="node.html#pos_7">Modify existing node types</a></li><li><a href="node.html#pos_8">Database appearance of nodes</a></li><li><a href="node.html#pos_9">Querying node lists from database</a></li><li><a href="node.html#pos_10">Node access control</a></li><li><a href="node.html#pos_11">REST api for nodes</a></li><li><a href="node.html#pos_12">Node related REST commands</a></li><li><a href="node.html#pos_13">A complete example</a></li><li><a href="node.html#pos_14">Custom Node objects</a></li><li><a href="node.html#pos_15">Settings of the nodes</a></li><li><a href="node.html#pos_16">Hooks</a></li></ul></li><li><a href="page.html">Page</a><ul class=" closed"><li><a href="page.html#pos_2">Fields of the page</a></li><li><a href="page.html#pos_3">Permissions of pages</a></li><li><a href="page.html#pos_4">Extending page type</a></li><li><a href="page.html#pos_5">Hooks</a></li></ul></li><li><a href="doc.html">Documenting</a><ul class=" closed"><li><a href="doc.html#pos_2">My mark language</a></li><li><a href="doc.html#pos_3">Highlights</a></li><li><a href="doc.html#pos_4">Headings</a></li><li><a href="doc.html#pos_5">Other elements</a></li><li><a href="doc.html#pos_6">Tables</a></li><li><a href="doc.html#pos_7">Lists</a></li><li><a href="doc.html#pos_8">Codes</a></li><li><a href="doc.html#pos_9">Links</a></li><li><a href="doc.html#pos_10">Images</a></li></ul></li><li><a href="debug.html">Debugging</a><ul class=" closed"><li><a href="debug.html#pos_2">Dumping arbitrary data objects</a></li><li><a href="debug.html#pos_3">Special pages</a></li><li><a href="debug.html#pos_4">Debug sql calls</a></li><li><a href="debug.html#pos_5">Dump the parameters of the page</a></li></ul></li></ul></div></div>
+</body>
+</html>

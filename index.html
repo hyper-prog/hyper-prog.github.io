@@ -1,8 +1,381 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
-  "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
-<html>
-	<head></head>
-	<body>
-	Test file here...
-	</body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>HyperProg</title>
+	<meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+	<meta name="keywords" content="Hyper Hyper80 HyperProg program gsafe treegen rotor hyperchat myth spitview selfin cdcat qt library sql frontend image rotate csharp cpp opengl glsl shader" />
+	<meta name="description" content="Programs of Hyper aka Peter Deak" />
+	<link rel="stylesheet" href="hyperprog.css" type="text/css" />
+	<meta name="google-site-verification" content="dcxNFO7H8LbI0OCKGwpUHodNIe6PI4m_kBhEX8F4RdQ" />
+	<meta name="ocs-site-verification" content="fbaa519276de1b9c4f42b66ef458e9f0" />
+</head>
+<body>
+<!--
+	<ul class="menu">
+		<li><a class="navbar" href="gsafe/index.html">gSAFE</a></li>
+		<li><a class="navbar" href="unisync/index.html">UniSync</a></li>
+		<li><a class="navbar" href="prepo/index.html">pRepo</a></li>
+		<li><a class="navbar" href="treegen/index.html">TreeGen</a></li>
+		<li><a class="navbar" href="rotor/index.html">Rotor</a></li>
+		<li><a class="navbar" href="myth/index.html">Myth</a></li>
+		<li><a class="navbar" href="scanlocs/index.html">ScanLocs</a></li>
+		<li><a class="navbar" href="selfin/index.html">SelfIn</a></li>
+	</ul>
+-->
+	<h2>Programs of <span class="green">Hyper</span></h2>
+
+	<strong>This page contains application/libraries made by <a class="authorlink" href="author.html">Peter Deak</a></strong>
+	
+	<div class="main">
+
+	<div class="program">
+		<img alt="CodKep" class="logo" src="cklogo_big.png" height="120px"/>
+
+		<h3><a href="codkep/index.html">CodKep</a></h3>
+
+		<h3>CodKep is a lightweight web framework (php)</h3>
+		CodKep is a lightweight web framework written in PHP. It heavy inspired by the Api of Drupal CMS. It tries to be as robust as Drupal when coding without the bloatness of GUI.
+		<br/>
+		CodKep is designed to build very database active sites where the design is not the primary goal, but the other side lots of database functions forms and queries are used. To achieve this the CodKep have rich set of form generation api.
+		<br/>
+		<a href="codkep/doc/index.html">Documentation of CodKep</a>
+	</div>
+
+	<div class="program">
+		<img alt="SSeNet" class="logo" src="netsse.png" />
+
+		<h3><a href="hasses/index.html">Hasses</a></h3>
+
+		<h3>Hyper's Asynchronous Server Sent event (SSE) notification Server (C)</h3>
+
+		Hasses is a small notification server using
+		<a href="https://en.wikipedia.org/wiki/Server-sent_events">Server Sent Event (SSE)</a>.
+		It has asynchronous design to handle more clients in same thread. It uses linux epoll() function.
+		<br/>
+		Most SSE example uses server side codes holds a connection to each client. It is usually means a process/thread
+		for each client connection, which is not optimal when the number of clients are rising.
+		This daemon act as a minimal web server which suitable
+		to handle SSE connections only, and can handle all incoming connections in one thread.
+		The main web server environment (which serve the web pages) can send
+		the notifications to the clients through a separate network connection or a FIFO file. 
+		The clients can connect to the hasses server with a special
+		token(s), which are usable to address messages to a subset of clients or event one client.
+		<br/>
+		The daemon has a rich logging and client tracking possibility.
+	</div>
+
+	<div class="program">
+	  <img alt="UniSync" class="logo" src="unisyncgui.png" />
+		
+	  <h3><a href="unisync/index.html">UniSync</a></h3>
+		
+	  <h3>Universal offline/online direcotry sync/diff utility (C++, Multiplatform)</h3>
+	  <a href="unisync/unisyncdoc/doc/unisync/using.html">Documentation / User manual</a>
+          <br/>
+	  UniSync is a small command line utility with the UniSyncGui graphical frontend to achive the following goals:
+      <p class="usgoaltitle">Search the differences of two directory structure.</p>
+      <p class="usgoal">
+      Checks the directories, file sizes,
+      modification times, and file hashes (md5,sha256). You can compare two (same time available) directory contents,
+      or you can even compere two offline directory structures too. UniSync can create a catalog file which contains,
+      the stucture, the sizes, hashes, etc,.. and later comperes it to another directory on a different machine too.
+      </p>
+      
+      <p class="usgoaltitle">Syncronize two directory structure.</p>
+      <p class="usgoal">
+      Checks the directories, file sizes,
+      modification times, and file hashes (optional) and syncronioze the differences of the directories.
+      </p>
+
+	  <p class="usgoaltitle">Creating incremental backup of a directory structure.</p>
+	  <p class="usgoal">
+	  Because the unisync can generate an update package from a directory structure
+	  according to a catalog file it can be used to generate incremental backup of a directory tree.
+	  The only necessary thing you have to do is to create a catalog with unisync when the full backup is archived.
+	  Later the unisync can compare the data matching to the live data and create a directory as incremental backup.
+	  </p>
+      
+      <p class="usgoaltitle">Offline syncronize two directory structure.</p>
+      <p class="usgoal">
+      The unisync can even syncronize two directories which can't available same time.
+      The unisync can make a catalog from the OLD directory structure. After you tranfer this small catalog file
+      to the second place where the NEW directory structure is located, the unisync can generate and "update package"
+      to sync the OLD directory to same content as NEW. After you bring back the update package to the OLD directory,
+      the unisync can apply this update. This way you can syncronize two different located not available directories with big amount of data.
+      Of course the "update package" contains the modified and new files only.
+      </p>
+				
+	</div>	
+
+	<div class="program">
+		<h3><a href="ntfstame/index.html">NtfsTame</a></h3>
+		
+		<h3>NTFS file/directory name encoding corrector (C)</h3>
+
+                NtfsTame is a command line program to corrent the bad coded unicode characters of ntfs
+                filesystem. You can specify a map file to tell the code replacements needed to do on the file
+                and directory names.
+	</div>	
+
+	<div class="program">
+		<img alt="HyperCalc" class="logo" src="hypercalc.png" />
+		
+		<h3><a href="hypercalc/index.html">HyperCalc</a></h3>
+		
+		<h3>HyperCalc is a high precision command line styled calculator (C++, Multiplatform, <a href="http://qt.nokia.com">Qt</a>)</h3>
+
+		This is a console styled calculator, which is similar to linux "bc".<br/>
+		It designed to be simple, easy to use and fast. The calculations evaluated with correct precedence, 
+		using decimal based numbers with high precision to avoid floating point errors.
+		(The base mathematical functions built on boost c++)<br/>
+                You can use hexadecimal, octal and binary numbers as input or output.
+		Available operators/sings: <pre>+ - * / % ^ ( )</pre>
+                The program has many internal functions and loadable functions and you can define new ones<br/>
+
+	</div>	
+	
+	<div class="program">
+		<img alt="WallpaperFiner" class="logo" src="wallpaperfiner.png" />
+		
+		<table><tr><td>
+			<h3><a href="wpfiner/index.html">Wallpaper Finer</a></h3>
+		</td><td>
+			<a href="wpfiner/index.html"><img alt="eng" class="flag" src="eng.png" /></a>
+		</td><td>
+			<a href="wpfiner/index_hun.html"><img alt="hun" class="flag" src="hun.png" /></a>
+		</td></tr></table>
+		
+		<h3>Fits your images the easiest way as desktop wallpaper! (C++)</h3>
+
+		Wallpaper finer is small easy to use utility which adjust (crop) your images perfectly to fit your desktop, and immediately set as
+		wallpaper according to your instructions. What does it mean?<br/>
+		Usually our digital photos have different aspect ratio than our desktop.
+		This utility detects the desktop resolution, and propose a perfet image crop to keep your image's aspect ratio. 
+		(It means that your dog won't looks like fatter than in real life)
+		You can modify the cropped area by single mouse move.<br/>
+		After you found your best crop, you can set the cropped part as your desktop wallpaper by a single click.
+		The program will save scaled down image crop and set it as desktop wallpaper. (Of course your original image will be untouched!)
+		<br/><br/>
+		The program works on Windows XP, Vista, Windows 7, Ubuntu linux (On Gnome based WM)
+	</div>		
+
+	<div class="program">
+		<img alt="gSAFE" class="logo" src="gsafe.png" />
+		
+		<h3><a href="gsafe/index.html">gSAFE Library</a></h3>
+		
+		<h3><strong>G</strong>eneral <strong>S</strong>ql d<strong>A</strong>tabase <strong>F</strong>ront <strong>E</strong>nd Library (C++, Multiplatform, <a href="http://qt.nokia.com">Qt</a>)</h3>
+		
+		gSAFE is a <strong>G</strong>eneral <strong>S</strong>ql d<strong>A</strong>tabase <strong>F</strong>ront <strong>E</strong>nd multiplatform library written in C++ based on <a href="http://qt.nokia.com">Qt</a>.
+		It is a complex system which define meta objects (Tables / Lists), which can autogenerate the graphical interfaces to manipulate the data. These meta objects can work together with Sql databases (PostgreSQL,MySQL,SQLite,Odbc) handles timestamps, concurence writing etc.
+		The meta objects contains all information about the data which need to manupulete, shows, store, print or even make a excel table from its,
+		including the attributes for the gui to edit the fields.
+		You can define this meta object from program code or XML source. 
+		After you defined the meta object they can be attached to gui or send to printer or make a table.
+		The gui is generated by the attributes of meta data table.
+		This library enables you to develop sql based application really quick time.
+		The base library is developed with Qt so the generated gui is a Qt based gui, work on all platform where the Qt runs.
+	</div>	
+	
+	<div class="program">
+		<img alt="prepo" class="logo" src="prepo.png" />
+		
+		<table><tr><td>
+			<h3><a href="prepo/index.html">pRepo</a></h3>
+		</td><td>
+			<a href="prepo/index.html"><img alt="eng" class="flag" src="eng.png" /></a> 
+		</td><td>
+			<a href="prepo/index_hun.html"><img alt="hun" class="flag" src="hun.png" /></a>
+		</td></tr></table>
+		
+		<h3>Peter's repository program (C++, Demo and tutorial for gSAFE)</h3>
+		
+		pRepo is a small repository program, which intend to shows using of <a href="gsafe/index.html">gSAFE</a>. It is a complex tutorial written in less than 1000 rows C++ file.
+		It uses many functions of gSAFE (XML metadata,Dynamic GUI building, Role system, Logger system,etc) <br/><br/>
+
+		<i>About "pRepo"</i>: It is a Repository program. You can add objects to the system, the program gives an unique repository number for every object.
+		You can specify serial numbers, types, incoming values and dates. You can also define places where the object is currenty located and accountables which is assigned to the stored objects.
+		Every changes made on objects is automatically logged, and you can trace it with this program. No metter how many changes you did on an object, the tracing is always shows you the history of every object.
+		It stores the data in sqlite database, so you can use this program everywhere, don't need server connection or internet.
+		This program can run on Win32 and Linux too. 
+	</div>	
+
+	<div class="program">
+		<img alt="ScanLocs" class="logo" src="scanlocs.png" />
+
+		<table><tr><td>
+			<h3><a href="scanlocs/index.html">ScanLocs</a></h3>
+		</td><td>
+			<a href="scanlocs/index.html"><img alt="eng" class="flag" src="eng.png" /></a> 
+		</td><td>
+			<a href="scanlocs/index_hun.html"><img alt="hun" class="flag" src="hun.png" /></a>
+		</td></tr></table>
+		
+		<h3>ScanLocs is a folder structure GPS location scanner (C++)</h3>
+
+		I like to travelling and photographing.
+		The last few years I colleted lot of gigabytes of pictures. This photos are stored on my computer
+		in a different folders separated by trip/date. It's easy to search a photo according the shooting time, but hard to find photos taken on a specified city or other location.
+		I decided to write a small program which can solve this problem.
+		<br/><br/>
+		ScanLocs is a small command line program. It scans a whole directory structure and collects the GPS location data
+		which are stored in a small tag files. This tag files are small text files containig GPS coordinates,
+		they are located in picture folders.
+		After the scanning process you can opens a html (goole map) in your browser and see all of the locations
+		you photographed. By clicking to this location your browser can jump to the picture folder to show the files.
+		<br/><br/>
+
+	</div>
+	
+	<div class="program">
+		<img alt="Myth" class="logo" src="myth.png" />
+		
+		<h3><a href="myth/index.html">"Myth" drupal theme</a></h3>
+		
+		<h3>A highly customizable drupal 7 theme</h3>
+		
+		Myth is a from scratch theme made for <a href="http://drupal.org/">Drupal 7</a>.
+		It supports main menu with submenus without any other module or plugin.
+		(You only have to insert the main menu to the necessary menu block area)
+		It supports color schemes, but you can adjust colors individually in the settings page.
+		Myth has many block area, and customizable page handlig.<br/>
+		I have written this theme on Drupal 7 so it only supports 7.x versions. (And not backward compatible)
+	</div>
+
+	<div class="program">
+		<img alt="treegen" class="logo" src="treegen.png" />
+		
+		<h3><a href="treegen/index.html">TreeGen</a></h3>
+		
+		<h3>OpenGL based environment generation (C++, uses the gSAFE)</h3>
+		
+		TreeGen is an environment generator. Generate normal trees palm trees undergrows (Fern) grass. You can adjust the parameters of the generation, so
+		you can generate different kind of trees or other objects. The program uses OpenGL and GLSL (OpenGL Shader Language).
+		The generated objects stores the parameters which are editable later, can be saved or loaded from file. The stored files are sqlite databases.
+		The program could generate scenes with more million triangles so it can be use to measure the performance of the video card.
+		I wrote it to have a fun, and practise the OpenGL and shaders. 
+		It uses/contains the gSAFE library (mentioned above) to edit/store/load the parameters of the generated objects. So this program is an example of using the gSAFE too.
+	</div>	
+
+	<div class="program">
+		<img alt="Rotor" class="logo" src="rotor.png" />
+		
+		<h3><a href="rotor/index.html">Rotor</a></h3>
+		
+		<h3>Fast lossless jpeg image rotator (C# .NET/Mono)</h3>
+		
+		Hyper Image Rotator is a small program which targets to rotate your jpeg photos lossless to the viewing position.
+		The main idea to minimalize the user interaction rotating (One click one rotation) and do the work at the end (in batch mode).
+		The program shows you all the possible rotaion variants of your picture (0 degree, 90 degree, 180 degree and 270) so you can select the good picture with a click.
+		The animated moving is help you to track which is the next photo. You can also delete the bad pictures also. 
+		The program doensn't modify anything, until the end, when you push the apply button which case the rotator apply the needed operations.
+		Written in C# works and tested under windows .NET and Linux Mono (with Winforms lib)<br/>
+		The new 1.1 version can read the jpeg's Exif orientation tag too, so you can set the positions according to this tag.
+	</div>	
+
+	<div class="program">
+		<img alt="HyperChat" class="logo" src="hyperchat.png" />
+		
+		<h3><a href="hyperchat/index.html">HyperChat</a></h3>
+		
+		<h3>Compact stand alone clinet/server graphical chat program (C# .NET/Mono)</h3>
+		
+		HyperChat is a compact client/server chat program wihch allows to chat with graphical mode. 
+		The chat partners have a common drawing area so anyone can draw to it during the chat. 
+		The users can draw many ways an colors, and the pictures can be saved in file. 
+		At the start you can select the program network operation mode (Server/Client)
+		Written in C# works and tested under windows .NET and Linux Mono (with Winforms lib)
+	</div>
+
+	<div class="program">
+		<img alt="HyperChat" class="logo" src="splitview.png" />
+		
+		<h3><a href="splitview/index.html">SplitView</a></h3>
+		
+		<h3>Huge image viewer for PDA (C# .NET Compact Framework)</h3>
+		
+		Splitview is written for one reason. My pda (Windows mobile) can't show big images (~10Mb jpg). This files are tipically map files.
+		So I decided to write a small program to my PC which can split the big images to smaller mosaic parts, and generate an index file to pair the mosaic files to each other.
+		And secondly I wrote a small viewer to my PDA which can view the big map file very fast way, becouse it's only shows a small mosaic parts, and automatically load the next one if I sroll the picture.
+		This is the Splitview.
+		Written in C# and works on all windows mobile platform which supported by the .NET Compact Framework.
+		The splitter program is run on PC (.NET)
+	</div>
+
+	<div class="program">
+		<img alt="selfin" class="logo" src="selfin.png" />
+		
+		<table><tr><td>
+			<h3><a href="selfin/index.html">SelfIn</a></h3>
+		</td><td>
+			<a href="selfin/index.html"><img alt="eng" class="flag" src="eng.png" /></a> 
+		</td><td>
+			<a href="selfin/index_hun.html"><img alt="hun" class="flag" src="hun.png" /></a>
+		</td></tr></table>
+		
+		<h3>Self Invoicer program (C++)</h3>
+		
+		Selfin is a complex small company invoice creator and financial manager program. The primary purpouse is creating outgoing invoices (Reverse invoices too),
+		but you can also record and manage your incoming invoices, payment informations and finally it can generate bank account balace from these data.
+		Later you can dive into the invoices, query to partners, dates, amounts, etc. This program can generate excel reports from the data to assist later processing.
+		You can also classify your invoices to separate them by your aspects. Selfin can generate the VAT, and charge calculations according to your classifications too.<br/>
+		It's an excellent tool to keep track your company financial state.<br/>
+		It stores the data in sqlite database, so you can use this program everywhere, don't need server connection or internet.
+		This program can run on Win32 and Linux too. 
+	</div>	
+
+	<div class="program">
+		<h3>Other old programs</h3>
+		<a href="http://cdcat.sourceforge.net"><strong>&uml;Hyper's CdCatalog&uml;  aka &uml;CdCat&uml;</strong></a> A multiplatform catalog program <small><a href="cdcat-winbin-last.zip">last win-bin</a></small>
+		<br/>
+		<a href="http://renamer.sourceforge.net"><strong>Renamer</strong></a> A batch file renamer program <small><a href="renamer-winbin-last.zip">last win-bin</a></small>
+		<br/>
+		<a href="http://code.google.com/p/hypersworld/"><strong>Hyper's world</strong></a> An OpenGL based first person shooter game (Net multiplayer)
+	</div>
+
+	<div class="program">
+		<h3>How-Tos</h3>
+		<a href="howto/etc-git.html"><strong>How to store /etc in git repository</strong></a>
+		<br/>
+	</div>
+
+<table>
+<tr><td>Author:</td> <td><strong>P&eacute;ter De&aacute;k</strong></td></tr>
+<tr><td>Contact Email:</td> <td align="center"><img src="ma.png" alt="mailaddress"/>at <strong>gmail.com</strong></td></tr>
+</table>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick"/>
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+"/>
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!"/>
+<img alt="paypallogo"  style="border:0;" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+</form>	
+</div>
+<br/>
+<br/>
+<a href="sitemap.html">sitemap</a>
+<p>
+    <a href="http://validator.w3.org/check?uri=referer">
+     <img src="http://www.w3.org/Icons/valid-xhtml10"
+          alt="Valid XHTML 1.0 Transitional" height="31" width="88" style="border:0;" /></a>
+</p>
+
+<!-- Google tracking code -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-18052406-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</body>
 </html>

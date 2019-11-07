@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Themes</title>
+  <meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css"/>
+  <link rel="stylesheet" type="text/css" href="default.css"/>
+  <link rel="stylesheet" type="text/css" href="ckcomm.css"/>
+  <link rel="stylesheet" type="text/css" href="flex.css"/>
+  <script type="text/javascript" src="highlight.pack.js"></script>
+</head>
+<body>
+ <div class="content"><div class="ccdoccontent"><a name="pos_1"><h1>Themes</h1></a>
+<p>Themes allow you to change the look and feel of your CodKep site.
+The html structure of the site, the headings, sidebars blocks, footers
+are built by the current theme. You can associate your generated contents to this part of sites.
+<a name="themeunrelated"></a>
+</p><a name="pos_2"><h2>Functions unrelated to themes</h2></a>
+<p>There is many helper functions to change the style and the behaviour of the site which independent of themes.
+You can always use this functions in every code to modify/set the things below.
+</p>
+<p><a name="add_style"></a>
+<span class="definition">add_style($text)</span>
+<br/>
+This function adds an arbitrary css code to the page. The <code>$text</code> parameter have to contains the css code
+which will insert into the html head between <code>style</code> tag. (Embedded into the html file)
+</p><pre><code class="php">//Draws a 100x50 pixel sized red box
+print '&lt;div class="redbox"&gt;&lt;/div&gt;';
+add_style("div.redbox { display: block; width: 100px; height:50px; background-color: #ff6666; }");
+</code></pre><p><a name="add_header"></a>
+<span class="definition">add_header($text)</span>
+<br/>
+Add an arbitrary text to the html head part.
+</p><pre><code class="php">//Set the page automatically refreshed in every 10 sec
+add_header('&lt;meta http-equiv=”refresh” content=”10" /&gt;');
+</code></pre><p><a name="add_css_file"></a>
+<span class="definition">add_css_file($loc)</span>
+<br/>
+Adds a css file reference to the html header. The <code>$loc</code> parameter contains the location of css file.<br/>
+The <code>$loc</code> parameter will passed to the <a href="routes.html#urlfunc"><code>url()</code></a> inside.
+</p><pre><code class="php">add_css_file('/site/mycss.css');
+//It will generate a &lt;link rel="stylesheet" href="/site/mycss.css"&gt; tag to the header.
+</code></pre><p><a name="add_js_file"></a>
+<span class="definition">add_js_file($loc)</span>
+<br/>
+Adds a javascript file reference to the html header. The <code>$loc</code> parameter contains
+the location of javascript file.<br/>
+The <code>$loc</code> parameter will passed to the <a href="routes.html#urlfunc"><code>url()</code></a> inside.
+</p><pre><code class="php">add_js_file('/site/myfuncs.js');
+//It will generate a &lt;script type="text/javascript" src="/site/myfuncs.js"&gt;&lt;/script&gt; tag to the header.
+</code></pre><p><a name="set_title"></a>
+<span class="definition">set_title($text)</span>
+<br/>
+Sets the (html) title of the current page.
+</p>
+<p><a name="set_icon"></a>
+<span class="definition">set_icon($iconurl)</span>
+<br/>
+Sets the icon of the current page.<br/>
+It will generate the <code>shortcut icon</code> header tag for the current page.
+The <code>$iconurl</code> parameter will passed to the <a href="routes.html#urlfunc"><code>url()</code></a> inside.
+</p>
+<p><em>Note: It should used "ico" format file for compatibility reasons.</em>
+</p>
+<p><a name="add_author_data"></a>
+<span class="definition">add_author_data($author)</span>
+<br/>
+Adds the author html header metadata to the page. The parameter passed author string will be the metadata value.
+</p>
+<p><a name="add_seo_data"></a>
+<span class="definition">add_seo_data($description,$keywords,$revisitafter)</span>
+<br/>
+Adds some SEO data to the page, the page description, the search keywords and the revisit after value.
+(Example for revisit after value: "2 days")
+</p><pre><code class="php">add_seo_data("Page for booking rooms in Sunshine hotel",
+             "hotel booking vacation sunshine",
+             "2 days");
+</code></pre><p><a name="get_startpage"></a>
+<span class="definition">get_startpage()</span>
+<br/>
+It returns the currently set start page location.
+</p>
+<p><a name="usingthemes"></a>
+</p><a name="pos_3"><h2>Using of themes</h2></a>
+<p>Bigger changes of the style or structural changes can achieved by themes.
+</p>
+<p>You can set the default theme in your <a href="modules.html#site_settings">site settings</a> by
+set <code>$site_config->default_theme_name</code> variable to the desired theme name.
+Although usually the default theme is used the <a href="routes.html">internal locations</a>
+can <a href="routes.html#routedefarray">override</a> this default theme and can use different theme.
+</p>
+<p>Every theme has an unique name which identify the theme.
+By default two built in theme present in CodKep:
+</p>
+<ul><li><code>base_page</code> - A simple page without any visual block and style element. It is often used for error handling pages, login pages and other locations where the users shouldn't see any more disturbing information.</li><li><code>flex</code> - More powerful responsive theme with a lot of page area and style element. (The default if not set in <code>_settings.php</code>)</li></ul><p>The page areas usable in <code>flex</code> theme:
+</p>
+<p><img src="images/flex_areas.png"  style=" border: 0; " alt="flex_areas.png"/>
+</p>
+<p></p>
+<ul><li>Logo image area. You can set the logo image by <code>$site_config->logo_img_url</code> setting. By default no logo is set for the site.</li><li>The site name and slogan. You can set the site name and slogan by <code>$site_config->site_name</code> and  <code>$site_config->site_slogan</code> settings.</li><li><code>header</code> area. You can set arbitrary content here by <code>sitearea_header</code> hook.</li><li><code>sidebar_left</code> area. You can set arbitrary content here by <code>sitearea_sidebar_left</code> hook.</li><li><code>sidebar_right</code> area. You can set arbitrary content here by <code>sitearea_sidebar_right</code> hook.</li><li><code>pagetop</code> area. You can set arbitrary content here by <code>sitearea_pagetop</code> hook.</li><li><code>highlighted</code> area. You can set arbitrary content here by <code>sitearea_highlighted</code> hook.</li><li><code>footer</code> area. You can set arbitrary content here by <code>sitearea_footer</code> hook.</li></ul><a name="pos_4"><h3>Place your own content to a site area</h3></a>
+<p>The themes can have site areas which is usable to place your contents. This site areas are defined by themes itself,
+and can be different in every theme.
+</p>
+<p>You can assign your content with a site area with the <code>sitearea_XYZ</code> <a href="hooks.html">hook</a>
+where the <code>XYZ</code> is the name of the area where your content should located.
+<br/>
+The <code>sitearea_XYZ</code> hook have to return an array of associated arrays which specify the contents to be show:
+</p>
+<ul><li><code>"name" = name_string</code>
+<ul><li>The name of the block to show. This name won't be show on the page, but usable to reach the content in some hooks like <code>alter_sitearea</code>.</li></ul></li><li><code>"index" = integer</code>
+<ul><li>And index value which specify the orders of the block if more assigned to same area.</li></ul></li><li><code>"callback" = php_function_name</code>
+<ul><li>The function callback to generate the content of the block to assign.</li></ul></li><li><code>"file" = filename</code>
+<ul><li>This value is works as <code>"callback"</code> but this way the CodKep will execute the specified php file instead of callback function.</li></ul></li></ul><p>Example of put some content to right sidebar:
+</p><pre><code class="php">function hook_mym_sitearea_sidebar_right()
+{
+    $def = [];
+
+    $def[] = [
+        'name' =&gt; 'MySidebarBlock',
+        'index' =&gt; 1,
+        'callback' =&gt; 'my_custom_block_cb',
+    ];
+    return $def;
+}
+
+function my_custom_block_cb()
+{
+    ob_start();
+    print '&lt;div class="content"&gt;';
+    print "Something text here.";
+    print '&lt;/div&gt;';
+    return ob_get_clean();
+}
+</code></pre><p><a name="flexsettings"></a>
+</p><a name="pos_5"><h3>Settings of flex theme</h3></a>
+<p>The flex theme have some settings which can set <a href="modules.html#site_settings">in site settings</a>.
+</p>
+<p><em>Note: You have to put <code>global $flex</code> before modify any settings.</em>
+</p>
+<p></p>
+<table><thead>
+<tr><th>name</th><th>default</th><th>description</th></tr></thead>
+<tbody>
+<tr><td><small> <code>$flex->mainmenu_pos</code>                </small></td><td><small> BETWEEN_LOGO_HEADER  </small></td><td>Controls the location of main menu. Possible values are ABOVE_LOGO, BETWEEN_LOGO_HEADER and BELOW_HEADER</td></tr>
+<tr><td><small> <code>$flex->sidebar_blocks_have_border</code>  </small></td><td><small> false                </small></td><td>Sets wheter the sidebar boxes have borders.</td></tr>
+<tr><td><small> <code>$flex->disable_builtin_flexcss</code>     </small></td><td><small> false                </small></td><td>The true value disables the loading of flex css file. It makes possible to change the default css to a new one.</td></tr>
+<tr><td><small> <code>$flex->disable_builtin_colorcss</code>    </small></td><td><small> false                </small></td><td>The true value disables the loading of color flex css file. It makes possible to change the default colors to a new.</td></tr>
+<tr><td><small> <code>$flex->allow_empty_footer</code>          </small></td><td><small> false                </small></td><td>Set true to allow footer show without any content.</td></tr>
+<tr><td><small> <code>$flex->disable_logo_link</code>           </small></td><td><small> false                </small></td><td>If this option is true the logo image top of the header will be a simple img without html link.</td></tr>
+<tr><td><small> <code>$flex->size_of_left_sidebar_desktop</code>  </small></td><td><small> 4                   </small></td><td>The width of the left sidebar in desktop mode. (Means that width > 768px) If the value is <code>n</code> the width is will be n/20 percent of the full page.</td></tr>
+<tr><td><small> <code>$flex->size_of_centerarea_desktop</code>    </small></td><td><small> 11                  </small></td><td>The width of the center area between sidebars in desktop mode. (Means that width > 768px) If the value is <code>n</code> the width is will be n/20 percent of the full page.</td></tr>
+<tr><td><small> <code>$flex->size_of_right_sidebar_desktop</code> </small></td><td><small> 5                   </small></td><td>The width of the right sidebar in desktop mode. (Means that width > 768px) If the value is <code>n</code> the width is will be n/20 percent of the full page.</td></tr>
+<tr><td><small> <code>$flex->size_of_left_sidebar_mobile</code>   </small></td><td><small> 4                   </small></td><td>The width of the left sidebar in mobile mode. (Means that width < 768px) If the value is <code>n</code> the width is will be n/20 percent of the full page.</td></tr>
+<tr><td><small> <code>$flex->size_of_centerarea_mobile</code>     </small></td><td><small> 11                  </small></td><td>The width of the center area between sidebars in mobile mode. (Means that width < 768px) If the value is <code>n</code> the width is will be n/20 percent of the full page.</td></tr>
+<tr><td><small> <code>$flex->size_of_right_sidebar_mobile</code>  </small></td><td><small> 20                  </small></td><td>The width of the right sidebar in mobile mode. (Means that width < 768px) If the value is <code>n</code> the width is will be n/20 percent of the full page.</td></tr>
+<tr><td><small> <code>$flex->mainmenu_stay_fixed_scrolldown</code> </small></td><td><small> 0                  </small></td><td>If this value is larger than zero the mainmenu will stay on to of the page after scrolled down with this value.</td></tr>
+<tr><td><small> <code>$flex->logoimage_parallax_scrolling</code>  </small></td><td><small> false               </small></td><td>If this settings is true the logo image is stay fix position and the content is scrolled on it with "parallax srolling". You have to set <code>$flex->logoimage_parallax_height</code> to use this.</td></tr>
+<tr><td><small> <code>$flex->logoimage_parallax_height</code>     </small></td><td><small> 200                 </small></td><td>The height of the logo image in case of "parallax scrolling". (Other way the image size is used.)</td></tr>
+<tr><td><small> <code>$flex->mainmenu_structure_prefix</code>   </small></td><td><small> ''                   </small></td><td>Prints this text before the generated mainmenu structure.</td></tr>
+<tr><td><small> <code>$flex->mainmenu_structure_suffix</code>   </small></td><td><small> ''                   </small></td><td>Prints this text after the generated mainmenu structure.</td></tr></tbody></table><p><em>Note for <code>size_of...</code>  settings: The sum of left, right and center values should not be more than 20</em>
+<em>because the values means the 1/20 percent of full page. These values can be recalculated by CodKep</em>
+<em>if some sidebar does not present. The missing sidebar values are added to center the area's value.</em>
+</p><a name="pos_6"><h2>Create own themes</h2></a>
+<p>You can create your own themes in CodKep.
+This themes can change the whole site structure/design and can completely rewrite the whole generation content.<br/>
+Now I tell you how to do this:
+</p>
+<p>The CodKep themes are simple modules. (See <a href="modules.html#modules">modules chapter</a> to learn
+how to create own modules.) To create a new theme you have to use the <code>theme</code> <a href="hooks.html">hook</a>.
+</p>
+<p>The <code>theme</code> hook have to return an array of associated arrays which defines the themes.
+</p>
+<ul><li><code>"name_string" =</code>
+<ul><li>An associative array which defined the properties of new theme. The <code>name_string</code> is the unique name of the new theme. There is two mandatory element of this array:
+<ul><li><code>"pageparts" =</code>
+<ul><li>An array of strings where the strings items will be the page part names defined by the theme.</li></ul></li><li><code>"generators"</code>
+<ul><li>An associative array which specify 4 callback function of the theme
+<ul><li><code>"runonce" => "php_function_name_1"</code>
+<ul><li>It runs every time when a page generated with this theme. The <code>php_function_name_1</code> function will receive the <code>$content</code> parameter and the return value is dropped. You can use the <a href="#themeunrelated">styling functions</a> to set some header, css or javascript files here.</li></ul></li><li><code>"htmlstart" => "php_function_name_2"</code>
+<ul><li>It should generate the html starter string without the html <code>head</code> part. The <code>head</code> section will be generated by CodKep. The <code>php_function_name_2</code> function will receive the <code>$route</code> parameter.</li></ul></li><li><code>"htmlend" => "php_function_name_3"</code>
+<ul><li>It should generate the html end string after the html <code>body</code> close tag. The <code>php_function_name_3</code> function will receive the <code>$route</code> parameter.</li></ul></li><li><code>"body" => "php_function_name_4"</code>
+<ul><li>It should generate the whole page html content from the <code>body</code> open tag to <code>body</code> close tag. The <code>php_function_name_4</code> function will receive the <code>$content</code> and the <code>$route</code> parameters. The generated page content will available in <code>$content->generated</code> and the generated page parts are in <code>$content->pageparts['PAGEPARTNAME']</code> array.</li></ul></li></ul></li></ul></li></ul></li></ul></li></ul><p>Let's see and example of theme definition:
+</p><pre><code class="php">// Let's define the "fancy" theme in "mydesign" module
+function hook_mydesign_theme()
+{
+    $def = [];
+    $def['fancy'] = [
+                "pageparts" =&gt; [
+                    "header",
+                    "sidebar_left",
+                    "sidebar_right",
+                    "footer",
+                ],
+                "generators" =&gt; [
+                    "runonce"   =&gt; "fancy_runonce",
+                    "htmlstart" =&gt; "fancy_htmlstart",
+                    "htmlend"   =&gt; "fancy_htmlend",
+                    "body"      =&gt; "fancy_body",
+                ],
+        ];
+    return $def;
+}
+
+function fancy_runonce($content)
+{
+    ...
+    //Add headers css,javascript files, etc.
+}
+
+function fancy_htmlstart($route)
+{
+    ob_start();
+    ...
+    // Prints html starter content
+    return ob_get_celan();
+}
+
+function fancy_htmlend($route)
+{
+    ob_start();
+    ...
+    // Prints html end content
+    return ob_get_celan();
+}
+
+function fancy_body($content,$route)
+{
+    ob_start();
+    ...
+    /*  Prints the content of the site between htmlstart and htmlend.
+        You can find the generated content in $content-&gt;generated;
+        The codes of the defined page parts are located in $content-&gt;pageparts['PAGEPARTNAME']
+    */
+    ...
+    print generate_menu_structure(); // main menu
+    ...
+    print $content-&gt;pageparts['header'];
+    ...
+    print $content-&gt;generated;
+    ...
+    print $content-&gt;pageparts['footer'];
+    ...
+    return ob_get_celan();
+}
+</code></pre><p><a name="menu"></a>
+</p><a name="pos_7"><h2>Menu system</h2></a>
+<p>Most site have a main menu, which helps to navigate on the site.
+The CodKep also support using of this kind of menu.
+There are two way to add elements to the main menu.
+</p>
+<ol><li>Add menu array structure to <code>$site_config->mainmenu</code> variable.
+<ul><li><em>You can do this in <code>_settings.php</code> or other places before the content generation.</em></li><li><em>The menu definition array is an associated array where the index will be the name in the menu,</em> <em>the value is an internal location to reference. (Passed to <a href="routes.html#urlfunc"><code>url()</code></a> inside)</em></li><li><em>The value can be an another array will be handled as submenu</em></li></ul></li><li>Add <code>#mainmenu</code> <a href="routes.html#tags">tag</a> to <a href="routes.html">locations</a> or pages.
+<ul><li><em>By default the CodKep will append this items to the main menu if</em> <em>the <code>$site_config->mainmenu_append_tag_mainmenu</code> variable is <code>true</code> in <code>_settings.php</code> (default)</em></li></ul></li></ol><p>An example of main menu structure in <code>_settings.php</code>
+</p><pre><code class="php">$site_config-&gt;mainmenu["Start"] = "start";
+$site_config-&gt;mainmenu["News"]  = "news";
+$site_config-&gt;mainmenu["Actions"]=[
+        'Post someting' =&gt; 'postcontent',
+        'Search something' =&gt; 'searchitem',
+      ];
+$site_config-&gt;mainmenu["Settings"] ="user_settings";
+$site_config-&gt;mainmenu["Contact"] ="contactsite";
+</code></pre><p><em>Note: The main menu can be modified by <code>alter_mainmenu($obj)</code> <a href="hooks.html">hook</a> </em>
+<em>immediately before the generation.</em>
+</p>
+<p>In case your default theme is the "flex" the main manu can located different positions.
+You can specify the desired position by set the <code>$flex->mainmenu_pos</code> variable in site settings.
+The possible values are:
+</p>
+<ul><li><code>ABOVE_LOGO</code> - The main menu will nr shown on page top above the logo picture (if exists).</li><li><code>BETWEEN_LOGO_HEADER</code> (default) - The main menu will be shown between the logo and the site header.</li><li><code>BELOW_HEADER</code> - The main menu will be shown under the header and above the page content.</li></ul><a name="pos_8"><h3>Custom themes and menu generation</h3></a>
+<p>In case a custom theme is used, the theme have to place the main menu to the appropriate place.
+The CodKep core has a helper function to generate the html structure of the main menu according
+to the settings seen above.
+</p>
+<p><span class="definition">generate_menu_structure($pad='')</span>
+<br/>
+This function generate the html structure of the main menu according to
+the <code>$site_config->mainmenu</code> variable and the <code>#mainmenu</code> tags if exists.
+In order to place main menu to your custom theme, you should print the return value of this function
+and add the necessary CSS to show this as menu.
+</p>
+<p>The <code>generate_menu_structure</code> will generate the following html structure from code above
+in the main menu settings example:
+</p><pre><code class="code">&lt;ul class="menu"&gt;
+  &lt;li class="first leaf "&gt;&lt;a href="start"&gt;Start&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="leaf "&gt;&lt;a href="news"&gt;News&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="expanded "&gt;&lt;a href=""&gt;Actions&lt;/a&gt;
+    &lt;ul class="menu"&gt;
+      &lt;li class="first leaf "&gt;&lt;a href="postcontent"&gt;Post someting&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="last leaf "&gt;&lt;a href="searchitem"&gt;Search something&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li class="leaf "&gt;&lt;a href="user_settings"&gt;Settings&lt;/a&gt;&lt;/li&gt;
+  &lt;li class="last leaf "&gt;&lt;a href="contactsite"&gt;Contact&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre><p>You can use the html structure generator functionality of <code>generate_menu_structure</code> for different kind of menus,
+like user menu, or drop down menus by the following function:
+</p>
+<p><span class="definition">menu_expand(array $m,$pad='')</span>
+<br/>
+This function will generate a html <code>ul-li-ul-etc</code> structure from a menu array explained at main menu.
+The <code>generate_menu_structure</code> function also use this function to generate the content.
+</p>
+<ul><li>Parameter <code>$m</code> is the array which describe the menu to generate.</li><li>Parameter <code>$pad</code> is a padding string to prefix every line in generated code.</li></ul><a name="pos_9"><h2>Hooks</h2></a>
+<p>The following <a href="hooks.html">hooks</a> can be implement related to themes.
+</p>
+<table><thead>
+<tr><th>Hook</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>HOOK_sitearea_SITENAME()</td><td>You can assign your content callbacks with the appropriate site areas.</td></tr>
+<tr><td>HOOK_theme()</td><td>Hook to define new themes.</td></tr>
+<tr><td>HOOK_alter_sitearea($areaname,$name,$obj)</td><td>Hook to alter the generated content of site areas.</td></tr>
+<tr><td>HOOK_flex_runonce()</td><td>Invoked by the flex theme if used. It runs once before the content generation</td></tr>
+<tr><td>HOOK_alter_mainmenu($obj)</td><td>This hook can modify the main menu array structure immediately before the generation</td></tr></tbody></table></div><script>hljs.initHighlightingOnLoad();</script><div class="ccdocpanel"><ul class="docsidemenu no-print"><li><a href="start.html">CodKep introduction</a><ul class=" closed"><li><a href="start.html#pos_2">What is CodKep</a></li><li><a href="start.html#pos_3">The main chapters of this document</a></li><li><a href="start.html#pos_4">Author, License</a></li></ul></li><li><a href="modules.html">Installing, Modules</a><ul class=" closed"><li><a href="modules.html#pos_2">Installing codkep</a></li><li><a href="modules.html#pos_3">Directories</a></li><li><a href="modules.html#pos_4">Site settings, configuration</a></li><li><a href="modules.html#pos_5">Modules</a></li></ul></li><li><a href="routes.html">Routes</a><ul class=" closed"><li><a href="routes.html#pos_2">Add custom locations</a></li><li><a href="routes.html#pos_3">The route definition array</a></li><li><a href="routes.html#pos_4">Parameters in URL</a></li><li><a href="routes.html#pos_5">Caching routes</a></li><li><a href="routes.html#pos_6">Generating URLs</a></li><li><a href="routes.html#pos_7">Generating Links</a></li><li><a href="routes.html#pos_8">Redirections</a></li><li><a href="routes.html#pos_9">Tags</a></li><li><a href="routes.html#pos_10">Clean URLs</a></li><li><a href="routes.html#pos_11">Hooks related to routes</a></li></ul></li><li><a href="hooks.html">Hooks</a><ul class=" closed"><li><a href="hooks.html#pos_2">Implement hooks</a></li><li><a href="hooks.html#pos_3">Interaction of hooks</a></li><li><a href="hooks.html#pos_4">Hook sequence of a page load</a></li><li><a href="hooks.html#pos_5">Create hooks</a></li><li><a href="hooks.html#pos_6">Caching hooks</a></li><li><a href="hooks.html#pos_7">Change hook order</a></li><li><a href="hooks.html#pos_8">Debugging hooks</a></li><li><a href="hooks.html#pos_9">Hooks</a></li></ul></li><li><a href="parameters.html">Parameters</a><ul class=" closed"><li><a href="parameters.html#pos_2">Defining parameters</a></li><li><a href="parameters.html#pos_3">Defining in route definition array</a></li><li><a href="parameters.html#pos_4">Using parameters</a></li><li><a href="parameters.html#pos_5">Other parameter related functions</a></li><li><a href="parameters.html#pos_6">Security classes</a></li><li><a href="parameters.html#pos_7">Parameter handling relates settings</a></li><li><a href="parameters.html#pos_8">Hooks</a></li></ul></li><li><a href="structure.html">Themes</a><ul class=""><li><a href="structure.html#pos_2">Functions unrelated to themes</a></li><li><a href="structure.html#pos_3">Using of themes</a></li><li><a href="structure.html#pos_4">Place your own content to a site area</a></li><li><a href="structure.html#pos_5">Settings of flex theme</a></li><li><a href="structure.html#pos_6">Create own themes</a></li><li><a href="structure.html#pos_7">Menu system</a></li><li><a href="structure.html#pos_8">Custom themes and menu generation</a></li><li><a href="structure.html#pos_9">Hooks</a></li></ul></li><li><a href="ajax.html">Ajax framework</a><ul class=" closed"><li><a href="ajax.html#pos_2">Start ajax requests</a></li><li><a href="ajax.html#pos_3">1. Place an user (click) triggered ajax link in html code</a></li><li><a href="ajax.html#pos_4">2. Set HTML form action to ajax</a></li><li><a href="ajax.html#pos_5">3. Place a delayed ajax call to the page</a></li><li><a href="ajax.html#pos_6">4. Fill page parts/block by simply call fill_through_ajax() function</a></li><li><a href="ajax.html#pos_7">The ajax handler</a></li><li><a href="ajax.html#pos_8">Ajax commands</a></li><li><a href="ajax.html#pos_9">A complex ajax example (Version 1 - standard)</a></li><li><a href="ajax.html#pos_10">A complex ajax example (Version 2 - autorouted)</a></li></ul></li><li><a href="sql.html">Sql</a><ul class=" closed"><li><a href="sql.html#pos_2">Sql database settings</a></li><li><a href="sql.html#pos_3">Connect and disconnect</a></li><li><a href="sql.html#pos_4">Execute SQL commands</a></li><li><a href="sql.html#pos_5">General database CRUD interface</a></li><li><a href="sql.html#pos_6">Methods of DatabaseQuery</a></li><li><a href="sql.html#pos_7">Methods of DatabaseCond</a></li><li><a href="sql.html#pos_8">Simple and easy database operations</a></li><li><a href="sql.html#pos_9">Sql transactions</a></li><li><a href="sql.html#pos_10">Error handling</a></li><li><a href="sql.html#pos_11">Schema editor</a></li><li><a href="sql.html#pos_12">Define sql schema requirements</a></li><li><a href="sql.html#pos_13">Hooks</a></li></ul></li><li><a href="files.html">Files</a><ul class=" closed"><li><a href="files.html#pos_2">Storing type</a></li><li><a href="files.html#pos_3">File class</a></li><li><a href="files.html#pos_4">Fixed properties of the File object</a></li><li><a href="files.html#pos_5">Methods of File object</a></li><li><a href="files.html#pos_6">Helper functions of File class</a></li><li><a href="files.html#pos_7">File access control</a></li><li><a href="files.html#pos_8">Tricks with file hooks</a></li><li><a href="files.html#pos_9">Image size classes</a></li><li><a href="files.html#pos_10">Settings of the file module</a></li><li><a href="files.html#pos_11">Hooks</a></li></ul></li><li><a href="forms.html">Forms</a><ul class=" closed"><li><a href="forms.html#pos_2">Simple HTML form generation</a></li><li><a href="forms.html#pos_3">Form checker method</a></li><li><a href="forms.html#pos_4">The SpeedForm </a></li><li><a href="forms.html#pos_5">Methods of SpeedForm</a></li><li><a href="forms.html#pos_6">Data definition structure</a></li><li><a href="forms.html#pos_7">The structure : Top level attributes</a></li><li><a href="forms.html#pos_8">Field types</a></li><li><a href="forms.html#pos_9">Common field attributes</a></li><li><a href="forms.html#pos_10">Output format of SpeedForm</a></li><li><a href="forms.html#pos_11">Query and Add field types</a></li><li><a href="forms.html#pos_12">Data definition structure repository</a></li><li><a href="forms.html#pos_13">Helper functions</a></li><li><a href="forms.html#pos_14">Settings of the forms module</a></li><li><a href="forms.html#pos_15">Hooks</a></li></ul></li><li><a href="tablegen.html">Table generator</a><ul class=" closed"><li><a href="tablegen.html#pos_2">Html table generation</a></li><li><a href="tablegen.html#pos_3">Excel output generator</a></li><li><a href="tablegen.html#pos_4">Convert Excel XML tables to HTML tables</a></li></ul></li><li><a href="totable.html">Query formatter</a><ul class=" closed"><li><a href="totable.html#pos_2">Automatic output generator for sql queries</a></li><li><a href="totable.html#pos_3">Input of to_table()</a></li><li><a href="totable.html#pos_4">Outout of to_table()</a></li><li><a href="totable.html#pos_5">Options affects the whole table</a></li><li><a href="totable.html#pos_6">Change the number or/and the order of the fields</a></li><li><a href="totable.html#pos_7">Customize of fields</a></li><li><a href="totable.html#pos_8">Modify the value of the fields</a></li><li><a href="totable.html#pos_9">Using virtual fields</a></li><li><a href="totable.html#pos_10">Using field repository</a></li><li><a href="totable.html#pos_11">Using field repository directly from SQL</a></li><li><a href="totable.html#pos_12">Backend of to_table()</a></li><li><a href="totable.html#pos_13">Generate HTML and Excel tables with same way</a></li></ul></li><li><a href="dyntable.html">DynTable</a><ul class=" closed"><li><a href="dyntable.html#pos_2">Methods of DynTable class</a></li><li><a href="dyntable.html#pos_3">Data definition structure</a></li><li><a href="dyntable.html#pos_4">Data definition structure repository</a></li><li><a href="dyntable.html#pos_5">A complex example</a></li></ul></li><li><a href="user.html">User module</a><ul class=" closed"><li><a href="user.html#pos_2">The global $user object</a></li><li><a href="user.html#pos_3">Login and logout</a></li><li><a href="user.html#pos_4">Managing users</a></li><li><a href="user.html#pos_5">Helper functions</a></li><li><a href="user.html#pos_6">CodKep session data</a></li><li><a href="user.html#pos_7">Settings of user module</a></li><li><a href="user.html#pos_8">Hooks</a></li></ul></li><li><a href="node.html">Node</a><ul class=" closed"><li><a href="node.html#pos_2">Fixed properties(fields) of the Node</a></li><li><a href="node.html#pos_3">Methods of Node class</a></li><li><a href="node.html#pos_4">Helper functions of node class</a></li><li><a href="node.html#pos_5">Defining a node</a></li><li><a href="node.html#pos_6">Dynamic node definition</a></li><li><a href="node.html#pos_7">Modify existing node types</a></li><li><a href="node.html#pos_8">Database appearance of nodes</a></li><li><a href="node.html#pos_9">Querying node lists from database</a></li><li><a href="node.html#pos_10">Node access control</a></li><li><a href="node.html#pos_11">REST api for nodes</a></li><li><a href="node.html#pos_12">Node related REST commands</a></li><li><a href="node.html#pos_13">A complete example</a></li><li><a href="node.html#pos_14">Custom Node objects</a></li><li><a href="node.html#pos_15">Settings of the nodes</a></li><li><a href="node.html#pos_16">Hooks</a></li></ul></li><li><a href="page.html">Page</a><ul class=" closed"><li><a href="page.html#pos_2">Fields of the page</a></li><li><a href="page.html#pos_3">Permissions of pages</a></li><li><a href="page.html#pos_4">Extending page type</a></li><li><a href="page.html#pos_5">Hooks</a></li></ul></li><li><a href="doc.html">Documenting</a><ul class=" closed"><li><a href="doc.html#pos_2">My mark language</a></li><li><a href="doc.html#pos_3">Highlights</a></li><li><a href="doc.html#pos_4">Headings</a></li><li><a href="doc.html#pos_5">Other elements</a></li><li><a href="doc.html#pos_6">Tables</a></li><li><a href="doc.html#pos_7">Lists</a></li><li><a href="doc.html#pos_8">Codes</a></li><li><a href="doc.html#pos_9">Links</a></li><li><a href="doc.html#pos_10">Images</a></li></ul></li><li><a href="debug.html">Debugging</a><ul class=" closed"><li><a href="debug.html#pos_2">Dumping arbitrary data objects</a></li><li><a href="debug.html#pos_3">Special pages</a></li><li><a href="debug.html#pos_4">Debug sql calls</a></li><li><a href="debug.html#pos_5">Dump the parameters of the page</a></li></ul></li></ul></div></div>
+</body>
+</html>

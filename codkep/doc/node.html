@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Node</title>
+  <meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css"/>
+  <link rel="stylesheet" type="text/css" href="default.css"/>
+  <link rel="stylesheet" type="text/css" href="ckcomm.css"/>
+  <link rel="stylesheet" type="text/css" href="flex.css"/>
+  <script type="text/javascript" src="highlight.pack.js"></script>
+</head>
+<body>
+ <div class="content"><div class="ccdoccontent"><a name="pos_1"><h1>Node</h1></a>
+<p>Node is an universal container class provided by CodKep to make it easy for managing
+different kind of data objects same way. The programmer can specify node types
+which identified by a "nodetype" string. Once the node type is registered in CodKep the node module
+provides interfaces for add delete edit or view this typed nodes.
+</p>
+<p>Every <em>node has a <strong>n</strong>ode <strong>id</strong>entifier</em> <code>nid</code> which unique between nodes and can used to access the node.
+</p>
+<p>The CodKep provides built-in <a href="routes.html">routes</a> to manage nodes
+</p>
+<ul><li><code>node/{nid}</code> - View/display node</li><li><code>node/{nid}/view</code> - View/display node</li><li><code>node/{nid}/edit</code> - Edit the node</li><li><code>node/{nid}/delete</code> - Delete the node</li><li><code>node/{nodetype}/add</code> - Add a new node with the <code>nodetype</code> type</li></ul>
+<ul><li><code>nodeintype/{nodetype}/{joinid}</code> - View/display node by the type and the type specific identifier</li><li><code>nodeintype/{nodetype}/{joinid}/view</code> - View/display node by the type and the type specific identifier</li><li><code>nodeintype/{nodetype}/{joinid}/edit</code> - Edit the node by the type and the type specific identifier</li><li><code>nodeintype/{nodetype}/{joinid}/delete</code> - Delete the node by the type and the type specific identifier</li></ul><p>Examine the CodKep users as example, because the CodKep users are also nodes with node type: <code>user</code>
+<br/>
+Accordingly we can create a new users on the following url: <a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">node/user/add</a>
+<br/>
+The admin user usually got the <code>nid</code> = <code>1</code> value.
+If so you can edit the admin user data on the following url: <a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">node/1/edit</a>
+</p>
+<p>The programmers side the nodes are objects (with Node or Node subclass type) which can be load/save/remove uniform way and the fields of the
+defined node type are accessible as object properties. You can get or set these object properties freely.
+The changed properties can be stored into database by single <code>save()</code> or <code>insert()</code> method.
+You can read about the <a href="#databaseappear">database appearance later</a>.
+</p>
+<p><em>Every node can contains data fields which are specified by the type of node. You can set and read this</em>
+<em>fields as object properties of node.</em>
+</p>
+<p>Create a new user with password from php codes:
+</p><pre><code class="php">$n = node_create('user');
+$n-&gt;name = 'Sample Sam'; //set the node's name field
+$n-&gt;login = 'sam';       //set the node's login field
+$n-&gt;password = scatter_string_local('secret1');
+$n-&gt;insert();
+</code></pre><p><a name="nodeproperties"></a>
+</p><a name="pos_2"><h3>Fixed properties(fields) of the Node</h3></a>
+<p>Every field which defined in the specified node type are accessible as object properties of the node object.
+Beside this user defined properties the node has same built-in properties which are available in all typed node.
+</p>
+<p><strong>Built-in properties of node object:</strong>
+<br>(The <code>$node</code> is only a sample object variable here))
+</p>
+<ul><li><span class="definition">node_nid</span>  - (Use: <code>$node->node_nid</code>)
+<ul><li>The <code>NID</code> (<strong>N</strong>ode <strong>ID</strong>entifier) of the node. This value is unique in all node and identifies the node without the node type.</li></ul></li><li><span class="definition">node_type</span>  - (Use: <code>$node->node_type</code>)
+<ul><li>The node type. (string)</li></ul></li><li><span class="definition">node_join_id</span>  -  (Use: <code>$node->node_join_id</code>)
+<ul><li>The primary identifier of the type specific sql table. This value is unique in the specified node type and identifies the node together with the node type.</li></ul></li><li><span class="definition">node_creator</span>  -  (Use: <code>$node->node_creator</code>)
+<ul><li>The login name of the user who creates the node</li></ul></li><li><span class="definition">node_created</span>  -  (Use: <code>$node->node_created</code>)
+<ul><li>The timestamp contains the creating time of the node</li></ul></li><li><span class="definition">node_loaded</span>  -  (Use: <code>$node->node_loaded</code>)
+<ul><li>This property is <code>true</code> if the node is loaded otherwise <code>false</code>.</li></ul></li><li><span class="definition">node_preferred_theme</span>  -  (Use: <code>$node->node_preferred_theme</code>)
+<ul><li>Hold the preferred theme name of the node.</li></ul></li></ul><p><a name="nodemethods"></a>
+</p><a name="pos_3"><h3>Methods of Node class</h3></a>
+<p>Constructor:
+</p>
+<ul><li><span class="definition">Node($type = 'node')</span> - The constructor (<code>__construct</code>) of Node
+<ul><li>If you do not specify the <code>$type</code> parameter or give the <code>'node'</code> value, the node will be uninitialised. It is recommended to use <code>node_create()</code>, <code>node_load()</code>, <code>node_load_intype()</code> or use <code>Node::getNodeInstanceByType($type)</code> static function to create a node instance instead of directly call this constructor.</li></ul></li></ul><p>Static methods:
+</p>
+<ul><li><span class="definition">Node::load($nid = NULL,$trunk = false)</span>
+<ul><li>Load the node from database by NID.</li><li>Static method, returns an appropriate Node or Node descendant if success.</li></ul></li><li><span class="definition">Node::load_intype($join_id,$type)</span>
+<ul><li>Load the node from database by TPYE and JOIN_ID.</li><li>Static method, returns an appropriate Node or Node descendant if success.</li></ul></li><li><span class="definition">Node::getNodeInstanceByType($type)</span>
+<ul><li>Creates a Node (or Node descendant) object according to the $type parameter.</li><li>Static method, returns an appropriate Node or Node descendant if success.</li></ul></li></ul><p>Methods:
+</p>
+<ul><li><span class="definition">save()</span>
+<ul><li>Save the node to the database.</li></ul></li><li><span class="definition">insert()</span>
+<ul><li>Insert this node to the database.</li><li>Returns the NID of the created node.</li></ul></li><li><span class="definition">remove()</span>
+<ul><li>Remove the node from the database.</li></ul></li><li><span class="definition">getform($mode = 'all')</span>
+<ul><li>Generate a HtmlFrom object</li><li>The <code>$mode</code> parameter is directly passed to <a href="forms.html#speedform">SpeedForm</a>'s <code>generate_form()</code></li></ul></li><li><span class="definition">view()</span>
+<ul><li>Generated html codes to view the node.</li><li>Returns html codes.</li></ul></li><li><span class="definition">definedFields()</span>
+<ul><li>Returns an array containing the names of defined fields.</li></ul></li><li><span class="definition">get_display_value($fieldname)</span>
+<ul><li>Returns the display value of a specified field. You can always get the value of a field by the field name as property but some fields (like the txtselect, numselect, sqlchoose) holds a key value not the display value referenced by the key. You can get the desired display value with this function. Most cases (like field type smalltext and largetext) this function directly pass the value.</li></ul></li><li><span class="definition">get_display_for_external_value($fieldname,$value)</span>
+<ul><li>Returns the display value of a specified field for the passed value.</li></ul></li><li><span class="definition">get_field_attribute_value($fieldname,$attributename)</span>
+<ul><li>The function returns an attribute of the specified field of the node according to the <code>$fieldname</code>  and <code>$attributename</code> parameter. Returns <code>null</code> if not found.</li></ul></li><li><span class="definition">get_speedform_object()</span>
+<ul><li>Returns the backend SpeedForm object of the node.</li></ul></li><li><span class="definition">&get_definition_root()</span>
+<ul><li>Returns a reference to the data definition array root of the node.</li></ul></li><li><span class="definition">&get_definition_field($sqlname)</span>
+<ul><li>Returns a reference to the data definition array's appropriate field definition.</li></ul></li></ul><p><a name="mmethods"></a>
+Methods which does nothing (or do a minimal basic operations) in Node class.
+They can redefined in subclasses to achieve some special functions.
+See <a href="#customnodeobject">custom node object chapter</a>:
+</p>
+<ul><li><span class="definition">m_after_loaded()</span>
+<ul><li>Called immediately after node loaded from the database.</li></ul></li><li><span class="definition">m_before_insert()</span>
+<ul><li>Called immediately before node inserted to the database.</li></ul></li><li><span class="definition">m_after_insert()</span>
+<ul><li>Called immediately after node inserted to the database.</li></ul></li><li><span class="definition">m_before_save()</span>
+<ul><li>Called immediately before node saved/updated in the database.</li></ul></li><li><span class="definition">m_after_save()</span>
+<ul><li>Called immediately after node saved/updated in the database.</li></ul></li><li><span class="definition">m_before_delete()</span>
+<ul><li>Called immediately before node deleted from the database.</li></ul></li><li><span class="definition">m_before_form($op)</span>
+<ul><li>Called immediately before node's from generated.</li><li>The returned text will be prepend to the node view/create/edit/delete form.</li><li>The value of <code>$op</code> can be <code>view,add,edit,delete</code></li></ul></li><li><span class="definition">m_after_form($op)</span>
+<ul><li>Called immediately after node's from generated.</li><li>The returned text will be append to the node view/create/edit/delete form.</li><li>The value of <code>$op</code> can be <code>view,add,edit,delete</code></li></ul></li><li><span class="definition">m_form_code_generation($form,$ro)</span>
+<ul><li>Generates the html codes from the (previously generated) <code>$form</code> object with the appropriate <code>$ro</code> (readonly) mode. (By default it does: <code>return $form->get($ro);</code>)</li></ul></li></ul><p><a name="nodehelpers"></a>
+</p><a name="pos_4"><h3>Helper functions of node class</h3></a>
+<p><span class="definition">node_create($type)</span>
+<br/>
+Create and return an "empty" node with a specified node type.
+The returned node can be inserted to the database after the properties is set.
+</p><pre><code class="php">// Create an empty node and filled with values
+$n = node_create("task");
+$n-&gt;description = "Do something";
+$n-&gt;cost = 22;
+$n-&gt;deadline = "2017-02-11";
+
+//Saved to the database and prints a node view link
+$nid = $n-&gt;insert();
+print "The task is saved, see:" . l('View','node/'.$nid);
+</code></pre><p><span class="definition">node_load($nid)</span>
+<br/>
+Load and return the node from the database by NID.
+It returns the appropriate node object if success, otherwise <code>null</code>;
+</p><pre><code class="php">//Loads a node by NID
+$n = node_load($nid);
+//Increase the "value" by 10
+$n-&gt;value = $n-&gt;value + 10;
+//Save to the database
+$n-&gt;save();
+</code></pre><p><span class="definition">node_load_intype($join_id,$type)</span>
+<br/>
+Load and return the node from the database by NODETYPE and JOIN_ID.
+It returns the appropriate node object if success, otherwise <code>null</code>;
+</p><pre><code class="php">//Print the name of the user $uid
+$u = node_load_intype($uid,'user');
+print "The name of the user is " . $u-&gt;name;
+</code></pre><p><span class="definition">node_delete($nid)</span>
+<br/>
+Delete the specified node.
+</p>
+<p><span class="definition">sql_table_of_nodetype($type)</span>
+<br/>
+Returns the sql table creation string of the node (CREATE TABLE)
+</p>
+<p><span class="definition">node_get_definition_of_nodetype($type)</span>
+<br/>
+The function returns the data definition structure of the node type in <code>$type</code> parameter.
+Returns <code>null</code> if not found.
+</p>
+<p><span class="definition">node_get_field_array($type,$sqlname)</span>
+<br/>
+The function search and returns the definition array part of the field of the node type in <code>$type</code>
+parameter according to the <code>$sqlname</code> parameter. Returns empty array if not found.
+</p>
+<p><span class="definition">node_get_field_attribute($type,$sqlname,$attributename)</span>
+<br/>
+The function search and returns the specified attribute of specified field of the node type in <code>$type</code>
+parameter according to the <code>$sqlname</code> and <code>$attribute</code> parameter. Returns <code>null</code> if not found.
+</p>
+<p><span class="definition">node_get_field_display_value($type,$sqlname,$value)</span>
+<br/>
+The function converts the <code>$value</code> parameter to a display value in node type <code>$type</code>
+in field <code>$sqlname</code>. Returns the passed value unchanged if not success.
+</p>
+<p><a name="definenode"></a>
+</p><a name="pos_5"><h2>Defining a node</h2></a>
+<p>CodKep modules can define node types by <code>HOOK_nodetype</code> <a href="hooks.html">hook</a>.
+In case you intent to define a new node type, you have to implement <code>HOOK_nodetype</code> in your module and return
+a SpeedForm's <a href="forms.html#speedformdatadef">data definition structure array</a>
+with the index name of the defined node type string.
+</p>
+<p><em>Note: You can also use the <a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">SpeedForm builder</a> to assemble this node definition array.</em>
+</p>
+<p>An example, which define the "sampletype" node type in "mymodule" module:
+</p><pre><code class="php">function hook_mymodule_nodetype()
+{
+  $d['sampletype'] =  [
+                "name" =&gt; "samplenode",
+                "table" =&gt; "sample",
+                "show" =&gt; "table",
+                "rest_enabled" =&gt; "crudl", //Enable full REST api
+                "fields" =&gt; [
+                        10 =&gt; [
+                            "sql" =&gt; "id",
+                            "type" =&gt; "keyn",
+                            "hide" =&gt; true,
+                        ],
+                        20 =&gt; [
+                            "sql" =&gt; "name",
+                            "text" =&gt; "Name",
+                            "type" =&gt; "smalltext",
+                            "check_noempty" =&gt; "Cannot leave empty",
+                            "color" =&gt; "#ddddff",
+                        ],
+                        100 =&gt; [
+                            "sql" =&gt; "add_btn",
+                            "default" =&gt; 'Add',
+                            "type" =&gt; "submit",
+                            "in_mode" =&gt; "insert",
+                            "centered" =&gt; "yes",
+                        ],
+                ],
+            ];
+  return $d;
+}
+</code></pre><p>The detailed documentation of data definition structure array is located <a href="forms.html#speedformdatadef">here</a>.
+</p>
+<p>The index number of the fields are influence the sort of the fields.
+(The fields are sorted ascending before using)
+</p>
+<p><em>Note: A defined node is automatically registers the necessary sql schema requirements,</em>
+<em>so after defining a node type or alter something it is strongly recommended</em>
+<em>to revisit the CodKep's <a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">sql schema check page</a> to meet the possible new requirements. </em>
+<em>The schema editor page <a href="sql.html#schemeedit">in documentation</a>.</em>
+</p>
+<p><em>Note2: After you created a new node type you also have to specify the permissions of users on this node type.</em>
+<em>See <a href="#nodeaccess">this chapter</a></em>
+<a name="dynamicdefine"></a>
+</p><a name="pos_6"><h3>Dynamic node definition</h3></a>
+<p>Your site may use many node types, which uses a lots of resources to load.
+Usually a page load does not use all node types defined by your modules.
+To save loading time the node module has a dynamic node type loading
+method, which only loads the necessary definitions. You can put each node type definition to separated files, and the CodKep only loads the necessary file if the
+specific node type is used. This subsystem uses php <a href="http://php.net/manual/en/function.spl-autoload-register.php">spl_autoload_register</a>
+function.
+</p>
+<p>How to define nodetypes dynamically:
+</p>
+<ul><li>Write the data definition structure of the node type in a separate file as a static property of an arbitrary class with name "definition"</li><li>Use <code>HOOK_objectnodetype</code> hook to specify the class name and the file where the node type is defined.
+<ul><li>The <code>HOOK_objectnodetype</code> hook has to return an associative array where the key is the name of the node type and the value is an another associative array with two key-value pair:
+<ul><li><code>"defineclass" = CLASSNAME</code> - The CLASSNAME where the definition is located in the <code>$definition</code> static property.</li><li><code>"file" = FILENAME</code> - The FILENAME where the class definition is located.</li></ul></li></ul></li></ul><p>In case the Node module requires the definition of the node type it loads the class from the specified file.
+</p>
+<p>Let's see the dynamic definition example of "tool" node type:
+</p><pre><code class="code">function hook_mymodule_objectnodetype()
+{
+    $r = [];
+    $r['tool'] = [
+            'defineclass' =&gt; 'ToolNode',
+            'file' =&gt; 'site/definitions/ToolNode.php'
+    ];
+    return $r;
+}
+</code></pre><p>The <code>site/definitions/ToolNode.php</code> file (part):
+</p><pre><code class="php">// This class can be a sublcass of any class, it does not matter in case of definition.
+class ToolNode
+{
+     public static $definition =
+        [
+            "name" =&gt; "tool_def",
+            "table" =&gt; "tools",
+            "show" =&gt; "table",
+...
+    ];
+}
+</code></pre><p><em>Node: The <code>HOOK_nodetype_alter_NODENAME</code> hook cannot modify the definition of node type which specified dynamically.</em>
+<em>The reason is that the node definitions are not loaded only if used. Don't worry about this,</em>
+<em>all built-in node type defined standard way (not dynamic).</em>
+<a name="alternode"></a>
+</p><a name="pos_7"><h3>Modify existing node types</h3></a>
+<p>The node module provides the <code>HOOK_nodetype_alter_NODENAME($obj)</code> <a href="hooks.html">hook</a>
+which can alter the already defined node types.
+You have to substitute the desired node type with NODENAME word in hook name.
+This hook receives an object which contains a reference to the data definition structure modifiable way.
+</p>
+<p>Let's see an example code where we add an email field to the CodKep's built in <code>user</code> node type:
+</p><pre><code class="php">function hook_mymodule_nodetype_alter_user($p)
+{
+    $p-&gt;def['fields'][55] = [
+        'sql' =&gt; 'email',
+        'text' =&gt; 'E-mail',
+        'type' =&gt; 'smalltext',
+        'par_sec' =&gt; 'text5',
+    ];
+}
+</code></pre><p><em>Note: After implementing this hook you have to visit</em>
+<em>the <a href="javascript:alert('This url works on an installed CodKep instance. It is unavailable in this offline document.');">sql schema check page</a> to meet the new sql requirements. </em>
+<a name="databaseappear"></a>
+</p><a name="pos_8"><h2>Database appearance of nodes</h2></a>
+<p>The nodes are represented by two separate sql tables in the sql database.
+One of them is the common "<code>node</code>" table which holds the common properties of nodes and the required data
+to join to the second table which is depends on node type and holds the data of the fields.
+The second table name is specified by the data definition structure and different in every node type.
+</p>
+<p>The primary key of the type specific SQL table is located in the <code>join_id</code> field of the <code>node</code> table:
+</p><pre><code class="code">mysql&gt; select * from node;
++-----+----------------+---------+--------+-------------------+---------------------+
+| nid | type           | join_id | ptempl | creator           | created             |
++-----+----------------+---------+--------+-------------------+---------------------+
+|   1 | user           | 1       | NULL   | &lt;unauthenticated&gt; | 2017-01-24 09:34:27 |
+|   2 | user           | 2       | NULL   | admin             | 2017-01-24 09:35:22 |
+|   3 | task           | 1       | NULL   | dave              | 2017-01-24 09:41:07 |
+|   4 | task           | 2       | NULL   | dave              | 2017-01-24 09:42:21 |
++-----+----------------+---------+--------+-------------------+---------------------+
+4 rows in set (0.00 sec)
+</code></pre><p>It means that there is two way to identify a node:
+</p>
+<ul><li>by NID
+<ul><li>Node can load with <code>$node = node_load($nid);</code></li></ul></li><li>by JOIN_ID and TYPE where the JOIN_ID is the primary identifier of the table.
+<ul><li>Node can load with <code>$node = node_load_intype($id,$type);</code></li></ul></li></ul><p><a name="node_query"></a>
+</p><a name="pos_9"><h3>Querying node lists from database</h3></a>
+<p>The CodKep has a <a href="sql.html#database_query_interface">general database CRUD interface</a> which helps
+to build database operations. The node module extends this interface to customize it for node queries.
+</p>
+<p>Helper function to query nodes:
+</p>
+<p><span class="definition">node_query($nodetype)</span>
+<br/>
+This function receives a <code>$nodetype</code> textual parameter which the type of the node to query.
+</p>
+<ol><li>The function will set the container table of node to query.</li><li>Joins the node table appropriate way to reach node fields.</li><li>Adds the base node fields to the queried fields:
+<ul><li><code>node_nid</code> The node identifier</li><li><code>node_type</code> The node type</li><li><code>node_join_id</code> The joined id</li></ul></li></ol><p>The function returns a <a href="sql.html#databasequery">DatabaseQuery</a> object so that all methods can be used
+to extend the database query.
+Let's see an example where we search all users who's name is started by "A" letter.
+</p><pre><code class="code">$results = node_query("user")
+            -&gt;get("name")
+            -&gt;cond_fv("name","^A","regex")
+            -&gt;execute_to_arrays();
+
+foreach($results as $res)
+{
+    print l($res["name"],'node/'.$res['node_nid']) . " user found. &lt;br/&gt;";
+}
+</code></pre><p><a name="nodeaccess"></a>
+</p><a name="pos_10"><h2>Node access control</h2></a>
+<p>You can control the access of the nodes by implementing <a href="hooks.html">hooks</a>.
+</p>
+<p>The <code>HOOK_node_access($node,$op,$account)</code> can control of the access of any type of node while
+the <code>HOOK_node_access_NODETYPE($node,$op,$account)</code> only controls the access of a specified node type.
+</p>
+<p>Both hook receives same three parameters:
+</p>
+<ol><li><code>$node</code> The examined node object. The system queries the permissions for this node.</li><li><code>$op</code> The system queries the permission for this operation. Possible values are:
+<ul><li><code>"create"</code></li><li><code>"precreate"</code> (On loading the empty form to get the user input before create)</li><li><code>"delete"</code></li><li><code>"update"</code></li><li><code>"view"</code></li></ul></li><li><code>$account</code> Determine the permission of this account (user node)</li></ol><p> The hook have to return one value of these defines:
+</p>
+<ul><li><code>NODE_ACCESS_IGNORE</code> - Ignore the answer</li><li><code>NODE_ACCESS_ALLOW</code> - Allow the operation specified by parameters</li><li><code>NODE_ACCESS_DENY</code> - Deny the operation specified by parameters</li></ul><p>In case <strong>there is no any permission set hook</strong> in the system or received only the NODE_ACCESS_IGNORE value
+the system will deny every request except the following <strong>default allow</strong>ed:
+</p>
+<ol><li>Allows everything for admin users.</li><li>Allows to view and precreate for everyone. (It can disabled anytime by sending NODE_ACCESS_DENY from a node_access hook.)</li></ol><p><em>Note1: The NODE_ACCESS_DENY is always stronger than NODE_ACCESS_ALLOW,</em>
+<em>if both received the result will NODE_ACCESS_DENY</em>
+</p>
+<p><em>Note2: The node permissions are only checked when the users access nodes by the Node module's UI.</em>
+<em>There is no permission check if a node accessed from program code!</em>
+</p>
+<p><em>Note3: The precreate <code>$op</code> is used when the system show an empty form to the user to fill before create a node.</em>
+<em>In case you allow precreate and deny create the user can fill an empty form but cannot insert it when submitted.</em>
+<em>The other case you deny precreate the user neither can load the empty form.</em>
+</p>
+<p>Samples:
+</p><pre><code class="code"> //Allow everything on every node type for administrator
+ function hook_mymodule_node_access($node,$op,$account)
+ {
+    if($acc-&gt;auth && $acc-&gt;role == ROLE_ADMIN)
+        return NODE_ACCESS_ALLOW;
+    return NODE_ACCESS_IGNORE;
+ }
+
+ //Allow add/edit/delete of "news" node for editors but view only for others
+ function hook_mymodule_node_access_news($node,$op,$acc)
+ {
+     if($op == 'view')
+         return NODE_ACCESS_ALLOW;
+     if($acc-&gt;auth && $acc-&gt;role &gt;= ROLE_EDITOR)
+         return NODE_ACCESS_ALLOW;
+     return NODE_ACCESS_DENY;
+ }
+</code></pre><a name="pos_11"><h3>The node_access function</h3></a>
+<p><span class="definition">node_access($node,$op,$account)</span>
+<br/>
+Calculate the permission of the operation on the node of the parameter passed account.
+(It's call the <code>HOOK_node_access</code> in background.)
+</p>
+<ul><li><code>$node</code> Determine the permission on this node</li><li><code>$op</code> Determine the permission for this operation. Possible values are:
+<ul><li><code>"create"</code></li><li><code>"precreate"</code></li><li><code>"delete"</code></li><li><code>"update"</code></li><li><code>"view"</code></li></ul></li><li><code>$account</code> Determine the permission of this account (user node)</li></ul><p> The return value of this function can be:
+</p>
+<ul><li><code>NODE_ACCESS_IGNORE</code></li><li><code>NODE_ACCESS_ALLOW</code></li><li><code>NODE_ACCESS_DENY</code></li></ul><p><a name="restinterface"></a>
+</p><a name="pos_11"><h2>REST api for nodes</h2></a>
+<p>The CodKep can provide an automatic working <a href="https://hu.wikipedia.org/wiki/REST">REST</a> interface for nodes
+which can provide full <a href="https://en.wikipedia.org/wiki/Create,_read,_update_and_delete">CRUD</a>
+for the defined node types without any coding work.<br/>
+To enable REST for a node type you have to do the following:
+</p>
+<ul><li>Make sure you not disabled the <code>$site_config->node_rest_api_enabled</code> variable in <a href="modules.html#site_settings">site settings</a>. If this variable is <code>false</code> the REST interface is completely disabled. Otherwise this is enabled by default, so probably you don't have to do anything.</li><li>Make sure you set <code>rest_enabled</code> top level attribute of the node type you want to enable the REST in <a href="forms.html#ddeftoplevel">data definition structure array</a>. This attribute is a <em>string where</em> every <em>character</em> in a string is a REST command to enable:
+<ul><li><code>c</code> - Enable create of node with the specified type
+<ul><li><small>Enables "<code>POST /restapi/createnode/{nodetype}</code>"</small></li></ul></li><li><code>r</code> - Enable read of nodes with the specified type
+<ul><li><small>Enables "<code>GET /restapi/node/{nid}</code>"</small></li><li><small>Enables "<code>GET /restapi/nodeintype/{nodetype}/{joinid}</code>"</small></li></ul></li><li><code>u</code> - Enable update of nodes with the specified type
+<ul><li><small>Enables "<code>PUT /restapi/node/{nid}</code>"</small></li><li><small>Enables "<code>PUT /restapi/nodeintype/{nodetype}/{joinid}</code>"</small></li></ul></li><li><code>d</code> - Enable delete of nodes with the specified type
+<ul><li><small>Enables "<code>DELETE /restapi/node/{nid}</code>"</small></li><li><small>Enables "<code>DELETE /restapi/nodeintype/{nodetype}/{joinid}</code>"</small></li></ul></li><li><code>l</code> - Enable list of nodes with the specified type
+<ul><li><small>Enables "<code>GET /restapi/nodelist/{nodetype}/{start}/{limit}</code>"</small></li></ul></li></ul> You can combine this letters to enable more REST commands.
+<ul><li>By default the <code>rest_enabled</code> attribute is not set so <strong>no REST command is allowed for any node type without this settings</strong>.</li><li>To enable all REST commands you should set <code>"rest_enabled" => "crudl"</code></li><li>To enable only the read and update REST commands you should set <code>"rest_enabled" => "ru"</code></li><li>To disable every rest command on the node type just leave the <code>rest_enabled</code> blank or completely ignore the settings.</li></ul></li></ul><p><a name="restcommands"></a>
+</p><a name="pos_12"><h3>Node related REST commands</h3></a>
+<p>These node related REST interfaces receives <a href="https://hu.wikipedia.org/wiki/JSON">JSON</a> data, and answers with JSON
+too.
+</p>
+<p></p>
+<ul><li><code>POST /restapi/createnode/{nodetype}</code> - Create a new node with the <code>nodetype</code> type by the posted JSON</li></ul>
+<ul><li><code>GET /restapi/node/{nid}</code> - Get node data in JSON</li><li><code>PUT /restapi/node/{nid}</code> - Modify node data by the posted JSON</li><li><code>DELETE /restapi/node/{nid}</code> - Delete the node</li></ul>
+<ul><li><code>GET /restapi/nodeintype/{nodetype}/{joinid}</code> - Get node data in JSON</li><li><code>PUT /restapi/nodeintype/{nodetype}/{joinid}</code> - Modify node data by the posted JSON</li><li><code>DELETE /restapi/nodeintype/{nodetype}/{joinid}</code> - Delete the node</li></ul>
+<ul><li><code>GET /restapi/nodelist/{nodetype}/{start}/{limit}</code> - Get node type item count and NID list</li></ul><p><em>All rest command returns <code>application/json</code> and the create/update commands also requires json data to post. </em>
+</p>
+<p><em>All node operations done through REST is processed by <a href="#nodeaccess">node access system</a>. It means that you have</em>
+<em>to provide the necessary permissions to done the desired operations.</em>
+</p>
+<p><em>You can skip some fields of nodes from the REST operations by set the field's <code>no_rest</code> attribute.</em>
+<em>See the <a href="forms.html#commonattributes">common field attributes</a> of data definition structure.</em>
+</p>
+<p>You can see here a client side javascript function which create a task node through REST interface:
+</p><pre><code class="code">function create_task(description,cost,deadline)
+{
+    var newtask = new Object();
+    newtask.description = description;
+    newtask.cost = cost;
+    newtask.deadline = deadline;
+
+    jQuery.ajax({
+        url: 'index.php?q=/restapi/createnode/task',
+        method: 'POST',
+        dataType: 'json',
+        data: JSON.stringify(newtask),
+        contentType: 'application/json',
+        context: document.body,
+        error: function(e) {
+            alert('Error: The task is not created');
+        },
+        success: function(data) {
+            alert('Task node created with nid: ' + data.node_nid );
+        }
+    });
+}
+
+create_task("Do something",22,"2017-02-11");
+</code></pre><p><em>Note: If you need <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a></em>
+<em>(Cross-Origin Resource Sharing) in the built-in rest services you need to set</em>
+<em> the <code>$site_config->cors_requests_enabled_hosts</code> variable in <a href="modules.html#site_settings">site settings</a>.</em>
+<em> In your own rest callbacks you also need to call the  <code>core_set_cors_headers()</code> function to set the needed CORS headers.</em>
+</p><a name="pos_13"><h1>A complete example</h1></a>
+<p>In this example we will create a "task" node type and an additional interface with some customisation.
+So the example will do:
+</p>
+<ol><li>Define a 'task' node type. <a href="#compex5">Go to the code...</a></li><li>Specify the permissions of the 'task' nodes. <a href="#compex3">Go to the code...</a></li><li>Create a listing interface of 'task' nodes. <a href="#compex2">Go to the code...</a></li><li>Extend the node interface of the 'task' node. <a href="#compex4">Go to the code...</a></li><li>Set some redirection after operations (Add,Modify,Delete) <a href="#compex6">Go to the code...</a></li></ol><p><table class="invisible verticaltop"><tr>
+<td>
+(3) The list of tasks:<br/><img src="images/nodesample2.png"  style="" alt="nodesample2.png"/>
+</td>
+</p>
+<p><td>
+(1,3) View/modify of a task:<br/><img src="images/nodesample1.png"  style="" alt="nodesample1.png"/>
+</td>
+</tr></table>
+</p>
+<p>This code define the 'tasks' url and place it to the main menu:<br/>
+(See <a href="routes.html">routes</a> and <a href="structure.html#menu">menu</a>)
+<a name="compex1"></a>
+</p><pre><code class="php">function hook_mymodule_defineroute()
+{
+    $r = [];
+    $r[] = [
+        'path' =&gt; 'tasks',
+        'callback' =&gt; 'tasks',
+    ];
+    return $r;
+}
+
+function hook_mymodule_before_start()
+{
+    global $site_config;
+    $site_config-&gt;mainmenu["Tasks"] = "tasks";
+}
+</code></pre><p>Under the 'tasks' url a callback generates the list of task and an 'Add', 'Edit' and 'Delete' links:<br/>
+(See <a href="totable.html">query formatter</a>)
+<a name="compex2"></a>
+</p><pre><code class="php">function tasks()
+{
+    global $user;
+    ob_start();
+
+    print l("Add task","node/task/add");
+    print '&lt;br/&gt;';
+
+    $c = [
+        '#tableopts' =&gt; ['border' =&gt; '1'],
+        '#fields' =&gt; ['descr','mod','del'],
+        'descr' =&gt; ['headertext' =&gt; 'Description',],
+        'mod' =&gt; [
+            'headertext' =&gt; 'Modify',
+            'valuecallback' =&gt; function($r) {
+                return l('Modify','node/'.$r['nid'].'/edit');
+            }
+        ],
+        'del' =&gt; [
+            'headertext' =&gt; 'Delete',
+            'valuecallback' =&gt; function($r) {
+                return l('Delete','node/'.$r['nid'].'/delete');
+            }
+        ],
+    ];
+
+    $r = sql_exec(
+        "SELECT tid,nid,descr,task.type,task.created ".
+        "FROM task INNER JOIN node ON node.join_id=task.tid AND node.type='task' ".
+        "ORDER BY task.created");
+
+    print to_table($r,$c);
+    return ob_get_clean();
+}
+</code></pre><p>The following codes specifies the permissions of the task node: All authenticated user can create/edit/delete them.
+<a name="compex3"></a>
+</p><pre><code class="php">function hook_mymodule_node_access_task($node,$op,$account)
+{
+    if($account-&gt;auth)
+        return NODE_ACCESS_ALLOW;
+    return NODE_ACCESS_DENY;
+}
+</code></pre><p>The 'task' node type contains an 'imgshow' static field which shows the uploaded photo embed in editor table if exists.
+This hook will hide this image field on insert and shows the photo image in other cases if exists.
+(Note that the 'img' field contains the file reference while the 'imgshow' is only
+a static text which displayed to the user.)
+<a name="compex4"></a>
+</p><pre><code class="php">function hook_mymodule_node_before_action($node,$op,$acc)
+{
+    if($node-&gt;node_type == 'task')
+    {
+        if($op == 'add')
+        {
+            $node-&gt;get_definition_field('imgshow')['hide'] = true;
+        }
+        else
+        {
+            $ufi = $node-&gt;img;
+            if($ufi == '' || $ufi == NULL)
+            {
+                $node-&gt;imgshow = 'No uploaded photo';
+                return;
+            }
+            $f = file_load($ufi,true);
+            $imagepart = '&lt;img style="max-width: 110px; height: auto;" src="'.
+                            url($file-&gt;url). '" border="0"/&gt;';
+            $node-&gt;imgshow = $imagepart;
+        }
+    }
+}
+</code></pre><p>By implementing the <code>HOOK_operation_done</code> we can show the task list after add or modify or delete a tasks.
+<a name="compex6"></a>
+</p><pre><code class="php">function hook_mymodule_operation_done($type,$op,$nid)
+{
+    if($type == 'task')
+        goto_loc('tasks');
+}
+</code></pre><p>Creation of the 'task' node type:
+<a name="compex5"></a>
+</p><pre><code class="php">function hook_mymodule_nodetype()
+{
+    $r = [];
+    $r['task'] =
+        [
+            "name" =&gt; "task",
+            "table" =&gt; "task",
+            "show" =&gt; "table",
+            "color" =&gt; "#ddeedd",
+            "fields" =&gt; [
+                10 =&gt; [
+                    "sql" =&gt; "tid",
+                    "text" =&gt; "Identifier",
+                    "type" =&gt; "keyn",
+                    "color" =&gt; "#ffcccc",
+                ],
+                20 =&gt; [
+                    "sql" =&gt; "descr",
+                    "text" =&gt; "Description",
+                    "type" =&gt; "largetext",
+                    "row" =&gt; 5,
+                    "col" =&gt; 40,
+                ],
+                30 =&gt; [
+                    "sql" =&gt; "urgent",
+                    "text" =&gt; "Urgent",
+                    "type" =&gt; "check",
+                    "color" =&gt; "#ffaaaa",
+                ],
+                40 =&gt; [
+                    "sql" =&gt; "deadline",
+                    "text" =&gt; "Deadline",
+                    "type" =&gt; "dateu",
+                ],
+                50 =&gt; [
+                    "sql" =&gt; "type",
+                    "text" =&gt; "Place",
+                    "type" =&gt; "txtradio",
+                    "values" =&gt; [
+                        "h" =&gt; "Home",
+                        "w" =&gt; "Work",
+                    ],
+                ],
+                60 =&gt; [
+                    "sql" =&gt; "cost",
+                    "text" =&gt; "Estimated cost",
+                    "type" =&gt; "float",
+                ],
+                70 =&gt; [
+                    "sql" =&gt; "part",
+                    "text" =&gt; "Participants",
+                    "type" =&gt; "numselect_intrange",
+                    "start" =&gt; 1,
+                    "end" =&gt; 10,
+                ],
+                80 =&gt; [
+                    "sql" =&gt; "img",
+                    "text" =&gt; "Image",
+                    "type" =&gt; "file",
+                    "container" =&gt; "secure",
+                    "subdir" =&gt; "taskimg",
+                ],
+                81 =&gt; [
+                    "sql" =&gt; "imgshow",
+                    "text" =&gt; "Image",
+                    "type" =&gt; "static",
+                    "default" =&gt; "",
+                ],
+                90 =&gt; [
+                    "sql" =&gt; "created",
+                    "text" =&gt; "Create time",
+                    "type" =&gt; "timestamp_create",
+                ],
+                100 =&gt; [
+                    "sql" =&gt; "modtime",
+                    "text" =&gt; "Modified",
+                    "type" =&gt; "timestamp_mod",
+                ],
+                110 =&gt; [
+                    "sql" =&gt; "muser",
+                    "text" =&gt; "Modifier",
+                    "type" =&gt; "modifier_user",
+                    "userdata" =&gt; "fullname",
+                ],
+                120 =&gt; [
+                    "sql" =&gt; "sadd",
+                    "type" =&gt; "submit",
+                    "default" =&gt; "Add",
+                    "in_mode" =&gt; "insert",
+                    "centered" =&gt; true,
+                ],
+                130 =&gt; [
+                    "sql" =&gt; "smod",
+                    "type" =&gt; "submit",
+                    "default" =&gt; "Modify",
+                    "in_mode" =&gt; "update",
+                    "centered" =&gt; true,
+                ],
+                140 =&gt; [
+                    "sql" =&gt; "sdel",
+                    "type" =&gt; "submit",
+                    "in_mode" =&gt; "delete",
+                    "centered" =&gt; true,
+                    "default" =&gt; "Delete",
+                ],
+            ],
+        ];
+    return $r;
+}
+</code></pre><p><a name="customnodeobject"></a>
+</p><a name="pos_14"><h2>Custom Node objects</h2></a>
+<p>You <strong>can specify</strong> that Node module <strong>work with special Node subclasses</strong> for a node-type instead of Node class.
+In case you set the <code>"classname"</code> option in the
+<a href="forms.html#ddeftoplevel">data definition structure array's toplevel options </a> the node module creates the node
+objects with the given classname. The <code>node_create</code>, <code>node_load</code>, <code>node_load_intype</code> functions are also
+returns the specified Node subclass.
+</p>
+<p>Because the specified class is a subclass of Node, all node operations works same way.
+In the other hands by using of custom class you can achieve many customisations of your node.
+</p>
+<p></p><pre><code class="php">//Defining task node type (part)
+function hook_mymodule_nodetype()
+{
+    $r = [];
+    $r['task'] = [
+            "name" =&gt; "task",
+            "table" =&gt; "task",
+            "show" =&gt; "table",
+            "classname" =&gt; "TaskNode", //Tells to use "TaskNode" object instead of "Node"
+ ...
+   ]
+   return $r;
+}
+
+//Defining TaskNode
+class TaskNode extends Node
+{
+    //Do not define constructor. (It uses the Node's constructor)
+
+    //Sample method which prints a title on node create page
+    public function m_before_form($op)
+    {
+        if($op == 'add')
+            return '&lt;h1&gt;Creating a task&lt;/h1&gt;';
+        return '';
+    }
+}
+</code></pre><p>You can redefine some Node methods in the created Node subclass to do special operations in a specified node type.
+See <a href="#mmethods">the "m_" prefixed methods</a> in Node class. By sub-classing Node class you have the possibility to
+do very special nodes by redefining protected methods <code>load_data,save_data,insert_data,remove_data</code> which do the
+data table manipulations. (See the original codes of this methods to understand what they do)
+<a name="nodesettings"></a>
+</p><a name="pos_15"><h2>Settings of the nodes</h2></a>
+<p>The node settings which can set <a href="modules.html#site_settings">in site settings</a>.
+</p>
+<p></p>
+<table><thead>
+<tr><th>name</th><th>default</th><th>description</th></tr></thead>
+<tbody>
+<tr><td><small> <code>$site_config->node_unauth_triggers_login</code> </small></td><td><small> false  </small></td><td>In case of this option is <code>true</code> and an unauthenticated user try to access a node which needs authenticated user to access the CodKep automatically redirects to the login page.</td></tr>
+<tr><td><small> <code>$site_config->node_rest_api_enabled</code> </small></td><td><small> true  </small></td><td>If this value is false it completely disable the REST resources related to nodes.</td></tr></tbody></table><p><strong>Many node settings can change in node definition structure to make possible to set different features for each node type.</strong>
+<strong>You can view this settings in forms module documentation <a href="forms.html#ddeftoplevel">here</a>.</strong> (Purple block)
+<a name="nodehooks"></a>
+</p><a name="pos_16"><h2>Hooks</h2></a>
+<p>The following <a href="hooks.html">hooks</a> can be implement to interact with node module.
+</p>
+<p><em>Note: Many of this hooks has an <code>$obj</code> parameter which is a container object holding references to the</em>
+<em>object and other data structures which are modifiable by the hook.</em>
+</p>
+<table><thead>
+<tr><th>Hook</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>HOOK_nodetype()</td><td>Define one or more node type.</td></tr>
+<tr><td>HOOK_objectnodetype()</td><td>Define one or more node type with dynamic loaded classes.</td></tr>
+<tr><td>HOOK_load_nodedefclass($obj)</td><td>Invoked before the Node module loads a node-type class from the specified file.</td></tr>
+<tr><td>HOOK_nodetype_alter_NODETYPE($obj)</td><td>You can change the definition of the specified node type by this hook.</td></tr>
+<tr><td>HOOK_node_loaded($pass,$nid,$type,$join_id)</td><td>Runs immediately after a node is loaded. This hook can change the node data by the $pass pass parameter.</td></tr>
+<tr><td>HOOK_node_form_before($node,$op)</td><td>This hook can put some content before the node add/edit/view/delete forms <br/> The value of <code>$op</code> can be <code>view,add,edit,delete</code>. The string returned by this hook will be inserted before the form.</td></tr>
+<tr><td>HOOK_node_form_after($node,$op)</td><td>This hook can put some content after the node add/edit/view/delete forms <br/> The value of <code>$op</code> can be <code>view,add,edit,delete</code>. The string returned by this hook will be inserted after the form.</td></tr>
+<tr><td>HOOK_node_access($node,$op,$account)</td><td>This hook controls the access to a node <br/> The value of <code>$op</code> can be <code>view,create,precreate,update,delete</code>.</td></tr>
+<tr><td>HOOK_node_access_NODETYPE($node,$op,$account)</td><td>This hook controls the access to a node which type is NODETYPE <br/> The value of <code>$op</code> can be <code>view,create,precreate,update,delete</code>.</td></tr>
+<tr><td>HOOK_node_will_update($node)</td><td>This hook runs immediately before a node is updated by the built-in routes of node module. (node/NID/edit or nodeintype/TYPE/JOIN-ID/edit) If you do redirect in this hook, the operation will be cancelled.</td></tr>
+<tr><td>HOOK_node_before_save($obj)</td><td>Runs every case before the node is saved. (Even by the node api)</td></tr>
+<tr><td>HOOK_node_saved($obj)</td><td>Runs every case immediately after a node is saved. (Even by the node api)</td></tr>
+<tr><td>HOOK_node_will_delete($node)</td><td>This hook runs immediately before a node is deleted by the built-in routes of node module. (node/NID/delete or nodeintype/TYPE/JOIN-ID/delete) If you do redirect in this hook, the operation will be cancelled.</td></tr>
+<tr><td>HOOK_node_deleted($nid,$type,$join_id)</td><td>Runs every case immediately after a node is deleted. (Even by the node api)</td></tr>
+<tr><td>HOOK_node_will_create($obj)</td><td>This hook runs immediately before a node is created by the built-in routes of node module. (node/TYPE/add) If you do redirect in this hook, the operation will be cancelled.</td></tr>
+<tr><td>HOOK_node_before_insert($obj)</td><td>Runs every case before the node is inserted. (Even by the node api)</td></tr>
+<tr><td>HOOK_node_inserted($obj)</td><td>Runs every case immediately after a node is inserted. (Even by the node api)</td></tr>
+<tr><td>HOOK_node_rest_action_before($node,$request_method)</td><td>Runs immediately before built-it in node REST action. If you do redirect in this hook, the operation will be cancelled.</td></tr>
+<tr><td>HOOK_node_before_action($node,$op,$user)</td><td>Runs on node view/add/edit/delete before the form is generated by the built-in routes of node module.</td></tr>
+<tr><td>HOOK_node_operation_done($type,$op,$nid)</td><td>This hook runs after an operation is done on some node. This hook is useful to do some redirection. <br/> The value of <code>$op</code> can be <code>view,add,edit,delete</code></td></tr>
+<tr><td>HOOK_node_operation_not_permitted($node,$op,$account)</td><td>This hook run when the operation is not permitted/blocked. It useful to do redirection to your custom error handling page. It is called immediately before the CodKep goes to it's own error page. <br/> The value of <code>$op</code> can be <code>view,add,edit,delete</code></td></tr></tbody></table></div><script>hljs.initHighlightingOnLoad();</script><div class="ccdocpanel"><ul class="docsidemenu no-print"><li><a href="start.html">CodKep introduction</a><ul class=" closed"><li><a href="start.html#pos_2">What is CodKep</a></li><li><a href="start.html#pos_3">The main chapters of this document</a></li><li><a href="start.html#pos_4">Author, License</a></li></ul></li><li><a href="modules.html">Installing, Modules</a><ul class=" closed"><li><a href="modules.html#pos_2">Installing codkep</a></li><li><a href="modules.html#pos_3">Directories</a></li><li><a href="modules.html#pos_4">Site settings, configuration</a></li><li><a href="modules.html#pos_5">Modules</a></li></ul></li><li><a href="routes.html">Routes</a><ul class=" closed"><li><a href="routes.html#pos_2">Add custom locations</a></li><li><a href="routes.html#pos_3">The route definition array</a></li><li><a href="routes.html#pos_4">Parameters in URL</a></li><li><a href="routes.html#pos_5">Caching routes</a></li><li><a href="routes.html#pos_6">Generating URLs</a></li><li><a href="routes.html#pos_7">Generating Links</a></li><li><a href="routes.html#pos_8">Redirections</a></li><li><a href="routes.html#pos_9">Tags</a></li><li><a href="routes.html#pos_10">Clean URLs</a></li><li><a href="routes.html#pos_11">Hooks related to routes</a></li></ul></li><li><a href="hooks.html">Hooks</a><ul class=" closed"><li><a href="hooks.html#pos_2">Implement hooks</a></li><li><a href="hooks.html#pos_3">Interaction of hooks</a></li><li><a href="hooks.html#pos_4">Hook sequence of a page load</a></li><li><a href="hooks.html#pos_5">Create hooks</a></li><li><a href="hooks.html#pos_6">Caching hooks</a></li><li><a href="hooks.html#pos_7">Change hook order</a></li><li><a href="hooks.html#pos_8">Debugging hooks</a></li><li><a href="hooks.html#pos_9">Hooks</a></li></ul></li><li><a href="parameters.html">Parameters</a><ul class=" closed"><li><a href="parameters.html#pos_2">Defining parameters</a></li><li><a href="parameters.html#pos_3">Defining in route definition array</a></li><li><a href="parameters.html#pos_4">Using parameters</a></li><li><a href="parameters.html#pos_5">Other parameter related functions</a></li><li><a href="parameters.html#pos_6">Security classes</a></li><li><a href="parameters.html#pos_7">Parameter handling relates settings</a></li><li><a href="parameters.html#pos_8">Hooks</a></li></ul></li><li><a href="structure.html">Themes</a><ul class=" closed"><li><a href="structure.html#pos_2">Functions unrelated to themes</a></li><li><a href="structure.html#pos_3">Using of themes</a></li><li><a href="structure.html#pos_4">Place your own content to a site area</a></li><li><a href="structure.html#pos_5">Settings of flex theme</a></li><li><a href="structure.html#pos_6">Create own themes</a></li><li><a href="structure.html#pos_7">Menu system</a></li><li><a href="structure.html#pos_8">Custom themes and menu generation</a></li><li><a href="structure.html#pos_9">Hooks</a></li></ul></li><li><a href="ajax.html">Ajax framework</a><ul class=" closed"><li><a href="ajax.html#pos_2">Start ajax requests</a></li><li><a href="ajax.html#pos_3">1. Place an user (click) triggered ajax link in html code</a></li><li><a href="ajax.html#pos_4">2. Set HTML form action to ajax</a></li><li><a href="ajax.html#pos_5">3. Place a delayed ajax call to the page</a></li><li><a href="ajax.html#pos_6">4. Fill page parts/block by simply call fill_through_ajax() function</a></li><li><a href="ajax.html#pos_7">The ajax handler</a></li><li><a href="ajax.html#pos_8">Ajax commands</a></li><li><a href="ajax.html#pos_9">A complex ajax example (Version 1 - standard)</a></li><li><a href="ajax.html#pos_10">A complex ajax example (Version 2 - autorouted)</a></li></ul></li><li><a href="sql.html">Sql</a><ul class=" closed"><li><a href="sql.html#pos_2">Sql database settings</a></li><li><a href="sql.html#pos_3">Connect and disconnect</a></li><li><a href="sql.html#pos_4">Execute SQL commands</a></li><li><a href="sql.html#pos_5">General database CRUD interface</a></li><li><a href="sql.html#pos_6">Methods of DatabaseQuery</a></li><li><a href="sql.html#pos_7">Methods of DatabaseCond</a></li><li><a href="sql.html#pos_8">Simple and easy database operations</a></li><li><a href="sql.html#pos_9">Sql transactions</a></li><li><a href="sql.html#pos_10">Error handling</a></li><li><a href="sql.html#pos_11">Schema editor</a></li><li><a href="sql.html#pos_12">Define sql schema requirements</a></li><li><a href="sql.html#pos_13">Hooks</a></li></ul></li><li><a href="files.html">Files</a><ul class=" closed"><li><a href="files.html#pos_2">Storing type</a></li><li><a href="files.html#pos_3">File class</a></li><li><a href="files.html#pos_4">Fixed properties of the File object</a></li><li><a href="files.html#pos_5">Methods of File object</a></li><li><a href="files.html#pos_6">Helper functions of File class</a></li><li><a href="files.html#pos_7">File access control</a></li><li><a href="files.html#pos_8">Tricks with file hooks</a></li><li><a href="files.html#pos_9">Image size classes</a></li><li><a href="files.html#pos_10">Settings of the file module</a></li><li><a href="files.html#pos_11">Hooks</a></li></ul></li><li><a href="forms.html">Forms</a><ul class=" closed"><li><a href="forms.html#pos_2">Simple HTML form generation</a></li><li><a href="forms.html#pos_3">Form checker method</a></li><li><a href="forms.html#pos_4">The SpeedForm </a></li><li><a href="forms.html#pos_5">Methods of SpeedForm</a></li><li><a href="forms.html#pos_6">Data definition structure</a></li><li><a href="forms.html#pos_7">The structure : Top level attributes</a></li><li><a href="forms.html#pos_8">Field types</a></li><li><a href="forms.html#pos_9">Common field attributes</a></li><li><a href="forms.html#pos_10">Output format of SpeedForm</a></li><li><a href="forms.html#pos_11">Query and Add field types</a></li><li><a href="forms.html#pos_12">Data definition structure repository</a></li><li><a href="forms.html#pos_13">Helper functions</a></li><li><a href="forms.html#pos_14">Settings of the forms module</a></li><li><a href="forms.html#pos_15">Hooks</a></li></ul></li><li><a href="tablegen.html">Table generator</a><ul class=" closed"><li><a href="tablegen.html#pos_2">Html table generation</a></li><li><a href="tablegen.html#pos_3">Excel output generator</a></li><li><a href="tablegen.html#pos_4">Convert Excel XML tables to HTML tables</a></li></ul></li><li><a href="totable.html">Query formatter</a><ul class=" closed"><li><a href="totable.html#pos_2">Automatic output generator for sql queries</a></li><li><a href="totable.html#pos_3">Input of to_table()</a></li><li><a href="totable.html#pos_4">Outout of to_table()</a></li><li><a href="totable.html#pos_5">Options affects the whole table</a></li><li><a href="totable.html#pos_6">Change the number or/and the order of the fields</a></li><li><a href="totable.html#pos_7">Customize of fields</a></li><li><a href="totable.html#pos_8">Modify the value of the fields</a></li><li><a href="totable.html#pos_9">Using virtual fields</a></li><li><a href="totable.html#pos_10">Using field repository</a></li><li><a href="totable.html#pos_11">Using field repository directly from SQL</a></li><li><a href="totable.html#pos_12">Backend of to_table()</a></li><li><a href="totable.html#pos_13">Generate HTML and Excel tables with same way</a></li></ul></li><li><a href="dyntable.html">DynTable</a><ul class=" closed"><li><a href="dyntable.html#pos_2">Methods of DynTable class</a></li><li><a href="dyntable.html#pos_3">Data definition structure</a></li><li><a href="dyntable.html#pos_4">Data definition structure repository</a></li><li><a href="dyntable.html#pos_5">A complex example</a></li></ul></li><li><a href="user.html">User module</a><ul class=" closed"><li><a href="user.html#pos_2">The global $user object</a></li><li><a href="user.html#pos_3">Login and logout</a></li><li><a href="user.html#pos_4">Managing users</a></li><li><a href="user.html#pos_5">Helper functions</a></li><li><a href="user.html#pos_6">CodKep session data</a></li><li><a href="user.html#pos_7">Settings of user module</a></li><li><a href="user.html#pos_8">Hooks</a></li></ul></li><li><a href="node.html">Node</a><ul class=""><li><a href="node.html#pos_2">Fixed properties(fields) of the Node</a></li><li><a href="node.html#pos_3">Methods of Node class</a></li><li><a href="node.html#pos_4">Helper functions of node class</a></li><li><a href="node.html#pos_5">Defining a node</a></li><li><a href="node.html#pos_6">Dynamic node definition</a></li><li><a href="node.html#pos_7">Modify existing node types</a></li><li><a href="node.html#pos_8">Database appearance of nodes</a></li><li><a href="node.html#pos_9">Querying node lists from database</a></li><li><a href="node.html#pos_10">Node access control</a></li><li><a href="node.html#pos_11">REST api for nodes</a></li><li><a href="node.html#pos_12">Node related REST commands</a></li><li><a href="node.html#pos_13">A complete example</a></li><li><a href="node.html#pos_14">Custom Node objects</a></li><li><a href="node.html#pos_15">Settings of the nodes</a></li><li><a href="node.html#pos_16">Hooks</a></li></ul></li><li><a href="page.html">Page</a><ul class=" closed"><li><a href="page.html#pos_2">Fields of the page</a></li><li><a href="page.html#pos_3">Permissions of pages</a></li><li><a href="page.html#pos_4">Extending page type</a></li><li><a href="page.html#pos_5">Hooks</a></li></ul></li><li><a href="doc.html">Documenting</a><ul class=" closed"><li><a href="doc.html#pos_2">My mark language</a></li><li><a href="doc.html#pos_3">Highlights</a></li><li><a href="doc.html#pos_4">Headings</a></li><li><a href="doc.html#pos_5">Other elements</a></li><li><a href="doc.html#pos_6">Tables</a></li><li><a href="doc.html#pos_7">Lists</a></li><li><a href="doc.html#pos_8">Codes</a></li><li><a href="doc.html#pos_9">Links</a></li><li><a href="doc.html#pos_10">Images</a></li></ul></li><li><a href="debug.html">Debugging</a><ul class=" closed"><li><a href="debug.html#pos_2">Dumping arbitrary data objects</a></li><li><a href="debug.html#pos_3">Special pages</a></li><li><a href="debug.html#pos_4">Debug sql calls</a></li><li><a href="debug.html#pos_5">Dump the parameters of the page</a></li></ul></li></ul></div></div>
+</body>
+</html>

@@ -1,0 +1,122 @@
+body
+{
+background-color:#fff0bb;
+}
+h2,h3
+{
+padding:0px;
+margin:5px;
+}
+div.program
+{
+width:900px;
+padding:10px;
+border:1px solid gray;
+margin:12px;
+background-color:#ffffff;
+-khtml-border-radius: 12px;
+-webkit-border-radius: 12px;
+-moz-border-radius: 12px;
+border-radius: 12px;
+box-shadow: 8px 8px 4px #888888;
+}
+
+div.docs
+{
+width:900px;
+padding:10px;
+border:1px solid gray;
+margin:12px;
+background-color:#e0ffd0;
+-khtml-border-radius: 12px;
+-webkit-border-radius: 12px;
+-moz-border-radius: 12px;
+border-radius: 12px;
+box-shadow: 8px 8px 4px #888888;
+}
+
+div.downloads
+{
+width:900px;
+padding:10px;
+border:1px solid gray;
+margin:12px;
+background-color:#ffbbaa;
+-khtml-border-radius: 12px;
+-webkit-border-radius: 12px;
+-moz-border-radius: 12px;
+border-radius: 12px;
+box-shadow: 8px 8px 4px #888888;
+}
+
+ul.menu
+{
+list-style-type:none;
+margin:0;
+padding:0;
+float:right;
+}
+
+.menu li
+{
+float:left;
+}
+
+a.navbar:link,a.navbar:visited
+{
+display:block;
+width:68px;
+font-weight:bold;
+color:#FFFFFF;
+background-color:#98bf21;
+text-align:center;
+padding:4px;
+text-decoration:none;
+}
+a.navbar:hover,a.navbar:active
+{
+background-color:#7A991A;
+}
+
+img.logo
+{
+float:right; 
+padding:0px; 
+margin:10px;
+border:0px;
+}
+
+img.flag
+{
+padding:0px; 
+margin:3px;
+border:0px;
+}
+
+a.authorlink
+{
+	text-decoration:none;
+}
+
+.usgoaltitle
+{
+ margin: 5px;
+ font-weight: bold;
+}
+.usgoal
+{
+  position: relative;
+  left: 10px;
+  margin: 5px;
+}
+.inex
+{
+  margin: 2px;
+  padding: 2px;
+}
+.inexc
+{
+  margin: 1px;
+  padding: 1px;
+  padding-bottom: 8px;
+}

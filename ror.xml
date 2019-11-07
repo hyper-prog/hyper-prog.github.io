@@ -1,0 +1,2618 @@
+<?xml version="1.0" encoding="UTF-8"?>
+		}
+<rss version="2.0" xmlns:ror="http://rorweb.com/0.1/" >
+<channel>
+  <title>ROR Sitemap for http://hyperprog.com/</title>
+  <link>http://hyperprog.com/</link>
+
+<item>
+     <link>http://hyperprog.com/</link>
+     <title>HyperProg</title>
+     <description>Programs of Hyper aka Peter Deak</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>0</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/author.html</link>
+     <title>HyperProg Author</title>
+     <description>Programs of Hyper aka Peter Deak</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/index.html</link>
+     <title>CodKep</title>
+     <description>CodKep is a lightweight web framework written in PHP</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/index.html</link>
+     <title>CodKep introduction</title>
+     <description>CodKep introduction</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/hasses/index.html</link>
+     <title>HASSES</title>
+     <description>Hasses is asynchronous client notification Server Sent Event (SSE) server </description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/unisync/index.html</link>
+     <title>UniSync</title>
+     <description>UniSync is a Universal offline/online direcotry sync/diff utility</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/unisync/unisyncdoc/doc/unisync/using.html</link>
+     <title>UniSync</title>
+     <description>UniSync</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/ntfstame/index.html</link>
+     <title>NtfsTame</title>
+     <description>NtfsTame is NTFS file/directory name encoding corrector</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/hypercalc/index.html</link>
+     <title>HyperCalc</title>
+     <description>HyperCalc is a high precision practical easy to use command line styled calculator</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/wpfiner/index.html</link>
+     <title>HyperProg Wallpaper Finer</title>
+     <description>Wallpaper Finer is an easy to use utility which fits your images perfectly to your desktop and immediately set as wallpaper.</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/wpfiner/index_hun.html</link>
+     <title>HyperProg Háttérkép Igazító</title>
+     <description>A Háttérkép Igazító egy egyszerüen használható program, mely az asztal felbontásához tökéletesen hozzáigazít bármilyen képaránnyal rendelkező nagyfelbontású képet</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/index.html</link>
+     <title>HyperProg gSAFE</title>
+     <description>General SQL database frontend library provides multiplatform (platform independent) rapid build Qt applications</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/prepo/index.html</link>
+     <title>HyperProg pRepo</title>
+     <description>Small SQL based multi platform repository program with logging, written as demo of gSAFE</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/prepo/index_hun.html</link>
+     <title>HyperProg pRepo</title>
+     <description>pRepo egy egyszerü SQL alapu raktárkészlet kezelő program, gSAFE alapokon</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/scanlocs/index.html</link>
+     <title>HyperProg ScanLocs</title>
+     <description>ScanLocs scans the GPS location information from a directory structure to shows it on a google map</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/scanlocs/index_hun.html</link>
+     <title>HyperProg ScanLocs</title>
+     <description>A ScanLocs felolvassa a GPS koordinátákat egy mappaszerkezetből és megjeleníti azokat egy goole térképen</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/myth/index.html</link>
+     <title>HyperProg Myth</title>
+     <description>A highly customizable drupal 7 theme made by Hyper</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/treegen/index.html</link>
+     <title>HyperProg TreeGen</title>
+     <description>OpenGL based multi platform tree generator, environment generation program, with using OpenGL shaders. Written in C++ / Qt</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/rotor/index.html</link>
+     <title>HyperProg Rotor</title>
+     <description>Fast lossless jpeg image rotate written in CSharp to minimize user interaction in image rotation</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/hyperchat/index.html</link>
+     <title>HyperProg HyperChat</title>
+     <description>Graphical Network Chat program written in CSharp</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/splitview/index.html</link>
+     <title>HyperProg SplitView</title>
+     <description>Huge image viewer for PDA (Mobile Windows) as achived by mosaic viewer</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/selfin/index.html</link>
+     <title>HyperProg SelfIn</title>
+     <description>Selfin is a complex small company invoice creator and financial manager program. It creates outgoing invoices, makes calculations, registers many company data.</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/selfin/index_hun.html</link>
+     <title>HyperProg SelfIn</title>
+     <description>Selfin egy komplex kisvállalati számlázó és nyilvántartó program</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/howto/etc-git.html</link>
+     <title>Store /etc in a git repository</title>
+     <description>How to store the /etc in a git repository</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/sitemap.html</link>
+     <title>hyperprog.com Site Map - Generated by www.xml-sitemaps.com</title>
+     <description>hyperprog.com Site Map - Generated by www.xml-sitemaps.com</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>1</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/author_hun.html</link>
+     <title>HyperProg Author</title>
+     <description>Programs of Hyper aka Peter Deak</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/index.html</link>
+     <title>HyperProg</title>
+     <description>Programs of Hyper aka Peter Deak</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/modules.html</link>
+     <title>Installing, Modules</title>
+     <description>Installing, Modules</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/hooks.html</link>
+     <title>Hooks</title>
+     <description>Hooks</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/routes.html</link>
+     <title>Routes</title>
+     <description>Routes</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/parameters.html</link>
+     <title>Parameters</title>
+     <description>Parameters</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/structure.html</link>
+     <title>Themes</title>
+     <description>Themes</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/ajax.html</link>
+     <title>Ajax framework</title>
+     <description>Ajax framework</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/sql.html</link>
+     <title>Sql</title>
+     <description>Sql</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/user.html</link>
+     <title>User module</title>
+     <description>User module</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/tablegen.html</link>
+     <title>Table generator</title>
+     <description>Table generator</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/forms.html</link>
+     <title>Forms</title>
+     <description>Forms</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/totable.html</link>
+     <title>Query formatter</title>
+     <description>Query formatter</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/node.html</link>
+     <title>Node</title>
+     <description>Node</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/file.html</link>
+     <title>Files</title>
+     <description>Files</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/page.html</link>
+     <title>Page</title>
+     <description>Page</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/debug.html</link>
+     <title>Debugging</title>
+     <description>Debugging</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/start.html</link>
+     <title>CodKep introduction</title>
+     <description>CodKep introduction</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/codkep/doc/doc/codkep/doc.html</link>
+     <title>Documenting</title>
+     <description>Documenting</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/unisync/</link>
+     <title>UniSync</title>
+     <description>UniSync is a Universal offline/online direcotry sync/diff utility</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/hypercalc/ChangeLog.txt</link>
+     <title></title>
+     
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/index.html</link>
+     <title>gSAFE: Main Page</title>
+     <description>gSAFE: Main Page</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/classes.html</link>
+     <title>gSAFE: Class Index</title>
+     <description>gSAFE: Class Index</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/TEMPLATEDOC.txt</link>
+     <title>SHORT EXPLANATION</title>
+     <description>SHORT EXPLANATION</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/gsafemetadata.xsd</link>
+     <title></title>
+     
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_debug_console.html</link>
+     <title>gSAFE: HDebugConsole Class Reference</title>
+     <description>gSAFE: HDebugConsole Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/ChangeLog.txt</link>
+     <title></title>
+     
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/tutor.html</link>
+     <title>gSAFE small tutorial code</title>
+     <description>Small gSAFE tutorial source code</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/prepo/prepo_h.html</link>
+     <title>HTML code generated by "CPP to HTML Coder"</title>
+     <description>HTML code generated by "CPP to HTML Coder"</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/prepo/prepo_cpp.html</link>
+     <title>HTML code generated by "CPP to HTML Coder"</title>
+     <description>HTML code generated by "CPP to HTML Coder"</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/scanlocs/gpsfindout.html</link>
+     <title>How to find out GPS coordinates</title>
+     <description>How to find out GPS coordinates</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/modules.html</link>
+     <title>gSAFE: Modules</title>
+     <description>gSAFE: Modules</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/annotated.html</link>
+     <title>gSAFE: Class List</title>
+     <description>gSAFE: Class List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/files.html</link>
+     <title>gSAFE: File List</title>
+     <description>gSAFE: File List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/hierarchy.html</link>
+     <title>gSAFE: Class Hierarchy</title>
+     <description>gSAFE: Class Hierarchy</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_char_hash.html</link>
+     <title>gSAFE: HDispCharHash Class Reference</title>
+     <description>gSAFE: HDispCharHash Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_floating.html</link>
+     <title>gSAFE: HFloating Class Reference</title>
+     <description>gSAFE: HFloating Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_preview_frame.html</link>
+     <title>gSAFE: HPreviewFrame Class Reference</title>
+     <description>gSAFE: HPreviewFrame Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___psql_odbc_win.html</link>
+     <title>gSAFE: HSqlSingleInterface_PsqlOdbcWin Class Reference</title>
+     <description>gSAFE: HSqlSingleInterface_PsqlOdbcWin Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_array_button.html</link>
+     <title>gSAFE: HArrayButton Class Reference</title>
+     <description>gSAFE: HArrayButton Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_check.html</link>
+     <title>gSAFE: HDispCheck Class Reference</title>
+     <description>gSAFE: HDispCheck Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_float_tables.html</link>
+     <title>gSAFE: HFloatTables Class Reference</title>
+     <description>gSAFE: HFloatTables Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_print_table.html</link>
+     <title>gSAFE: HPrintTable Class Reference</title>
+     <description>gSAFE: HPrintTable Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___sqlite_lin.html</link>
+     <title>gSAFE: HSqlSingleInterface_SqliteLin Class Reference</title>
+     <description>gSAFE: HSqlSingleInterface_SqliteLin Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_data_field.html</link>
+     <title>gSAFE: HDispDataField Class Reference</title>
+     <description>gSAFE: HDispDataField Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_float_tables_as_h_list.html</link>
+     <title>gSAFE: HFloatTablesAsHList Class Reference</title>
+     <description>gSAFE: HFloatTablesAsHList Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___sqlite_win.html</link>
+     <title>gSAFE: HSqlSingleInterface_SqliteWin Class Reference</title>
+     <description>gSAFE: HSqlSingleInterface_SqliteWin Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_base.html</link>
+     <title>gSAFE: HBase Class Reference</title>
+     <description>gSAFE: HBase Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_date.html</link>
+     <title>gSAFE: HDispDate Class Reference</title>
+     <description>gSAFE: HDispDate Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_refresh_agent.html</link>
+     <title>gSAFE: HRefreshAgent Class Reference</title>
+     <description>gSAFE: HRefreshAgent Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_static.html</link>
+     <title>gSAFE: HStatic Class Reference</title>
+     <description>gSAFE: HStatic Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_floating.html</link>
+     <title>gSAFE: HDispFloating Class Reference</title>
+     <description>gSAFE: HDispFloating Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_get_text_box.html</link>
+     <title>gSAFE: HGetTextBox Class Reference</title>
+     <description>gSAFE: HGetTextBox Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_refresh_agent_netclient.html</link>
+     <title>gSAFE: HRefreshAgentNetclient Class Reference</title>
+     <description>gSAFE: HRefreshAgentNetclient Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_char_hash.html</link>
+     <title>gSAFE: HCharHash Class Reference</title>
+     <description>gSAFE: HCharHash Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_key.html</link>
+     <title>gSAFE: HDispKey Class Reference</title>
+     <description>gSAFE: HDispKey Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_refresh_agent_netserver.html</link>
+     <title>gSAFE: HRefreshAgentNetserver Class Reference</title>
+     <description>gSAFE: HRefreshAgentNetserver Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_table.html</link>
+     <title>gSAFE: HTable Class Reference</title>
+     <description>gSAFE: HTable Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_check.html</link>
+     <title>gSAFE: HCheck Class Reference</title>
+     <description>gSAFE: HCheck Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_large_text.html</link>
+     <title>gSAFE: HDispLargeText Class Reference</title>
+     <description>gSAFE: HDispLargeText Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_key.html</link>
+     <title>gSAFE: HKey Class Reference</title>
+     <description>gSAFE: HKey Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_resource_provider.html</link>
+     <title>gSAFE: HResourceProvider Class Reference</title>
+     <description>gSAFE: HResourceProvider Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_table_base.html</link>
+     <title>gSAFE: HTableBase Class Reference</title>
+     <description>gSAFE: HTableBase Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_codepage852.html</link>
+     <title>gSAFE: HCodepage852 Class Reference</title>
+     <description>gSAFE: HCodepage852 Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_list.html</link>
+     <title>gSAFE: HDispList Class Reference</title>
+     <description>gSAFE: HDispList Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_table_browser.html</link>
+     <title>gSAFE: HTableBrowser Class Reference</title>
+     <description>gSAFE: HTableBrowser Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_codepage_convert.html</link>
+     <title>gSAFE: HCodepageConvert Class Reference</title>
+     <description>gSAFE: HCodepageConvert Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_number.html</link>
+     <title>gSAFE: HDispNumber Class Reference</title>
+     <description>gSAFE: HDispNumber Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_large_text.html</link>
+     <title>gSAFE: HLargeText Class Reference</title>
+     <description>gSAFE: HLargeText Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_show_print_html.html</link>
+     <title>gSAFE: HShowPrintHtml Class Reference</title>
+     <description>gSAFE: HShowPrintHtml Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_table_browser_element.html</link>
+     <title>gSAFE: HTableBrowserElement Class Reference</title>
+     <description>gSAFE: HTableBrowserElement Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_connect.html</link>
+     <title>gSAFE: HConnect Class Reference</title>
+     <description>gSAFE: HConnect Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_num_hash.html</link>
+     <title>gSAFE: HDispNumHash Class Reference</title>
+     <description>gSAFE: HDispNumHash Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_list.html</link>
+     <title>gSAFE: HList Class Reference</title>
+     <description>gSAFE: HList Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_small_text.html</link>
+     <title>gSAFE: HSmallText Class Reference</title>
+     <description>gSAFE: HSmallText Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_timestamp.html</link>
+     <title>gSAFE: HTimestamp Class Reference</title>
+     <description>gSAFE: HTimestamp Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_plain_data_matrix.html</link>
+     <title>gSAFE: HDispPlainDataMatrix Class Reference</title>
+     <description>gSAFE: HDispPlainDataMatrix Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_speedy_pair.html</link>
+     <title>gSAFE: HSpeedyPair&amp;lt; KEY, VALUE &amp;gt; Class Template Reference</title>
+     <description>gSAFE: HSpeedyPair&amp;lt; KEY, VALUE &amp;gt; Class Template Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_data_change_logger.html</link>
+     <title>gSAFE: HDataChangeLogger Class Reference</title>
+     <description>gSAFE: HDataChangeLogger Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_small_text.html</link>
+     <title>gSAFE: HDispSmallText Class Reference</title>
+     <description>gSAFE: HDispSmallText Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_number.html</link>
+     <title>gSAFE: HNumber Class Reference</title>
+     <description>gSAFE: HNumber Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_spin_box.html</link>
+     <title>gSAFE: HSpinBox Class Reference</title>
+     <description>gSAFE: HSpinBox Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_x_base_file_handler.html</link>
+     <title>gSAFE: HXBaseFileHandler Class Reference</title>
+     <description>gSAFE: HXBaseFileHandler Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_data_field.html</link>
+     <title>gSAFE: HDataField Class Reference</title>
+     <description>gSAFE: HDataField Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_sql_choose.html</link>
+     <title>gSAFE: HDispSqlChoose Class Reference</title>
+     <description>gSAFE: HDispSqlChoose Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_num_hash.html</link>
+     <title>gSAFE: HNumHash Class Reference</title>
+     <description>gSAFE: HNumHash Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_choose.html</link>
+     <title>gSAFE: HSqlChoose Class Reference</title>
+     <description>gSAFE: HSqlChoose Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_x_base_file_reader.html</link>
+     <title>gSAFE: HXBaseFileReader Class Reference</title>
+     <description>gSAFE: HXBaseFileReader Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_data_field_role.html</link>
+     <title>gSAFE: HDataFieldRole Class Reference</title>
+     <description>gSAFE: HDataFieldRole Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_static.html</link>
+     <title>gSAFE: HDispStatic Class Reference</title>
+     <description>gSAFE: HDispStatic Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_handler.html</link>
+     <title>gSAFE: HSqlHandler Class Reference</title>
+     <description>gSAFE: HSqlHandler Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_x_base_file_writer.html</link>
+     <title>gSAFE: HXBaseFileWriter Class Reference</title>
+     <description>gSAFE: HXBaseFileWriter Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_date.html</link>
+     <title>gSAFE: HDate Class Reference</title>
+     <description>gSAFE: HDate Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_table.html</link>
+     <title>gSAFE: HDispTable Class Reference</title>
+     <description>gSAFE: HDispTable Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_pair.html</link>
+     <title>gSAFE: HPair&amp;lt; KEY, VALUE &amp;gt; Class Template Reference</title>
+     <description>gSAFE: HPair&amp;lt; KEY, VALUE &amp;gt; Class Template Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_interface.html</link>
+     <title>gSAFE: HSqlInterface Class Reference</title>
+     <description>gSAFE: HSqlInterface Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_x_base_record_sync.html</link>
+     <title>gSAFE: HXBaseRecordSync Class Reference</title>
+     <description>gSAFE: HXBaseRecordSync Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_d_console_command_holder.html</link>
+     <title>gSAFE: HDConsoleCommandHolder Class Reference</title>
+     <description>gSAFE: HDConsoleCommandHolder Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_timestamp.html</link>
+     <title>gSAFE: HDispTimestamp Class Reference</title>
+     <description>gSAFE: HDispTimestamp Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_plain_data_matrix.html</link>
+     <title>gSAFE: HPlainDataMatrix Class Reference</title>
+     <description>gSAFE: HPlainDataMatrix Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface.html</link>
+     <title>gSAFE: HSqlSingleInterface Class Reference</title>
+     <description>gSAFE: HSqlSingleInterface Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_xmlo_table.html</link>
+     <title>gSAFE: HXmloTable Class Reference</title>
+     <description>gSAFE: HXmloTable Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_plain_d_m_d.html</link>
+     <title>gSAFE: HPlainDMD Class Reference</title>
+     <description>gSAFE: HPlainDMD Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___mysql_lin.html</link>
+     <title>gSAFE: HSqlSingleInterface_MysqlLin Class Reference</title>
+     <description>gSAFE: HSqlSingleInterface_MysqlLin Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_xml_writer.html</link>
+     <title>gSAFE: HXmlWriter Class Reference</title>
+     <description>gSAFE: HXmlWriter Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_decor_dialog.html</link>
+     <title>gSAFE: HDecorDialog Class Reference</title>
+     <description>gSAFE: HDecorDialog Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_excel_xml_generator.html</link>
+     <title>gSAFE: HExcelXmlGenerator Class Reference</title>
+     <description>gSAFE: HExcelXmlGenerator Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_please_wait_window.html</link>
+     <title>gSAFE: HPleaseWaitWindow Class Reference</title>
+     <description>gSAFE: HPleaseWaitWindow Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___mysql_odbc_win.html</link>
+     <title>gSAFE: HSqlSingleInterface_MysqlOdbcWin Class Reference</title>
+     <description>gSAFE: HSqlSingleInterface_MysqlOdbcWin Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dialog.html</link>
+     <title>gSAFE: HDialog Class Reference</title>
+     <description>gSAFE: HDialog Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_press_button.html</link>
+     <title>gSAFE: HPressButton Class Reference</title>
+     <description>gSAFE: HPressButton Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___postgresql_lin.html</link>
+     <title>gSAFE: HSqlSingleInterface_PostgresqlLin Class Reference</title>
+     <description>gSAFE: HSqlSingleInterface_PostgresqlLin Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_hyper_doc.html</link>
+     <title>gSAFE: HyperDoc Class Reference</title>
+     <description>gSAFE: HyperDoc Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dialog_data.html</link>
+     <title>gSAFE: HDialogData Class Reference</title>
+     <description>gSAFE: HDialogData Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_factory.html</link>
+     <title>gSAFE: HFactory Class Reference</title>
+     <description>gSAFE: HFactory Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_press_button_size_syncronizer.html</link>
+     <title>gSAFE: HPressButtonSizeSyncronizer Class Reference</title>
+     <description>gSAFE: HPressButtonSizeSyncronizer Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/group__datalib.html</link>
+     <title>gSAFE: datalib</title>
+     <description>gSAFE: datalib</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/group__dconsole.html</link>
+     <title>gSAFE: dconsole</title>
+     <description>gSAFE: dconsole</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/group__dialib.html</link>
+     <title>gSAFE: dialib</title>
+     <description>gSAFE: dialib</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/group__docgen.html</link>
+     <title>gSAFE: docgen</title>
+     <description>gSAFE: docgen</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/group__texts.html</link>
+     <title>gSAFE: texts</title>
+     <description>gSAFE: texts</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/group__guilib.html</link>
+     <title>gSAFE: guilib</title>
+     <description>gSAFE: guilib</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/group__hfactory.html</link>
+     <title>gSAFE: hfactory</title>
+     <description>gSAFE: hfactory</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/group__printlib.html</link>
+     <title>gSAFE: printlib</title>
+     <description>gSAFE: printlib</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/group__xbaseio.html</link>
+     <title>gSAFE: xbaseio</title>
+     <description>gSAFE: xbaseio</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/group__xmlolib.html</link>
+     <title>gSAFE: xmlolib</title>
+     <description>gSAFE: xmlolib</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/datalib_8cpp_source.html</link>
+     <title>gSAFE: datalib.cpp Source File</title>
+     <description>gSAFE: datalib.cpp Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/datalib_8h_source.html</link>
+     <title>gSAFE: datalib.h Source File</title>
+     <description>gSAFE: datalib.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/dconsole_8cpp_source.html</link>
+     <title>gSAFE: dconsole.cpp Source File</title>
+     <description>gSAFE: dconsole.cpp Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/dconsole_8h_source.html</link>
+     <title>gSAFE: dconsole.h Source File</title>
+     <description>gSAFE: dconsole.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/dialib_8cpp_source.html</link>
+     <title>gSAFE: dialib.cpp Source File</title>
+     <description>gSAFE: dialib.cpp Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/dialib_8h_source.html</link>
+     <title>gSAFE: dialib.h Source File</title>
+     <description>gSAFE: dialib.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/docgen_8cpp_source.html</link>
+     <title>gSAFE: docgen.cpp Source File</title>
+     <description>gSAFE: docgen.cpp Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/docgen_8h_source.html</link>
+     <title>gSAFE: docgen.h Source File</title>
+     <description>gSAFE: docgen.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/gstexts_8h_source.html</link>
+     <title>gSAFE: gstexts.h Source File</title>
+     <description>gSAFE: gstexts.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/guilib_8cpp_source.html</link>
+     <title>gSAFE: guilib.cpp Source File</title>
+     <description>gSAFE: guilib.cpp Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/guilib_8h_source.html</link>
+     <title>gSAFE: guilib.h Source File</title>
+     <description>gSAFE: guilib.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/hfactory_8cpp_source.html</link>
+     <title>gSAFE: hfactory.cpp Source File</title>
+     <description>gSAFE: hfactory.cpp Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/hfactory_8h_source.html</link>
+     <title>gSAFE: hfactory.h Source File</title>
+     <description>gSAFE: hfactory.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/printlib_8cpp_source.html</link>
+     <title>gSAFE: printlib.cpp Source File</title>
+     <description>gSAFE: printlib.cpp Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/printlib_8h_source.html</link>
+     <title>gSAFE: printlib.h Source File</title>
+     <description>gSAFE: printlib.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/res__p_8h_source.html</link>
+     <title>gSAFE: res_p.h Source File</title>
+     <description>gSAFE: res_p.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/speedypair_8h_source.html</link>
+     <title>gSAFE: speedypair.h Source File</title>
+     <description>gSAFE: speedypair.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/xbio_8cpp_source.html</link>
+     <title>gSAFE: xbio.cpp Source File</title>
+     <description>gSAFE: xbio.cpp Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/xbio_8h_source.html</link>
+     <title>gSAFE: xbio.h Source File</title>
+     <description>gSAFE: xbio.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/xbioconn_8cpp_source.html</link>
+     <title>gSAFE: xbioconn.cpp Source File</title>
+     <description>gSAFE: xbioconn.cpp Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/xbioconn_8h_source.html</link>
+     <title>gSAFE: xbioconn.h Source File</title>
+     <description>gSAFE: xbioconn.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/xmlolib_8cpp_source.html</link>
+     <title>gSAFE: xmlolib.cpp Source File</title>
+     <description>gSAFE: xmlolib.cpp Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/xmlolib_8h_source.html</link>
+     <title>gSAFE: xmlolib.h Source File</title>
+     <description>gSAFE: xmlolib.h Source File</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_vars.html</link>
+     <title>gSAFE: Class Members - Variables</title>
+     <description>gSAFE: Class Members - Variables</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x62.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x63.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x64.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x65.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x66.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x67.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x68.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x69.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x6b.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x6c.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x6d.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x6e.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x6f.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x70.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x71.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x72.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x73.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x74.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x75.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x76.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x77.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x78.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x79.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x7e.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_char_hash-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_floating-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_preview_frame-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___psql_odbc_win-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_array_button-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_check-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_float_tables-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_print_table-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___sqlite_lin-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_data_field-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_float_tables_as_h_list-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___sqlite_win-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_base-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_date-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_refresh_agent-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_static-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_floating-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_get_text_box-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_refresh_agent_netclient-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_char_hash-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_key-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_refresh_agent_netserver-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_table-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_check-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_large_text-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_key-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_resource_provider-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_table_base-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_codepage852-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_list-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_table_browser-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_codepage_convert-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_number-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_large_text-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_show_print_html-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_table_browser_element-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_connect-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_num_hash-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_list-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_small_text-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_timestamp-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_plain_data_matrix-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_speedy_pair-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_data_change_logger-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_small_text-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_number-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_spin_box-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_x_base_file_handler-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_data_field-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_sql_choose-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_num_hash-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_choose-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_x_base_file_reader-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_data_field_role-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_static-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_handler-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_x_base_file_writer-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_date-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_table-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_pair-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_interface-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_x_base_record_sync-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_d_console_command_holder-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_disp_timestamp-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_plain_data_matrix-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_xmlo_table-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_debug_console-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_plain_d_m_d-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___mysql_lin-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_xml_writer-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_decor_dialog-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_excel_xml_generator-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_please_wait_window-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___mysql_odbc_win-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dialog-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_press_button-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_sql_single_interface___postgresql_lin-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_hyper_doc-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dialog_data-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_factory-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_press_button_size_syncronizer-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x62.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x63.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x64.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x65.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x66.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x67.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x68.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x69.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x6b.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x6c.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x6d.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x6e.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x6f.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x70.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x71.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x72.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x73.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x74.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x75.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x76.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x77.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x78.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x79.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x7e.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dyn_table.html</link>
+     <title>gSAFE: HDynTable Class Reference</title>
+     <description>gSAFE: HDynTable Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dyn_table_disp_connector.html</link>
+     <title>gSAFE: HDynTableDispConnector Class Reference</title>
+     <description>gSAFE: HDynTableDispConnector Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dyn_table_element.html</link>
+     <title>gSAFE: HDynTableElement Class Reference</title>
+     <description>gSAFE: HDynTableElement Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dyn_table_sql_connector.html</link>
+     <title>gSAFE: HDynTableSqlConnector Class Reference</title>
+     <description>gSAFE: HDynTableSqlConnector Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x6a.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_0x7a.html</link>
+     <title>gSAFE: Class Members</title>
+     <description>gSAFE: Class Members</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x6a.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/functions_func_0x7a.html</link>
+     <title>gSAFE: Class Members - Functions</title>
+     <description>gSAFE: Class Members - Functions</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dyn_table-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dyn_table_disp_connector-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dyn_table_element-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_dyn_table_sql_connector-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_codepage850.html</link>
+     <title>gSAFE: HCodepage850 Class Reference</title>
+     <description>gSAFE: HCodepage850 Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_console_panel.html</link>
+     <title>gSAFE: HConsolePanel Class Reference</title>
+     <description>gSAFE: HConsolePanel Class Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/dir_275089585c7fc1b5fd5d7d42c69cb1da.html</link>
+     <title>gSAFE: D: Directory Reference</title>
+     <description>gSAFE: D: Directory Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/dir_6207829d120605c6ae6b440094e3f278.html</link>
+     <title>gSAFE: Melo Directory Reference</title>
+     <description>gSAFE: Melo Directory Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/dir_6c4e0910cea2224f9797a4f62c1d82d6.html</link>
+     <title>gSAFE: gSAFE Directory Reference</title>
+     <description>gSAFE: gSAFE Directory Reference</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_codepage850-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+<item>
+     <link>http://hyperprog.com/gsafe/doc/html/class_h_console_panel-members.html</link>
+     <title>gSAFE: Member List</title>
+     <description>gSAFE: Member List</description>
+     <ror:updatePeriod></ror:updatePeriod>
+     <ror:sortOrder>2</ror:sortOrder>
+     <ror:resourceOf>sitemap</ror:resourceOf>
+</item>
+</channel>
+</rss>
+  

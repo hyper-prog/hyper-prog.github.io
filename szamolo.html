@@ -37,7 +37,7 @@
                         o2 = Math.floor(Math.random() * 10000) %  (max + 1);
                         r = (m == '+' ? o1 + o2 : o1 - o2);
                     }
-                    while(m == '-' && o2 > o1);        
+                    while((m == '-' && o2 > o1) || (m == '+' && (o2+o1) > max ));
                     t = Math.floor(Math.random() * 100) % 3;
 
                     if(t==0)

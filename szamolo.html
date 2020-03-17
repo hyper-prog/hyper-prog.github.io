@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//Hu" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="HU" lang="HU" dir="ltr">
+<head>
+    <title>Feladatgeneralas</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<style type="text/css">
+    #out_area {
+        font-size: large;
+        font-family: 'Courier New', Courier, monospace;
+        line-height: 1.6;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+    <table>
+        <tr><td>Darabszám</td><td><input id="in_darab" type="number" value="30"/></td></tr>
+        <tr><td>Legnagyobb szám</td><td><input id="in_max" type="number" value="20"/></td></tr>
+        <tr><td colspan="2"><button id="in_gen">Generál</button></td></tr>
+    </table>
+    <div id="out_area">
+
+    </div>
+    <script>
+        jQuery(document).ready(function() {
+            jQuery("#in_gen").click(function() {
+                var out = "";
+                var max = parseInt(jQuery("#in_max").val());
+                var cnt = parseInt(jQuery("#in_darab").val());
+                var o1,o2,m,r,t;
+                for(i=0;i<cnt;++i)
+                {
+                    m = (Math.floor(Math.random() * 100) % 2) ? '+' : '-';
+                    do
+                    {
+                        o1 = Math.floor(Math.random() * 10000) %  (max + 1);
+                        o2 = Math.floor(Math.random() * 10000) %  (max + 1);
+                        r = (m == '+' ? o1 + o2 : o1 - o2);
+                    }
+                    while(m == '-' && o2 > o1);        
+                    t = Math.floor(Math.random() * 100) % 3;
+
+                    if(t==0)
+                        out += o1 + ' ' + m + ' ' + o2 + ' = __<br/>';
+                    if(t==1)
+                        out += o1 + ' ' + m + ' __ = ' + r + '<br/>';
+                    if(t==2)
+                        out += '__ ' + m + ' ' + o2 + ' = ' + r + '<br/>';
+                }
+                
+                jQuery("#out_area").html(out);
+            });
+        });
+        
+    </script>
+</body>
+</html>

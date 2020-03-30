@@ -16,6 +16,7 @@
     <table>
         <tr><td>Darabszám</td><td><input id="in_darab" type="number" value="30"/></td></tr>
         <tr><td>Legnagyobb szám</td><td><input id="in_max" type="number" value="20"/></td></tr>
+        <tr><td>Triviálisak kiszűrése</td><td><input type="checkbox" id="in_skiptriv"></td></tr>
         <tr><td colspan="2"><button id="in_gen">Generál</button></td></tr>
     </table>
     <div id="out_area">
@@ -27,6 +28,7 @@
                 var out = "";
                 var max = parseInt(jQuery("#in_max").val());
                 var cnt = parseInt(jQuery("#in_darab").val());
+                var triv = jQuery('#in_skiptriv').is(":checked");
                 var o1,o2,m,r,t;
                 for(i=0;i<cnt;++i)
                 {
@@ -37,7 +39,8 @@
                         o2 = Math.floor(Math.random() * 10000) %  (max + 1);
                         r = (m == '+' ? o1 + o2 : o1 - o2);
                     }
-                    while((m == '-' && o2 > o1) || (m == '+' && (o2+o1) > max ));
+                    while((m == '-' && o2 > o1) || (m == '+' && (o2+o1) > max ) ||
+                          (triv && (o1 < 2 || o2 < 2 || r < 2)));
                     t = Math.floor(Math.random() * 100) % 3;
 
                     if(t==0)

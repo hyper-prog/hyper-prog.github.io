@@ -1,0 +1,10 @@
+#!/bin/bash
+
+CHKRES=`cd /etc;metastore -c`
+if test "$CHKRES" != ""
+then
+	echo -e "The permission structure of the /etc is changed\n"
+	echo -e "Run: eg-save"
+	exit 1
+fi
+exit 0

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if test "$1" == ""
+then
+	echo "Missing parameter!"
+        echo " use: eg-commit \"Commit text\""
+	exit 1
+fi
+
+cd /etc
+echo "Save permissions (eg-save)..."
+eg-save
+echo "Add all non versioned items to git (git add --all)..."
+git add --all
+echo "Do commit (git commit .)..."
+git commit . -m "$1"

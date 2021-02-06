@@ -20,6 +20,7 @@ pre
 
 pre.console
 {
+ font-family: Consolas, monaco, monospace;
  color: #80ff80;
  background-color: #555555;
 }
@@ -46,6 +47,11 @@ pre.file p.content
  padding: 5px;
 }
 
+a.dlf {
+	float: right;
+	color:azure;
+}
+
 </style>
 </head>
 <body>
@@ -62,42 +68,43 @@ What this howto do?
 <li>Set up remote repository to git</li>
 </ul>
 
+<small>(Updated with "Buster" in 2021)</small>
 <h2>Create and set up the repository</h2>
 <p>
 First of all install the necessary packages. Git for versionig, and metastore for save-restore permissions of files and folders.
-<pre class="console">aptitude install git metastore</pre>
+<pre class="console">apt install metastore</pre>
 
 Create a directory in etc to store scripts used by apt hooks
 <pre class="console">mkdir /etc/etc-git</pre>
-<pre class="file"><p class="filename">/etc/etc-git/aptpreinstall.bash</p><p class="content">#!/bin/bash
+<pre class="file"><p class="filename">/etc/etc-git/aptpreinstall.bash<a href="aptpreinstall.bash" class="dlf">Download</a></p><p class="content">#!/bin/bash
 
-GITSTATUSOUT=`(cd /etc;git status|grep 'nothing to commit (working directory clean)')`
+GITSTATUSOUT=`(cd /etc;git status|grep 'nothing to commit, working tree clean')`
 GITDIFFOUT=`(cd /etc;git diff)`
 
-if test "$GITSTATUSOUT" != "nothing to commit (working directory clean)" ||
+if test "$GITSTATUSOUT" != "nothing to commit, working tree clean" ||
    test "$GITDIFFOUT" != ""
-   then
+then
 	echo -e "\n\n !!!WARNING!!! Uncomitted changes in /etc !!!WARNING!!!"
 	echo -e "                     ( Run: eg-commit )\n"
 	exit 1
 fi
 exit 0
 </p></pre>
-<pre class="file"><p class="filename">/etc/etc-git/aptpostinstall.bash</p><p class="content">#!/bin/bash
+<pre class="file"><p class="filename">/etc/etc-git/aptpostinstall.bash <a href="aptpostinstall.bash" class="dlf">Download</a></p><p class="content">#!/bin/bash
 
-GITSTATUSOUT=`(cd /etc;git status|grep 'nothing to commit (working directory clean)')`
+GITSTATUSOUT=`(cd /etc;git status|grep 'nothing to commit, working tree clean')`
 GITDIFFOUT=`(cd /etc;git diff)`
 DATE=`date`
 
-if test "$GITSTATUSOUT" != "nothing to commit (working directory clean)" ||
+if test "$GITSTATUSOUT" != "nothing to commit, working tree clean" ||
    test "$GITDIFFOUT" != ""
-   then
+then
 	echo -e "\n===== /etc changed need git commit ====="
 	(
 		cd /etc/
 		/usr/local/bin/eg-save
 		git add --all
-		git commit . -m "Automatic commit after apt-get ($DATE)"
+		git commit . -m "Automatic commit after apt ($DATE)"
 	)
 	echo -e "\n===== Comitted ====="
 	exit 0
@@ -107,8 +114,10 @@ exit 0
 
 Setting up apt hooks to use the scripts created above.
 <pre class="console">chmod +x /etc/etc-git/*.bash
-echo "DPkg::Pre-Invoke { '/etc/etc-git/aptpreinstall.bash' };" >> /etc/apt/apt.conf.d/90etc-git
-echo "DPkg::Post-Invoke { '/etc/etc-git/aptpostinstall.bash' };" >> /etc/apt/apt.conf.d/90etc-git</pre>
+echo "DPkg::Pre-Invoke { '/etc/etc-git/aptpreinstall.bash' };" \
+	>> /etc/apt/apt.conf.d/90etc-git
+echo "DPkg::Post-Invoke { '/etc/etc-git/aptpostinstall.bash' };" \
+	>> /etc/apt/apt.conf.d/90etc-git</pre>
 This hooks made:
 <ul>
 <li>Prevent install/upgrade packages until you have uncommitted changes in /etc</li>
@@ -126,17 +135,20 @@ git config --global user.email you@example.com</pre>
 Create some script file in /usr/local/bin
 <br/>
 
-<pre class="file"><p class="filename">/usr/local/bin/eg-save<p class="content">#!/bin/sh
+<pre class="file"><p class="filename">/usr/local/bin/eg-save<a href="eg-save" class="dlf">Download</a></p><p class="content">#!/bin/bash
+
 cd /etc
 metastore -s</pre>
 
 
-<pre class="file"><p class="filename">/usr/local/bin/eg-restore</p><p class="content">#!/bin/sh
+<pre class="file"><p class="filename">/usr/local/bin/eg-restore<a href="eg-restore" class="dlf">Download</a></p><p class="content">#!/bin/bash
+
 cd /etc
 metastore -aeq</pre>
 
 
-<pre class="file"><p class="filename">/usr/local/bin/eg-check</p><p class="content">#!/bin/bash
+<pre class="file"><p class="filename">/usr/local/bin/eg-check<a href="eg-check" class="dlf">Download</a></p><p class="content">#!/bin/bash
+
 CHKRES=`cd /etc;metastore -c`
 if test "$CHKRES" != ""
 then
@@ -147,7 +159,8 @@ fi
 exit 0</pre>
 
 
-<pre class="file"><p class="filename">/usr/local/bin/eg-commit</p><p class="content">#!/bin/bash
+<pre class="file"><p class="filename">/usr/local/bin/eg-commit<a href="eg-commit" class="dlf">Download</a></p><p class="content">#!/bin/bash
+
 if test "$1" == ""
 then
 	echo "Missing parameter!"
@@ -169,7 +182,8 @@ Now we need to create a git "pre-commit" hook to check wheter the permissions ar
 This hook warn you if the permissions of /etc changed and tell you to run eg-save before commit.<br/>
 (You think it would be nice to put "eg-save" into this "pre-commit" hook, but unfortunately the git doesn't allow to change the versioned files in this hook)<br/>
 To create the hook create this file
-<pre class="file"><p class="filename">/etc/.git/hooks/pre-commit</p><p class="content">#!/bin/sh
+<pre class="file"><p class="filename">/etc/.git/hooks/pre-commit<a href="pre-commit" class="dlf">Download</a></p><p class="content">#!/bin/bash
+
 /usr/local/bin/eg-check</pre>
 
 Don't forget to make this scripts executable
@@ -188,6 +202,12 @@ If you change something in /etc you can easely commit your changes by command
 <pre class="console">eg-commit "Message to commit"</pre>
 
 Of course, you can use all git command to tracking the changes of your /etc<br/>
+
+<!-- 
+<h2>Setting up all above with one script</h2>
+<pre class="console">eg-save
+</pre>
+-->
 
 <h2>Setting up remote repository (optional)</h2>
 

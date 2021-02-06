@@ -32,6 +32,13 @@ pre.file
  padding: 0px;
 }
 
+pre.filea
+{
+ color: rgb(51, 36, 36);
+ background-color: #e9b495;
+ padding: 0px;
+}
+
 pre.file p.filename
 {
  color: white;
@@ -42,6 +49,21 @@ pre.file p.filename
  border-top-right-radius: 8px;
 }
 pre.file p.content
+{
+ margin: 0px;
+ padding: 5px;
+}
+
+pre.filea p.filename
+{
+ color: white;
+ background-color: #333333;
+ margin: 0px;
+ padding: 3px;
+ border-top-left-radius: 8px;
+ border-top-right-radius: 8px;
+}
+pre.filea p.content
 {
  margin: 0px;
  padding: 5px;
@@ -206,7 +228,7 @@ Of course, you can use all git command to tracking the changes of your /etc<br/>
 <h2>Setting up all above with one script</h2>
 
 This script does all the works above using the download links of the scripts.
-<pre class="file"><p class="filename">create_etc_git.bash<a href="create_etc_git.bash" class="dlf">Download</a></p><p class="content">#!/bin/bash
+<pre class="filea"><p class="filename">create_etc_git.bash<a href="create_etc_git.bash" class="dlf">Download</a></p><p class="content">#!/bin/bash
 echo "Creating /etc/etc-git/ directory"
 mkdir /etc/etc-git
 curl http://hyperprog.com/howto/aptpreinstall.bash -o /etc/etc-git/aptpreinstall.bash

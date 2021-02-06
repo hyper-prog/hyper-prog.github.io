@@ -3,7 +3,7 @@
 if test "$1" == ""
 then
 	echo "Missing parameter!"
-        echo " use: eg-commit \"Commit text\""
+    echo " use: eg-commit \"Commit text\""
 	exit 1
 fi
 

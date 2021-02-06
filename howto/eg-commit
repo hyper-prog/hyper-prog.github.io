@@ -2,9 +2,9 @@
 
 if test "$1" == ""
 then
-	echo "Missing parameter!"
+    echo "Missing parameter!"
     echo " use: eg-commit \"Commit text\""
-	exit 1
+    exit 1
 fi
 
 cd /etc

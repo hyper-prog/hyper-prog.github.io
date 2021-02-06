@@ -7,9 +7,9 @@ chmod +x /etc/etc-git/*.bash
 
 echo "Set up APT hooks"
 echo "DPkg::Pre-Invoke { '/etc/etc-git/aptpreinstall.bash' };" \
-	>> /etc/apt/apt.conf.d/90etc-git
+  >> /etc/apt/apt.conf.d/90etc-git
 echo "DPkg::Post-Invoke { '/etc/etc-git/aptpostinstall.bash' };" \
-	>> /etc/apt/apt.conf.d/90etc-git
+  >> /etc/apt/apt.conf.d/90etc-git
 
 echo "Creating scripts in /usr/local/bin"
 curl http://hyperprog.com/howto/eg-save -o /usr/local/bin/eg-save

@@ -48,8 +48,8 @@ pre.file p.content
 }
 
 a.dlf {
-	float: right;
-	color:azure;
+ float: right;
+ color:azure;
 }
 
 </style>
@@ -84,9 +84,9 @@ GITDIFFOUT=`(cd /etc;git diff)`
 if test "$GITSTATUSOUT" != "nothing to commit, working tree clean" ||
    test "$GITDIFFOUT" != ""
 then
-	echo -e "\n\n !!!WARNING!!! Uncomitted changes in /etc !!!WARNING!!!"
-	echo -e "                     ( Run: eg-commit )\n"
-	exit 1
+    echo -e "\n\n !!!WARNING!!! Uncomitted changes in /etc !!!WARNING!!!"
+    echo -e "                     ( Run: eg-commit )\n"
+    exit 1
 fi
 exit 0
 </p></pre>
@@ -99,15 +99,15 @@ DATE=`date`
 if test "$GITSTATUSOUT" != "nothing to commit, working tree clean" ||
    test "$GITDIFFOUT" != ""
 then
-	echo -e "\n===== /etc changed need git commit ====="
-	(
-		cd /etc/
-		/usr/local/bin/eg-save
-		git add --all
-		git commit . -m "Automatic commit after apt ($DATE)"
-	)
-	echo -e "\n===== Comitted ====="
-	exit 0
+    echo -e "\n===== /etc changed need git commit ====="
+    (
+        cd /etc/
+        /usr/local/bin/eg-save
+        git add --all
+        git commit . -m "Automatic commit after apt ($DATE)"
+    )
+    echo -e "\n===== Comitted ====="
+    exit 0
 fi
 exit 0
 </p></pre>
@@ -115,9 +115,9 @@ exit 0
 Setting up apt hooks to use the scripts created above.
 <pre class="console">chmod +x /etc/etc-git/*.bash
 echo "DPkg::Pre-Invoke { '/etc/etc-git/aptpreinstall.bash' };" \
-	>> /etc/apt/apt.conf.d/90etc-git
+    >> /etc/apt/apt.conf.d/90etc-git
 echo "DPkg::Post-Invoke { '/etc/etc-git/aptpostinstall.bash' };" \
-	>> /etc/apt/apt.conf.d/90etc-git</pre>
+    >> /etc/apt/apt.conf.d/90etc-git</pre>
 This hooks made:
 <ul>
 <li>Prevent install/upgrade packages until you have uncommitted changes in /etc</li>
@@ -152,9 +152,9 @@ metastore -aeq</pre>
 CHKRES=`cd /etc;metastore -c`
 if test "$CHKRES" != ""
 then
-	echo -e "The permission structure of the /etc is changed\n"
-	echo -e "Run: eg-save"
-	exit 1
+    echo -e "The permission structure of the /etc is changed\n"
+    echo -e "Run: eg-save"
+    exit 1
 fi
 exit 0</pre>
 
@@ -163,9 +163,9 @@ exit 0</pre>
 
 if test "$1" == ""
 then
-	echo "Missing parameter!"
-        echo " use: eg-commit \"Commit text\""
-	exit 1
+    echo "Missing parameter!"
+    echo " use: eg-commit \"Commit text\""
+    exit 1
 fi
 
 cd /etc
@@ -215,9 +215,9 @@ chmod +x /etc/etc-git/*.bash
 
 echo "Set up APT hooks"
 echo "DPkg::Pre-Invoke { '/etc/etc-git/aptpreinstall.bash' };" \
-	>> /etc/apt/apt.conf.d/90etc-git
+  >> /etc/apt/apt.conf.d/90etc-git
 echo "DPkg::Post-Invoke { '/etc/etc-git/aptpostinstall.bash' };" \
-	>> /etc/apt/apt.conf.d/90etc-git
+  >> /etc/apt/apt.conf.d/90etc-git
 
 echo "Creating scripts in /usr/local/bin"
 curl http://hyperprog.com/howto/eg-save -o /usr/local/bin/eg-save

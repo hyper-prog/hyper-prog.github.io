@@ -13,23 +13,47 @@
 </style>
 </head>
 <body>
-    <h3>Összeadás, kivonás</h3>
-    <a href="szamolo2.html">Szorzás, osztás</a>
+    <h3 id="tt00">Addition, subtraction</h3>
+    <div id="lngchange"></div>
+    <br/>
+    <a href="szamolo2.html" id="sz2lnk">Multiplying, dividing</a>
     <br/><br/>
     <table>
-        <tr><td>Darabszám</td><td><input id="in_darab" type="number" value="30"/></td></tr>
-        <tr><td>Legnagyobb szám</td><td><input id="in_max" type="number" value="20"/></td></tr>
-        <tr><td>Triviálisak kiszűrése</td><td><input type="checkbox" id="in_skiptriv"></td></tr>
-        <tr><td>Űrlapos változat</td><td><input type="checkbox" id="in_webform"></td></tr>
+        <tr><td id="tt01">Quantity</td><td><input id="in_darab" type="number" value="30"/></td></tr>
+        <tr><td id="tt02">Biggest number</td><td><input id="in_max" type="number" value="20"/></td></tr>
+        <tr><td id="tt03">Filter out the trivial</td><td><input type="checkbox" id="in_skiptriv" checked></td></tr>
+        <tr><td id="tt04">Form version</td><td><input type="checkbox" id="in_webform" checked></td></tr>
         <tr><td colspan="2">
-            <button id="in_gen">Generál</button>
-            <button id="in_check">Ellenőriz</button>
+            <button id="in_gen">Generate</button>
+            <button id="in_check">Check</button>
         </td></tr>
     </table>
     <div id="out_area">
 
     </div>
     <script>
+        var lang='en';
+
+        address = window.location.search
+        parameterList = new URLSearchParams(address)
+        if(parameterList.get("lang") == 'hu')
+        {
+            lang='hu';
+            jQuery('#tt00').html('Összeadás, kivonás');
+            jQuery('#tt01').html('Darabszám');
+            jQuery('#tt02').html('Legnagyobb szám');
+            jQuery('#tt03').html('Triviálisak kiszűrése');
+            jQuery('#tt04').html('Űrlapos verzió');
+            jQuery('#in_gen').html('Generál');
+            jQuery('#in_check').html('Ellenőriz');
+            jQuery('#sz2lnk').html('Szorzás, osztás');
+            jQuery('#lngchange').html('<small><a href="http://hyperprog.com/szamolo.html">ENG</a></small>');
+        }
+        else
+        {
+            jQuery('#lngchange').html('<small><a href="http://hyperprog.com/szamolo.html?lang=hu">HUN</a></small>');
+        }
+
         jQuery(document).ready(function() {
             jQuery("#in_gen").click(function() {
                 var out = "";
@@ -86,7 +110,10 @@
                     v = jQuery('#qv_'+i).val();
                     if(v == '' || v == undefined)
                     {
-                        alert('Csak akkor ellenőrizhető a feladatsor, ha minden feladat meg van oldva!');
+                        if(lang=='hu')
+                            alert('Csak akkor ellenőrizhető a feladatsor, ha minden feladat meg van oldva!');
+                        else
+                            alert('The series of exercises can only be checked if all field is filled!');
                         return;
                     }
                 }
@@ -97,9 +124,19 @@
                     v = jQuery('#qv_'+i).val();
 
                     if(v != '' && v != undefined && v == (h/1171))
-                        jQuery('#qc_'+i).html('<font color="#44ff44;"> Helyes!</font>');
+                    {
+                        if(lang=='hu')
+                            jQuery('#qc_'+i).html('<font color="#44ff44;"> Helyes!</font>');
+                        else
+                            jQuery('#qc_'+i).html('<font color="#44ff44;"> Correct!</font>');
+                    }
                     else
-                        jQuery('#qc_'+i).html('<font color="#ff4444;"> Helytelen!</font>');
+                    {
+                        if(lang=='hu')
+                            jQuery('#qc_'+i).html('<font color="#ff4444;"> Helytelen!</font>');
+                        else
+                            jQuery('#qc_'+i).html('<font color="#ff4444;"> Incorrect!</font>');
+                    }
                 }
             });
 

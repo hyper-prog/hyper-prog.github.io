@@ -13,25 +13,51 @@
 </style>
 </head>
 <body>
-    <h3>Szorzás, osztás</h3>
-    <a href="szamolo.html">Összeadás, kivonás</a>
+    <h3 id="tt00">Multiplying, dividing</h3>
+    <div id="lngchange"></div>
+    <br/>
+    <a href="szamolo.html" id="szlnk">Addition, subtraction</a>
     <br/><br/>
     <table>
-        <tr><td>Darabszám</td><td><input id="in_darab" type="number" value="30"/></td></tr>
-        <tr><td>Legnagyobb első tényező</td><td><input id="in_maxa" type="number" value="10"/></td></tr>
-        <tr><td>Legnagyobb második tényező</td><td><input id="in_maxb" type="number" value="10"/></td></tr>
-        <tr><td>Csak eredményt kérése</td><td><input type="checkbox" id="in_resonly"></td></tr>
-        <tr><td>Triviálisak kiszűrése</td><td><input type="checkbox" id="in_skiptriv"></td></tr>
-        <tr><td>Űrlapos változat</td><td><input type="checkbox" id="in_webform"></td></tr>
+        <tr><td id="tt01">Quantity</td><td><input id="in_darab" type="number" value="30"/></td></tr>
+        <tr><td id="tt02">Biggest first factor</td><td><input id="in_maxa" type="number" value="10"/></td></tr>
+        <tr><td id="tt03">Biggest second factor</td><td><input id="in_maxb" type="number" value="10"/></td></tr>
+        <tr><td id="tt04">Request results only</td><td><input type="checkbox" id="in_resonly"></td></tr>
+        <tr><td id="tt05">Filter out the trivial</td><td><input type="checkbox" id="in_skiptriv" checked></td></tr>
+        <tr><td id="tt06">Form version</td><td><input type="checkbox" id="in_webform" checked></td></tr>
         <tr><td colspan="2">
-            <button id="in_gen">Generál</button>
-            <button id="in_check">Ellenőriz</button>
+            <button id="in_gen">Generate</button>
+            <button id="in_check">Check</button>
         </td></tr>
     </table>
     <div id="out_area">
 
     </div>
     <script>
+        var lang='en';
+
+        address = window.location.search
+        parameterList = new URLSearchParams(address)
+        if(parameterList.get("lang") == 'hu')
+        {
+            lang='hu';
+            jQuery('#tt00').html('Szorzás, osztás');
+            jQuery('#tt01').html('Darabszám');
+            jQuery('#tt02').html('Legnagyobb első tényező');
+            jQuery('#tt03').html('Legnagyobb második tényező');
+            jQuery('#tt04').html('Csak eredményt kérése');
+            jQuery('#tt05').html('Triviálisak kiszűrése');
+            jQuery('#tt06').html('Űrlapos változat');
+            jQuery('#in_gen').html('Generál');
+            jQuery('#in_check').html('Ellenőriz');
+            jQuery('#szlnk').html('Összeadás, kivonás');
+            jQuery('#lngchange').html('<small><a href="http://hyperprog.com/szamolo2.html">ENG</a></small>');
+        }
+        else
+        {
+            jQuery('#lngchange').html('<small><a href="http://hyperprog.com/szamolo2.html?lang=hu">HUN</a></small>');
+        }
+
         jQuery(document).ready(function() {
             jQuery("#in_gen").click(function() {
                 var out = "";
@@ -108,7 +134,10 @@
                     v = jQuery('#qv_'+i).val();
                     if(v == '' || v == undefined)
                     {
-                        alert('Csak akkor ellenőrizhető a feladatsor, ha minden feladat meg van oldva!');
+                        if(lang=='hu')
+                            alert('Csak akkor ellenőrizhető a feladatsor, ha minden feladat meg van oldva!');
+                        else
+                            alert('The series of exercises can only be checked if all field is filled!');
                         return;
                     }
                 }
@@ -119,9 +148,19 @@
                     v = jQuery('#qv_'+i).val();
 
                     if(v != '' && v != undefined && v == (h/1171))
-                        jQuery('#qc_'+i).html('<font color="#44ff44;"> Helyes!</font>');
+                    {
+                        if(lang=='hu')
+                            jQuery('#qc_'+i).html('<font color="#44ff44;"> Helyes!</font>');
+                        else
+                            jQuery('#qc_'+i).html('<font color="#44ff44;"> Correct!</font>');
+                    }
                     else
-                        jQuery('#qc_'+i).html('<font color="#ff4444;"> Helytelen!</font>');
+                    {
+                        if(lang=='hu')
+                            jQuery('#qc_'+i).html('<font color="#ff4444;"> Helytelen!</font>');
+                        else
+                            jQuery('#qc_'+i).html('<font color="#ff4444;"> Incorrect!</font>');
+                    }
                 }
             });
         });

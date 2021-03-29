@@ -22,7 +22,11 @@
         <tr><td>Legnagyobb második tényező</td><td><input id="in_maxb" type="number" value="10"/></td></tr>
         <tr><td>Csak eredményt kérése</td><td><input type="checkbox" id="in_resonly"></td></tr>
         <tr><td>Triviálisak kiszűrése</td><td><input type="checkbox" id="in_skiptriv"></td></tr>
-        <tr><td colspan="2"><button id="in_gen">Generál</button></td></tr>
+        <tr><td>Űrlapos változat</td><td><input type="checkbox" id="in_webform"></td></tr>
+        <tr><td colspan="2">
+            <button id="in_gen">Generál</button>
+            <button id="in_check">Ellenőriz</button>
+        </td></tr>
     </table>
     <div id="out_area">
 
@@ -31,12 +35,16 @@
         jQuery(document).ready(function() {
             jQuery("#in_gen").click(function() {
                 var out = "";
+                jQuery('#in_check').prop('disabled', false);
                 var maxa = parseInt(jQuery("#in_maxa").val());
                 var maxb = parseInt(jQuery("#in_maxb").val());
                 var cnt = parseInt(jQuery("#in_darab").val());
                 var triv = jQuery('#in_skiptriv').is(":checked");
                 var resonly = jQuery('#in_resonly').is(":checked");
+                var webform = jQuery('#in_webform').is(":checked");
                 var o1,o2,m,r,t;
+                if(!webform)
+                    jQuery('#in_check').prop('disabled', true);
                 for(i=0;i<cnt;++i)
                 {
                     m = (Math.floor(Math.random() * 100) % 2) ? '*' : '/';
@@ -46,32 +54,76 @@
                         o2 = Math.floor(Math.random() * 10000) %  (maxb + 1);
                         r = o1 * o2;
                     }
-                    while((m=='/' && o2 == 0) || (o1 < 2 && o2 < 2) || (triv && (o1 < 2 || o2 < 2)));
+                    while((m=='/' && o2 == 0) || (o1 == 0 && o2 == 0) || (o1 < 2 && o2 < 2) || (triv && (o1 < 2 || o2 < 2)));
                     t = 0;
                     if(!resonly)
                         t = Math.floor(Math.random() * 100) % 3;
 
+                    pholder_r = '__';
+                    pholder_c = '';
+                    if(webform)
+                    {
+                        pholder_r = '<input type="text" id="qv_'+i+'" value="" maxwidth="3" size="3">';
+                        pholder_c = '<span id="qc_'+i+'"></span>';
+                    }
                     if(m == '*')
                     {
                         if(t==0)
-                            out += o1 + ' ' + m + ' ' + o2 + ' = __<br/>';
+                            out += o1 + ' ' + m + ' ' + o2 + ' = ' + pholder_r + 
+                                   '<input type="hidden" id="qh_'+i+'" value="' + r*1171 + '"/>' +
+                                   pholder_c +'<br/>';
                         if(t==1)
-                            out += o1 + ' ' + m + ' __ = ' + r + '<br/>';
+                            out += o1 + ' ' + m + ' ' + pholder_r + ' = ' + r + 
+                                   '<input type="hidden" id="qh_'+i+'" value="' + o2*1171 + '"/>' +
+                                   pholder_c +'<br/>';
                         if(t==2)
-                            out += '__ ' + m + ' ' + o2 + ' = ' + r + '<br/>';
+                            out += pholder_r + ' ' + m + ' ' + o2 + ' = ' + r + 
+                                   '<input type="hidden" id="qh_'+i+'" value="' + o1*1171 + '"/>' +
+                                   pholder_c +'<br/>';
                     }
                     if(m == '/')
                     {
                         if(t==0)
-                            out += r + ' ' + m + ' ' + o1 + ' = __<br/>';
+                            out += r + ' ' + m + ' ' + o1 + ' = ' + pholder_r + 
+                                   '<input type="hidden" id="qh_'+i+'" value="' + o2*1171 + '"/>' +
+                                   pholder_c +'<br/>';
                         if(t==1)
-                            out += r + ' ' + m + ' __ = ' + o2 + '<br/>';
+                            out += r + ' ' + m + ' ' + pholder_r + ' = ' + o2 + 
+                                   '<input type="hidden" id="qh_'+i+'" value="' + o1*1171 + '"/>' +
+                                    pholder_c +'<br/>';
                         if(t==2)
-                            out += '__ ' + m + ' ' + o1 + ' = ' + o2 + '<br/>';
+                            out += pholder_r + ' ' + m + ' ' + o1 + ' = ' + o2 + 
+                                   '<input type="hidden" id="qh_'+i+'" value="' + r*1171 + '"/>' +
+                                   pholder_c +'<br/>';
                     }
                 }
                 
                 jQuery("#out_area").html(out);
+            });
+            jQuery("#in_check").click(function() {
+                var out = "";
+                var cnt = parseInt(jQuery("#in_darab").val());
+                for(i=0;i<cnt;++i)
+                {
+                    v = jQuery('#qv_'+i).val();
+                    if(v == '' || v == undefined)
+                    {
+                        alert('Csak akkor ellenőrizhető a feladatsor, ha minden feladat meg van oldva!');
+                        return;
+                    }
+                }
+                jQuery('#in_check').prop('disabled', true);
+                for(i=0;i<cnt;++i)
+                {
+                    h = jQuery('#qh_'+i).val();
+                    v = jQuery('#qv_'+i).val();
+
+                    if(v != '' && v != undefined && v == (h/1171))
+                        jQuery('#qc_'+i).html('<font color="#44ff44;"> Helyes!</font>');
+                    else
+                        jQuery('#qc_'+i).html('<font color="#ff4444;"> Helytelen!</font>');
+                }
+                
             });
         });
         

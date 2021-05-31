@@ -1,52 +1,62 @@
 body
 {
-background-color:#fff0bb;
+background-color:#eeeeee;
 }
 h2,h3
 {
 padding:0px;
 margin:5px;
 }
+
+@media only screen and (max-width: 1000px) {
+  div.program { width: 92%; }
+  div.docs { width: 92%; }
+  div.downloads { width: 92%; }
+}
+
+@media only screen and (min-width: 1001px) {
+  div.program { width: 75%; }
+  div.docs { width: 75%; }
+  div.downloads { width: 75%; }
+}
+
 div.program
 {
-width:900px;
 padding:10px;
 border:1px solid gray;
 margin:12px;
 background-color:#ffffff;
--khtml-border-radius: 12px;
--webkit-border-radius: 12px;
--moz-border-radius: 12px;
-border-radius: 12px;
-box-shadow: 8px 8px 4px #888888;
+-khtml-border-radius: 8px;
+-webkit-border-radius: 8px;
+-moz-border-radius: 8px;
+border-radius: 8px;
+box-shadow: 5px 5px 4px #888888;
 }
 
 div.docs
 {
-width:900px;
 padding:10px;
 border:1px solid gray;
 margin:12px;
-background-color:#e0ffd0;
--khtml-border-radius: 12px;
--webkit-border-radius: 12px;
--moz-border-radius: 12px;
-border-radius: 12px;
-box-shadow: 8px 8px 4px #888888;
+background-color:#e6ffda;
+-khtml-border-radius: 8px;
+-webkit-border-radius: 8px;
+-moz-border-radius: 8px;
+border-radius: 8px;
+box-shadow: 5px 5px 4px #888888;
 }
 
 div.downloads
 {
-width:900px;
 padding:10px;
 border:1px solid gray;
 margin:12px;
-background-color:#ffbbaa;
--khtml-border-radius: 12px;
--webkit-border-radius: 12px;
--moz-border-radius: 12px;
-border-radius: 12px;
-box-shadow: 8px 8px 4px #888888;
+background-color:#fcf9be;
+-khtml-border-radius: 8px;
+-webkit-border-radius: 8px;
+-moz-border-radius: 8px;
+border-radius: 8px;
+box-shadow: 5px 5px 4px #888888;
 }
 
 ul.menu

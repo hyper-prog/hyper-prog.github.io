@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Cron module</title>
+  <meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css"/>
+  <link rel="stylesheet" type="text/css" href="default.css"/>
+  <link rel="stylesheet" type="text/css" href="ckcomm.css"/>
+  <link rel="stylesheet" type="text/css" href="flex.css"/>
+  <script type="text/javascript" src="highlight.pack.js"></script>
+</head>
+<body>
+ <div class="content"><div class="ccdoccontent"><a name="pos_1"><h1>Cron module</h1></a>
+<p>Module name: <strong>cron</strong>
+<br/>
+You have to enable this module in <code>site/_modules.php</code> file to use it.<br/>
+</p>
+<p>This module enables you to run <em>scheduled tasks</em>(php functions), which are desired to run after specified interval
+in specified time. The tasks can be defined by the <code>HOOK_cron</code> <a href="hooks.html">hook</a>.
+</p>
+<p>If the codkepmodules are located under the <code>site</code> directory, you can enable cron module by adding the following line
+to the <code>_modules.php</code>:
+</p><pre><code class="php">"cron" =&gt; "codkepmodules/cron/cron.php",
+</code></pre><a name="pos_2"><h3>Trigger the cron module to operate</h3></a>
+<p>The cron module does not triggered automatically because the CodKep is only run under http page load.
+If the page is not visited until a large period of time the system does not receive the control to run anything.
+</p>
+<p>This module (by default) define a path <code>/cron</code> which can be used to trigger the cron module.
+This <code>/cron</code> path receives a <code>cron_key</code> parameter to prevent unauthorized requests.
+<br/>
+You have to set this <code>cron_key</code> value in <code>_settings.php</code>. (Empty by default, and not work this way)
+</p><pre><code class="php">//_settings.php
+...
+global $codkep_cron;
+$codkep_cron-&gt;cron_key = 'SampleCronKeyValue0123456789ABCDefghij';
+</code></pre><p>If the <code>cron_key</code> value is set, you can trigger the cron system by a simple curl command.
+(Recommended to place in cron)
+</p><pre><code class="code">#With cleanurl:
+curl -s -k https://mysite.local/cron?cron_key=SampleCronKeyValue0123456789ABCDefghij &gt; /dev/null
+#Without clean url
+curl -s -k https://mysite.local/index.php?q=cron&cron_key=SampleCronKeyValue0123456789ABCDefghij &gt; /dev/null
+</code></pre><p>The time interval you set in cron affects the precision of the scheduling of tasks. More frequent triggering time
+enables more precise scheduling with more performance waste.
+</p><a name="pos_3"><h3>Poor man's cron</h3></a>
+<p>Although not recommended, it is possible to trigger cron tasks after every page load in <code>HOOK_after_deliver</code> hook
+in case you can not call the <code>/cron</code> path externally.
+</p>
+<p>Please avoid this, because this case the cron system is triggered and run after every
+page load which can be a performance bottleneck.
+</p><pre><code class="php">function hook_mymodule_after_deliver()
+{
+    cronmodule_tick();
+}
+</code></pre><a name="pos_3"><h2>Defining a scheduled task</h2></a>
+<p>You can define scheduled tasks by the <code>HOOK_cron</code> <a href="hooks.html">hook</a>.
+The hook should return simple arrays of associated array, where each associative array define a task to schedule.
+</p>
+<p>The inner associative array could be the following values:
+</p>
+<ul><li><code>"callback"</code> = callback function name
+<ul><li><strong>This is a mandatory field</strong>, contains the callback function name to run as scheduled task.</li></ul></li><li><code>"interval_minute"</code> = number,
+<ul><li>Adds the specified number of minutes to the wait time between running the desired task.</li></ul></li><li><code>"interval_hour"</code> = number
+<ul><li>Adds the specified number of hours to the wait time between running the desired task.</li></ul></li><li><code>"interval_day"</code> = number
+<ul><li>Adds the specified number of days to the wait time between running the desired task.</li></ul></li><li><code>"interval_month"</code> = number
+<ul><li>Adds the specified number of months to the wait time between running the desired task.</li></ul></li><li><code>"waituntil_minute"</code> = number
+<ul><li>The task is only executed when the current minute is equal or greater than the value specified here.</li></ul></li><li><code>"waituntil_hour"</code> = number
+<ul><li>The task is only executed when the current hour is equal or greater than the value specified here.</li></ul></li><li><code>"waituntil_dayofweek"</code> = number
+<ul><li>The task is only executed when the current day of the week is equal or greater than the value specified here.
+<ul><li>0 is Saturday</li><li>1 is Monday</li><li>2 is Tuesday</li><li>3 is Wednesday</li><li>4 is Thursday</li><li>5 is Friday</li><li>6 is Saturday</li></ul></li></ul></li><li><code>"waituntil_dayofmonth"</code> = number
+<ul><li>The task is only executed when the current day of the month is equal or greater than the value specified here.</li></ul></li><li><code>"waituntil_monthofyear"</code> = number
+<ul><li>The task is only executed when the current month is equal or greater than the value specified here.</li></ul></li></ul><p><strong>The task is performed when the cumulative time interval has elapsed since the last run</strong>
+<strong> and the specified wait restrictions have been met.</strong>
+<img src="images/ckcrontimes.png"  style="" alt="ckcrontimes.png"/>
+</p>
+<p>The following sample code defined two task:
+</p><pre><code class="php">function hook_mymodule_cron()
+{
+    return
+    [
+        [
+            'callback' =&gt; 'every_week_saturday_morning',
+            'interval_day' =&gt; 6,
+            'waituntil_dayofweek' =&gt; 6,
+            'waituntil_hour' =&gt; 7,
+        ],
+        [
+            'callback' =&gt; 'every_day_dawn',
+            'interval_hour' =&gt; 22,
+            'waituntil_hour' =&gt; 4,
+            'waituntil_minute' =&gt; 30,
+        ],
+    ];
+}
+
+function every_week_saturday_morning()
+{
+    // Runs every week on saturday after 7:00am
+}
+
+function every_day_dawn()
+{
+    // Runs every day after 4:30am
+}
+</code></pre><a name="pos_4"><h2>Settings</h2></a>
+<p>The cron module have some settings which can set <a href="modules.html#site_settings">in site settings</a>.
+</p>
+<p></p>
+<table><thead>
+<tr><th>name</th><th>default</th><th>description</th></tr></thead>
+<tbody>
+<tr><td><small> <code>$codkep_cron->cron_key</code>                    </small></td><td><small> "" </small></td><td>You have to set an arbitrary key value here, which required to pass as <code>cron_key</code> parameter when externally trigger the <code>cron</code> url path.</td></tr>
+<tr><td><small> <code>$codkep_cron->define_routes</code>               </small></td><td><small> true </small></td><td>If this value is set the cron module defines the <code>cron</code> path.</td></tr>
+<tr><td><small> <code>$codkep_cron->block_unauthorized_requests</code> </small></td><td><small> true </small></td><td>If this value is set the cron module use the CodKep's client ip blocking mechanism to block unauthorized (failed) cron requests. See user module to tune block system.</td></tr>
+<tr><td><small> <code>$codkep_cron->urls</code>                        </small></td><td><small> "cron" </small></td><td>This value contains the default path of the cron module to externally trigger cron.</td></tr>
+<tr><td><small> <code>$codkep_cron->lastrun_sqltable</code>            </small></td><td><small> "cron_lastrun" </small></td><td>This value holds the sql table name which used to store the task's last running time.</td></tr>
+<tr><td><small> <code>$codkep_cron->runinfo_to_log</code>              </small></td><td><small> true </small></td><td>If this value is true the module generate a log message when a task is executed.</td></tr>
+<tr><td><small> <code>$codkep_cron->debug_to_log</code>                </small></td><td><small> false </small></td><td>If this value is true the module write detailed information to log about the scheduling time of the tasks. (In every cron trigger action)</td></tr></tbody></table></div><script>hljs.initHighlightingOnLoad();</script><div class="ccdocpanel"><ul class="docsidemenu no-print"><li><a href="start.html">CodKep introduction</a><ul class=" closed"><li><a href="start.html#pos_2">What is CodKep</a></li><li><a href="start.html#pos_3">The main chapters of this document</a></li><li><a href="start.html#pos_4">Author, License</a></li></ul></li><li><a href="modules.html">Installing, Modules</a><ul class=" closed"><li><a href="modules.html#pos_2">Installing codkep</a></li><li><a href="modules.html#pos_3">Directories</a></li><li><a href="modules.html#pos_4">Site settings, configuration</a></li><li><a href="modules.html#pos_5">Modules</a></li><li><a href="modules.html#pos_6">Modules located in more subdirectory</a></li><li><a href="modules.html#pos_7">After you create your own module...</a></li></ul></li><li><a href="routes.html">Routes</a><ul class=" closed"><li><a href="routes.html#pos_2">Add custom locations</a></li><li><a href="routes.html#pos_3">The route definition array</a></li><li><a href="routes.html#pos_4">Parameters in URL</a></li><li><a href="routes.html#pos_5">Caching routes</a></li><li><a href="routes.html#pos_6">Generating URLs</a></li><li><a href="routes.html#pos_7">Generating Links</a></li><li><a href="routes.html#pos_8">Redirections</a></li><li><a href="routes.html#pos_9">Tags</a></li><li><a href="routes.html#pos_10">Clean URLs</a></li><li><a href="routes.html#pos_11">Hooks related to routes</a></li></ul></li><li><a href="hooks.html">Hooks</a><ul class=" closed"><li><a href="hooks.html#pos_2">Implement hooks</a></li><li><a href="hooks.html#pos_3">Interaction of hooks</a></li><li><a href="hooks.html#pos_4">Hook sequence of a page load</a></li><li><a href="hooks.html#pos_5">Create hooks</a></li><li><a href="hooks.html#pos_6">Caching hooks</a></li><li><a href="hooks.html#pos_7">Change hook order</a></li><li><a href="hooks.html#pos_8">Debugging hooks</a></li><li><a href="hooks.html#pos_9">Hooks</a></li></ul></li><li><a href="parameters.html">Parameters</a><ul class=" closed"><li><a href="parameters.html#pos_2">Defining parameters</a></li><li><a href="parameters.html#pos_3">Defining in route definition array</a></li><li><a href="parameters.html#pos_4">Using parameters</a></li><li><a href="parameters.html#pos_5">Other parameter related functions</a></li><li><a href="parameters.html#pos_6">Security classes</a></li><li><a href="parameters.html#pos_7">Parameter handling relates settings</a></li><li><a href="parameters.html#pos_8">Hooks</a></li></ul></li><li><a href="structure.html">Themes</a><ul class=" closed"><li><a href="structure.html#pos_2">Functions unrelated to themes</a></li><li><a href="structure.html#pos_3">Using of themes</a></li><li><a href="structure.html#pos_4">Place your own content to a site area</a></li><li><a href="structure.html#pos_5">Settings of flex theme</a></li><li><a href="structure.html#pos_6">Create own themes</a></li><li><a href="structure.html#pos_7">Menu system</a></li><li><a href="structure.html#pos_8">Custom themes and menu generation</a></li><li><a href="structure.html#pos_9">Hooks</a></li></ul></li><li><a href="ajax.html">Ajax framework</a><ul class=" closed"><li><a href="ajax.html#pos_2">Start ajax requests</a></li><li><a href="ajax.html#pos_3">1. Place an user (click) triggered ajax link in html code</a></li><li><a href="ajax.html#pos_4">2. Set HTML form action to ajax</a></li><li><a href="ajax.html#pos_5">3. Place a delayed ajax call to the page</a></li><li><a href="ajax.html#pos_6">4. Fill page parts/block by simply call fill_through_ajax() function</a></li><li><a href="ajax.html#pos_7">The ajax handler</a></li><li><a href="ajax.html#pos_8">Ajax commands</a></li><li><a href="ajax.html#pos_9">A complex ajax example (Version 1 - standard)</a></li><li><a href="ajax.html#pos_10">A complex ajax example (Version 2 - autorouted)</a></li></ul></li><li><a href="sql.html">Sql</a><ul class=" closed"><li><a href="sql.html#pos_2">Sql database settings</a></li><li><a href="sql.html#pos_3">Connect and disconnect</a></li><li><a href="sql.html#pos_4">Execute SQL commands</a></li><li><a href="sql.html#pos_5">General database CRUD interface</a></li><li><a href="sql.html#pos_6">Methods of DatabaseQuery</a></li><li><a href="sql.html#pos_7">Methods of DatabaseCond</a></li><li><a href="sql.html#pos_8">Simple and easy database operations</a></li><li><a href="sql.html#pos_9">Sql transactions</a></li><li><a href="sql.html#pos_10">Error handling</a></li><li><a href="sql.html#pos_11">Schema editor</a></li><li><a href="sql.html#pos_12">Define sql schema requirements</a></li><li><a href="sql.html#pos_13">Hooks</a></li></ul></li><li><a href="files.html">Files</a><ul class=" closed"><li><a href="files.html#pos_2">Storing type</a></li><li><a href="files.html#pos_3">File class</a></li><li><a href="files.html#pos_4">Fixed properties of the File object</a></li><li><a href="files.html#pos_5">Methods of File object</a></li><li><a href="files.html#pos_6">Helper functions of File class</a></li><li><a href="files.html#pos_7">File access control</a></li><li><a href="files.html#pos_8">Tricks with file hooks</a></li><li><a href="files.html#pos_9">Image size classes</a></li><li><a href="files.html#pos_10">Settings of the file module</a></li><li><a href="files.html#pos_11">Hooks</a></li></ul></li><li><a href="forms.html">Forms</a><ul class=" closed"><li><a href="forms.html#pos_2">Simple HTML form generation</a></li><li><a href="forms.html#pos_3">Form checker method</a></li><li><a href="forms.html#pos_4">The SpeedForm </a></li><li><a href="forms.html#pos_5">Methods of SpeedForm</a></li><li><a href="forms.html#pos_6">Data definition structure</a></li><li><a href="forms.html#pos_7">The structure : Top level attributes</a></li><li><a href="forms.html#pos_8">Field types</a></li><li><a href="forms.html#pos_9">Common field attributes</a></li><li><a href="forms.html#pos_10">Output format of SpeedForm</a></li><li><a href="forms.html#pos_11">Query and Add field types</a></li><li><a href="forms.html#pos_12">Data definition structure repository</a></li><li><a href="forms.html#pos_13">Helper functions</a></li><li><a href="forms.html#pos_14">Settings of the forms module</a></li><li><a href="forms.html#pos_15">Hooks</a></li></ul></li><li><a href="tablegen.html">Table generator</a><ul class=" closed"><li><a href="tablegen.html#pos_2">Html table generation</a></li><li><a href="tablegen.html#pos_3">Excel output generator</a></li><li><a href="tablegen.html#pos_4">Convert Excel XML tables to HTML tables</a></li></ul></li><li><a href="totable.html">Query formatter</a><ul class=" closed"><li><a href="totable.html#pos_2">Automatic output generator for sql queries</a></li><li><a href="totable.html#pos_3">Input of to_table()</a></li><li><a href="totable.html#pos_4">Output of to_table()</a></li><li><a href="totable.html#pos_5">Options affects the whole table</a></li><li><a href="totable.html#pos_6">Change the number or/and the order of the fields</a></li><li><a href="totable.html#pos_7">Customize of fields</a></li><li><a href="totable.html#pos_8">Modify the value of the fields</a></li><li><a href="totable.html#pos_9">Using virtual fields</a></li><li><a href="totable.html#pos_10">Using field repository</a></li><li><a href="totable.html#pos_11">Using field repository directly from SQL</a></li><li><a href="totable.html#pos_12">Backend of to_table()</a></li><li><a href="totable.html#pos_13">Generate HTML and Excel tables with same way</a></li></ul></li><li><a href="dyntable.html">DynTable</a><ul class=" closed"><li><a href="dyntable.html#pos_2">Methods of DynTable class</a></li><li><a href="dyntable.html#pos_3">Data definition structure</a></li><li><a href="dyntable.html#pos_4">Data definition structure repository</a></li><li><a href="dyntable.html#pos_5">A complex example</a></li></ul></li><li><a href="user.html">User module</a><ul class=" closed"><li><a href="user.html#pos_2">The global $user object</a></li><li><a href="user.html#pos_3">Login and logout</a></li><li><a href="user.html#pos_4">Managing users</a></li><li><a href="user.html#pos_5">Helper functions</a></li><li><a href="user.html#pos_6">CodKep session data</a></li><li><a href="user.html#pos_7">Settings of user module</a></li><li><a href="user.html#pos_8">Hooks</a></li></ul></li><li><a href="node.html">Node</a><ul class=" closed"><li><a href="node.html#pos_2">Fixed properties(fields) of the Node</a></li><li><a href="node.html#pos_3">Methods of Node class</a></li><li><a href="node.html#pos_4">Helper functions of node class</a></li><li><a href="node.html#pos_5">Defining a node</a></li><li><a href="node.html#pos_6">Dynamic node definition</a></li><li><a href="node.html#pos_7">Derive node definition from another node</a></li><li><a href="node.html#pos_8">Modify existing node types</a></li><li><a href="node.html#pos_9">Show the defined node types</a></li><li><a href="node.html#pos_10">Database appearance of nodes</a></li><li><a href="node.html#pos_11">Querying node lists from database</a></li><li><a href="node.html#pos_12">Node access control</a></li><li><a href="node.html#pos_13">REST api for nodes</a></li><li><a href="node.html#pos_14">Node related REST commands</a></li><li><a href="node.html#pos_15">A complete example</a></li><li><a href="node.html#pos_16">Custom Node objects</a></li><li><a href="node.html#pos_17">Settings of the nodes</a></li><li><a href="node.html#pos_18">Hooks</a></li></ul></li><li><a href="page.html">Page</a><ul class=" closed"><li><a href="page.html#pos_2">Fields of the page</a></li><li><a href="page.html#pos_3">Permissions of pages</a></li><li><a href="page.html#pos_4">Extending page type</a></li><li><a href="page.html#pos_5">Settings of the pages</a></li><li><a href="page.html#pos_6">Hooks</a></li></ul></li><li><a href="doc.html">Documenting</a><ul class=" closed"><li><a href="doc.html#pos_2">My mark language</a></li><li><a href="doc.html#pos_3">Highlights</a></li><li><a href="doc.html#pos_4">Headings</a></li><li><a href="doc.html#pos_5">Other elements</a></li><li><a href="doc.html#pos_6">Tables</a></li><li><a href="doc.html#pos_7">Lists</a></li><li><a href="doc.html#pos_8">Codes</a></li><li><a href="doc.html#pos_9">Links</a></li><li><a href="doc.html#pos_10">Images</a></li></ul></li><li><a href="debug.html">Debugging</a><ul class=" closed"><li><a href="debug.html#pos_2">Dumping arbitrary data objects</a></li><li><a href="debug.html#pos_3">Special pages</a></li><li><a href="debug.html#pos_4">Debug sql calls</a></li><li><a href="debug.html#pos_5">Dump the parameters of the page</a></li></ul></li><li><a href="cron.html">Cron module</a><ul class=""><li><a href="cron.html#pos_2">Trigger the cron module to operate</a></li><li><a href="cron.html#pos_3">Defining a scheduled task</a></li><li><a href="cron.html#pos_4">Settings</a></li></ul></li><li><a href="permissionflags.html">PermissionFlags module</a><ul class=" closed"><li><a href="permissionflags.html#pos_2">Methods of File object</a></li></ul></li><li><a href="activitycomment.html">ActivityComment module</a><ul class=" closed"><li><a href="activitycomment.html#pos_2">ActivityComment API</a></li><li><a href="activitycomment.html#pos_3">Permissions of commenting</a></li><li><a href="activitycomment.html#pos_4">Sample code</a></li><li><a href="activitycomment.html#pos_5">Settings</a></li></ul></li><li><a href="activitypoll.html">ActivityPoll module</a><ul class=" closed"><li><a href="activitypoll.html#pos_2">ActivityPoll API</a></li><li><a href="activitypoll.html#pos_3">Permissions of poll vote</a></li><li><a href="activitypoll.html#pos_4">Sample code</a></li><li><a href="activitypoll.html#pos_5">Settings</a></li></ul></li><li><a href="httpsqlconn.html">HttpSqlConn module</a><ul class=" closed"><li><a href="httpsqlconn.html#pos_2">Steps of remote sql processing</a></li><li><a href="httpsqlconn.html#pos_3">Resource names</a></li><li><a href="httpsqlconn.html#pos_4">Access control</a></li></ul></li></ul></div></div>
+</body>
+</html>

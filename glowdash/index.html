@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>GlowDash</title>
+	<meta http-equiv="Content-Type" content="Text/Html;Charset=UTF-8" />
+	<meta name="keywords" content="glowdash web smarthome dashboard golang shelly" />
+	<meta name="description" content="GlowDash - The Smart Home Web Dashboard" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../hyperprog.css" type="text/css" />
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script>
+		!window.jQuery && document.write('<script src="jquery-1.4.3.min.js"><\/script>');
+	</script>
+	<script type="text/javascript" src="../fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+	<script type="text/javascript" src="../fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="../fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("a#dogsleaf").fancybox({
+				'overlayShow'	: false,
+				'transitionIn'	: 'elastic',
+				'transitionOut'	: 'elastic',
+				'hideOnOverlayClick' : 'true',
+                                'hideOnContentClick' : 'true',
+			});
+		});
+	</script>
+	<meta name="ocs-site-verification" content="80ec0f66d7fc1cf3867ab6a120291ec8" />	
+</head>
+<body>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-18052406-1"></script>
+	<script>
+  	window.dataLayer = window.dataLayer || [];
+  	function gtag(){dataLayer.push(arguments);}
+  	gtag('js', new Date());
+
+	gtag('config', 'UA-18052406-1');
+	</script>
+
+	<div class="main">
+	
+	<a href="../index.html">Programs of Hyper</a>
+	
+	<div class="program">
+		<img alt="GlowDash" class="logo" src="../glowdash_s.webp" />
+		
+		<h2>GlowDash</h2>
+		
+		<h3>GlowDash - The Smart Home Web Dashboard</h3>
+		GlowDash is web based dasboard to control (mostly) Shelly switches, shanding relays, 
+		scripts and custom thermostat daemons. It does not need any could access, 
+		it uses the local rpc interface of the Shelly relays to query/set states. 
+		It was originally written to allow for more complex control over window shading slats as the original 
+		shelly application can. Therefore, the program can define unique actions that can accept complex scripting methods.
+		The GlowDash written in Go language and designed to run in Docker container.
+
+        <img src="glowdash-screenshot.jpg" style="width:100%;"/>
+
+         Use the GlowDash If:
+         
+		<ul>
+   		 <li>If you want a dashboard similar to Shelly's design.
+		<li>If you don't want to use the cloud or even you disabled cloud access on your devices, but you want to keep the functionality.</li>
+		<li>If you want to create unique actions that perform complex tasks on multiple devices at the same time.</li>
+		<li>If you want any local wifi device to be able to control your Shelly devices without a Shelly app or Shelly account.</li>
+		<li>If you would like to use DHT22 and RaspberriPi based thermostat, with more sensors. (SMTherm daemon required)</li>
+		<li>If you wuold like to monitor and log temperatures and humidity with DHT22 and RaspberriPi. (SMTherm daemon required)</li>
+		<li>IF you want to create scheduled tasks which runs your custom actions or set the termostat.</li>
+        </ul>
+	</div>
+
+	<div class="docs">
+		<h3>Github page</h3>
+		<a href="https://github.com/hyper-prog/glowdash">https://github.com/hyper-prog/glowdash</a>
+	</div>
+
+<table>
+<tr><td>Author:</td> <td><strong>P&eacute;ter De&aacute;k</strong></td></tr>
+<tr><td>License:</td> <td>GPL v2</td></tr>
+<tr><td>Contact Email:</td> <td align="center"><img src="../ma.png" alt="emailaddr"/>at <strong>gmail.com</strong></td></tr>
+</table>
+<br/>
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_s-xclick"/>
+<input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
+"/>
+<input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!"/>
+<img alt="" style="border:0;" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1"/>
+</form>
+<br/>
+<br/>
+
+</div>
+	
+</body>
+</html>
